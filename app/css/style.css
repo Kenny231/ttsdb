@@ -1,0 +1,218 @@
+/* Reset CSS */
+a, abbr, acronym, address, applet, article, aside, audio,
+b, blockquote, big, body,
+center, canvas, caption, cite, code, command,
+datalist, dd, del, details, dfn, dl, div, dt, 
+em, embed,
+fieldset, figcaption, figure, font, footer, form, 
+h1, h2, h3, h4, h5, h6, header, hgroup, html,
+i, iframe, img, ins,
+kbd, 
+keygen,
+label, legend,
+meter,
+nav,
+object, output,
+p, pre, progress,
+q, 
+s, samp, section, small, span, source, strike, strong, sub, sup,
+table, tbody, tfoot, thead, th, tr, tdvideo, tt,
+u,
+var{
+    background: transparent;
+    border: 0 none;
+    font-size: 100%;
+    margin: 0;
+		padding: 0;
+		border: 0;
+		outline: 0;
+    vertical-align: top; }
+
+blockquote, q {
+	quotes: none;
+}
+table, table td { 
+	padding:0;
+	border:none;
+	border-collapse:collapse;
+}
+img {
+	vertical-align:top; 
+}
+embed { 
+	vertical-align:top;
+}
+* { border:none}
+/* Bootstrap / Angular fix for empty hrefs */
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+/* angular-wysiwyg fix */
+.wysiwyg-select {
+	padding: 0px;
+}
+/* Background */
+body {
+	font: 14px 'Open Sans', sans-serif;
+	margin: 0;
+	padding: 0;
+	color: #333333;
+	background: #171717 url(../images/bg.jpg) repeat top center;
+	padding-top:100px;
+}
+/* Standard text */
+p {
+	line-height:150%!important;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-family: "Oswald", sans-serif;
+	text-transform: uppercase;
+}
+/* Bootstrap component changes */
+.alert {
+	margin-bottom: 0px;
+}
+/* main box */
+#main-box {
+	border-top: 5px solid #256193;
+	background: #f4f4f4;
+	padding-left: 30px;
+	padding-right: 30px;
+}
+#main-box h2 {
+	padding-bottom: 10px;
+	font-size: 22px;
+	font-weight: bold;
+}
+#main-box .box-content {
+	padding-top: 20px;
+}
+/* Side box */
+#side-box {
+	box-shadow: inset -1px 0 0 0 #D0D0D0;
+	background: #E2E2E2;
+}
+#side-box .module {
+	border-top: 5px solid #256193;
+}
+#side-box .module .m_content {
+	padding-top: 20px;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-bottom: 10px;
+}
+#side-box .module .m_content > h2 {
+	padding-bottom: 10px;
+	font-size: 17px;
+	font-weight: bold;
+}
+/* Footer */
+#footer {
+	background: url(../images/header-top-bg.png);
+	color: #868686;
+	box-shadow: inset 1px 0px 0px rgba(255,255,255,0.1), inset -1px 0px 0px rgba(255,255,255,0.1);
+}
+#footer h2 {
+	font-size: 22px;
+	font-weight: bold;
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+#footer #footer-top {
+	background: rgba(255,255,255,0.08);
+	border-bottom: 1px solid rgba(255,255,255,0.08);
+	height: 6px;
+	width: 100%;
+	display: block;
+}
+#footer .footer-content {
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-bottom: 15px;
+}
+/* Reset standard column padding */
+.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, 
+.col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, 
+.col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, 
+.col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9  {
+	padding-left: 0px;
+	padding-right: 0px;
+}
+/* Navbar */
+.navbar.navbar-default .navbar-toggle{
+	margin-top:32px;
+}
+/* Navbar non-mobile view */
+@media only screen and (min-width: 768px) {
+	#main-menu.navbar-default {
+		background:rgba(255,255,255,0.9);
+		-webkit-box-shadow:0 0 3px 0 rgba(0,0,0,0.1);
+		box-shadow:0 0 3px 0 rgba(0,0,0,0.1);
+	}
+	
+	#main-menu.navbar-default .navbar-nav > li > a {
+		padding-top:40px;
+		padding-bottom:40px;
+	}
+	
+	#main-menu.navbar-default .navbar-nav > li.active > a,
+	#main-menu.navbar-default .navbar-nav > li.open > a,
+	#main-menu.navbar-default .navbar-nav > li:hover > a {
+		border-bottom:3px solid #45aed6;
+		background:transparent;
+		padding-top:37px;
+	}
+	
+	#main-menu.navbar-default .dropdown-menu {
+		padding:0 20px;
+		min-width:220px;
+		background-color:rgba(26,28,40,0.9);
+		border:0;
+		border-radius:0;
+		box-shadow:none;
+		-webkit-box-shadow:none;
+		background-clip:inherit;
+		left: 0px;
+	}
+	
+	#main-menu.navbar-default .dropdown-menu > li {
+		border-left:3px solid transparent;
+		margin-left:-20px;
+		padding-left:17px;
+		-webkit-transition:border-color 400ms;
+		transition:border-color 400ms;
+	}
+	
+	#main-menu.navbar-default .dropdown-menu > li > a {
+		border-top:1px solid #404455;
+		padding:15px 0;
+		color:#eeeeee;
+	}
+	
+	#main-menu.navbar-default .dropdown-menu > li:first-child > a {
+		border-top:0;
+	}
+	
+	#main-menu.navbar-default .dropdown-menu > li.active, 
+	#main-menu.navbar-default .dropdown-menu > li.open,
+	#main-menu.navbar-default .dropdown-menu > li:hover {
+		border-left-color:#45aed6;
+	}
+	
+	#main-menu.navbar-default .dropdown-menu > li.active > a, 
+	#main-menu.navbar-default .dropdown-menu > li.open > a,
+	#main-menu.navbar-default .dropdown-menu > li:hover > a {
+		color:#45aed6;
+		background-color:transparent;
+	}
+}
+/* Class to make columns the same height */
+.row_flex {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+}
+.row_flex > [class*='col-'] {
+  display: flex;
+}
+
