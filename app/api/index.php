@@ -3,7 +3,7 @@
 require_once '../libs/slim/vendor/autoload.php';
 // Autoload scripts.
 spl_autoload_register(function ($name) {
-	require $_SERVER['DOCUMENT_ROOT'] . "ttsdb/app/partials/" . $name . ".php";
+	require $_SERVER['DOCUMENT_ROOT'] . "/ttsdb/app/partials/" . $name . ".php";
 });
 
 class App extends \Slim\App
