@@ -4,7 +4,7 @@ define(['app'], function (app) {
 	app.config(['$routeProvider', function ($routeProvider) {
 		$routeProvider
 			.when('/', {
-				templateUrl: '/app/partials/home/frontend/views/home.html',
+				templateUrl: '/ttsdb/app/partials/home/frontend/views/home.html',
 				controller: 'HomeController'
 			});
 	}]);
