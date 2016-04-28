@@ -8,7 +8,7 @@
 		<title>Bootstrap 101 Template</title>
 
 		<!-- Bootstrap -->
-		<link href="app/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+		<link href="app/libs/bootstrap/css/boot-metro.min.css?"<?php echo time(); ?> rel="stylesheet">
 		<link href="app/css/style.css?<?php echo time(); ?>" rel="stylesheet">
 		<link href="app/css/font-awesome.min.css?<?php echo time(); ?>" rel="stylesheet">
 		<link href="app/css/animate.min.css?<?php echo time(); ?>" rel="stylesheet">
@@ -23,9 +23,7 @@
 		<![endif]-->
 	</head>
 	<body>
-		<div ng-include='"app/partials/resources/frontend/views/header.html"'></div>
 		<div ng-view></div>
-		<div ng-include='"app/partials/resources/frontend/views/footer.html"'></div>
 
 		<script data-main="app/main" src="app/require.js?<?php echo time(); ?>"></script>
 	</body>
