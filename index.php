@@ -6,13 +6,15 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 		<title>Bootstrap 101 Template</title>
-		
+
 		<!-- Bootstrap -->
 		<link href="app/libs/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		<link href="app/css/style.css?<?php echo time(); ?>" rel="stylesheet">
 		<link href="app/css/font-awesome.min.css?<?php echo time(); ?>" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Oswald:300,400,700|Source+Sans+Pro:300,400,600,700&amp;subset=latin,latin-ext" />
-		
+		<link href="app/css/animate.min.css?<?php echo time(); ?>" rel="stylesheet">
+		<link href="app/css/font-oswald.css?<?php echo time(); ?>" rel="stylesheet">
+		<!--<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Oswald:300,400,700|Source+Sans+Pro:300,400,600,700&amp;subset=latin,latin-ext" />-->
+
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 		<!--[if lt IE 9]>
@@ -24,7 +26,7 @@
 		<div ng-include='"app/partials/resources/frontend/views/header.html"'></div>
 		<div ng-view></div>
 		<div ng-include='"app/partials/resources/frontend/views/footer.html"'></div>
-		
+
 		<script data-main="app/main" src="app/require.js?<?php echo time(); ?>"></script>
 	</body>
-</html>  
+</html>
