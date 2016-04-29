@@ -8,6 +8,7 @@ class Team
 {
   public function __construct() {
     $this->spelers = new ArrayCollection();
+    $this->toernooien = new ArrayCollection();
   }
   /**
    * @Id
@@ -22,6 +23,15 @@ class Team
    * )
    */
    protected $spelers;
+
+   /**
+   * @ManyToMany(targetEntity="Toernooi", inversedBy="teams")
+   * @JoinTable(name="TeamInToernooi",
+   *   joinColumns={@JoinColumn(name="team_naam", referencedColumnName="team_naam")},
+   *   inverseJoinColumns={@JoinColumn(name="toernooi_id", referencedColumnName="toernooi_id")}
+   * )
+   */
+   protected $toernooien;
 
 
 }
