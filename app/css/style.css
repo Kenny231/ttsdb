@@ -47,19 +47,26 @@ embed {
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 /* Background */
 body {
-	font: 14px 'Open Sans', sans-serif;
+  font: 14px;
+  font-weight: 300;
+  font-family: "Open Sans", Helvetica,Arial,sans-serif;
 	margin: 0;
 	padding: 0;
-	color: #333333;
-	background: #171717 url(../images/bg.jpg) repeat top center;
+	color: #FFF;
+
+  /* Background */
+  background: url(../images/bg3.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 /* Standard text */
 p {
 	line-height:150%!important;
 }
 h1, h2, h3, h4, h5, h6 {
-	font-family: "Oswald", sans-serif;
-	text-transform: uppercase;
+	font-family: "Open Sans",Helvetica,Arial,sans-serif;
 }
 /* Bootstrap component changes */
 .alert {
@@ -73,14 +80,146 @@ h1, h2, h3, h4, h5, h6 {
 	padding-left: 0px;
 	padding-right: 0px;
 }
-/* Class to make columns the same height */
-.row_flex {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  flex-wrap: wrap;
+/* Main */
+.mainbody-section {
+  padding-top: 3%;
 }
-.row_flex > [class*='col-'] {
-  display: flex;
+/* Menu */
+.menu {
+  font-size: 40px;
+  font-weight: 300;
+  padding-bottom: 5%;
+}
+/* Tiles */
+.tile {
+  color: #fff;
+  padding-top: 55px;
+  padding-bottom: 55px;
+  margin-bottom: 5px;
+  margin-right: 5px;
+	-webkit-transition: all 0.3s;
+	transition: all 0.3s;
+  border: 5px solid transparent;
+}
+/* Tile style */
+.tile:hover{
+  border: 5px solid rgba(255, 255, 255, 0.70);
+}
+.tile:hover a {
+  text-decoration: none;
+}
+.tile a {
+  color: #fff;
+  display: block;
+	-webkit-transition: all 0.3s;
+	transition: all 0.3s;
+}
+.tile a p {
+  font-family: "Open Sans",Helvetica,Arial,sans-serif;
+  font-weight: 100;
+  font-size: 13px;
+  position: absolute;
+  bottom: .500rem;
+  left: .500rem;
+  padding-bottom: 5px;
+}
+.tile a span {
+  font-size: 50px;
+  padding-bottom: 0px;
+}
+/* Screen sizes */
+/* Extra Small */
+@media (max-width : 480px) {
+  .tile {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: 2px solid transparent;
+  }
+  .tile:hover{
+    border: 2px solid rgba(255, 255, 255, 0.70);
+  }
+  .tile a span {
+    font-size: 14px;
+  }
+  .tile a p {
+    font-size: 7px;
+    position: absolute;
+    bottom: .300rem;
+    left: .300rem;
+    padding-bottom: 5px;
+  }
+  .menu {
+    font-size: 20px;
+    padding-left: 10px;
+  }
+}
+/* Small */
+@media (min-width : 480px) and (max-width : 768px) {
+  .tile {
+    padding-top: 35px;
+    padding-bottom: 35px;
+    border: 3px solid transparent;
+  }
+  .tile:hover{
+    border: 3px solid rgba(255, 255, 255, 0.70);
+  }
+  .tile a span {
+    font-size: 20px;
+  }
+  .tile a p {
+    font-size: 11px;
+    position: absolute;
+    bottom: .400rem;
+    left: .500rem;
+    padding-bottom: 5px;
+  }
+  .menu {
+    font-size: 25px;
+    padding-left: 15px;
+  }
+}
+/* Medium */
+@media (min-width : 768px) and (max-width : 991px) {
+  .tile {
+    padding-top: 45px;
+    padding-bottom: 45px;
+  }
+  .tile a span {
+    font-size: 32px;
+  }
+  .menu {
+    font-size: 30px;
+  }
+}
+/* large */
+@media (min-width : 992px) and (max-width : 1199px) {
+  .tile a span {
+    font-size: 32px;
+  }
+  .menu {
+    font-size: 35px;
+  }
+}
+/* Extra large */
+@media (min-width : 1200px) {
+
+}
+/* Tile colors */
+.color-red {
+  background: #B0232B;
+}
+.color-green {
+  background: #00A200;
+}
+.color-blue {
+  background: #003B96;
+}
+.color-purple {
+  background: #A300AB;
+}
+.color-lightblue {
+  background: #009BAD;
+}
+.color-yellow {
+  background: #F9BE3E;
 }
