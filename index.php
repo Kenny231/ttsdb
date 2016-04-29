@@ -23,6 +23,7 @@
 		<![endif]-->
 	</head>
 	<body>
+		<div ng-include src="'app/partials/resources/frontend/views/header.html'"></div>
 		<div ng-view></div>
 
 		<script data-main="app/main" src="app/require.js?<?php echo time(); ?>"></script>
