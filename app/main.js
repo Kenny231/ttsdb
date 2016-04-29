@@ -27,6 +27,7 @@ require.config({
 	deps: [
 		'./partials/home/frontend/home_module',
 		'./partials/account/frontend/account_module',
+		'./partials/toernooi/frontend/toernooi_module',
 		'./partials/resources/frontend/resources_module',
 		'bootstrap'
 	],
