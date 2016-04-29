@@ -15,53 +15,53 @@ class Toernooi
   protected $id;
 
  /**
- * @cColumn(type="string")
+ * @Column(type="string")
  */
   protected $vereniging_naam;
 
   /**
-  * @cColumn(type="string", length=6)
+  * @Column(type="string", length=6)
   */
   protected $postcode;
 
   /**
-  * @cColumn(type="datetime")
+  * @Column(type="datetime")
   */
   protected $start_datum;
 
   /**
-  * @cColumn(type="datetime")
+  * @Column(type="datetime")
   */
   protected $eind_datum;
 
   /**
-  * @cColumn(type="string", length=75)
+  * @Column(type="string", length=75)
   */
   protected $organisatie;
 
   /**
-  * @cColumn(type="boolean")
+  * @Column(type="boolean")
   */
   protected $goedkeuring;
 
 
   /**
-  * @cColumn(type="datetime")
+  * @Column(type="datetime")
   */
   protected $aanvangstijdstip;
 
   /**
-  * @cColumn(type="string", length=15)
+  * @Column(type="string", length=15)
   */
   protected $toernooitype;
 
   /**
-  * @cColumn(type="string", length=1)
+  * @Column(type="string", length=1)
   */
   protected $geslacht;
 
   /**
-  * @cColumn(type="boolean")
+  * @Column(type="boolean")
   */
   protected $enkel;
 
