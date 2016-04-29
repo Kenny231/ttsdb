@@ -9,14 +9,14 @@ use \Doctrine\Common\Collections\ArrayCollection;
 class Toernooi
 {
   /**
-   * @Id
-   * @Column(type="integer")
-   */
+  * @Id
+  * @Column(type="integer")
+  */
   protected $id;
 
-/**
-* @cColumn(type="string")
-*/
+ /**
+ * @cColumn(type="string")
+ */
   protected $vereniging_naam;
 
   /**
@@ -60,7 +60,6 @@ class Toernooi
   */
   protected $geslacht;
 
-
   /**
   * @cColumn(type="boolean")
   */
@@ -70,25 +69,10 @@ class Toernooi
    * @ManyToMany(targetEntity="Team", mappedBy="toernooien")
    */
   protected $teams
-  
+
   function __construct()
   {
     $this->teams = new ArrayCollection();
   }
-
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
  ?>
