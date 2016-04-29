@@ -55,11 +55,15 @@ body {
 	color: #FFF;
 
   /* Background */
-  background: url(../images/bg3.jpg) no-repeat center center fixed;
+  background: url(../images/bg4.jpg) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+
+  /*background-color: #D8D7D7;*/
+
+  /*background: #171717 url(../images/bg4.jpg) repeat top center;*/
 }
 /* Standard text */
 p {
@@ -86,9 +90,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 /* Menu */
 .menu {
-  font-size: 40px;
-  font-weight: 300;
-  padding-bottom: 5%;
+  background: #F0701D url(../images/header.jpg) repeat top center;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.6), 0 12px 40px 0 rgba(0, 0, 0, 0.6);
+  border-bottom: solid #F2763D 1px;
 }
 /* Tiles */
 .tile {
