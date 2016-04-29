@@ -97,8 +97,8 @@ h1, h2, h3, h4, h5, h6 {
 /* Tiles */
 .tile {
   color: #fff;
-  padding-top: 52px;
-  padding-bottom: 52px;
+  padding-top: 50px;
+  padding-bottom: 50px;
   margin-bottom: 5px;
   margin-right: 5px;
 	-webkit-transition: all 0.3s;
@@ -226,4 +226,26 @@ h1, h2, h3, h4, h5, h6 {
 }
 .color-yellow {
   background: #F9BE3E;
+}
+
+.view-animate {
+  padding:0px;
+}
+.view-animate.ng-enter, .view-animate.ng-leave {
+  transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 1.5s;
+
+  width:100%;
+
+  position:absolute;
+  left:0;
+  right:0;
+}
+.view-animate.ng-enter {
+  left:100%;
+}
+.view-animate.ng-enter.ng-enter-active {
+  left:0;
+}
+.view-animate.ng-leave.ng-leave-active {
+  left:-100%;
 }

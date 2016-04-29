@@ -24,7 +24,7 @@
 	</head>
 	<body>
 		<div ng-include src="'app/partials/resources/frontend/views/header.html'"></div>
-		<div ng-view></div>
+	  <div ng-view class="view-animate"></div>
 
 		<script data-main="app/main" src="app/require.js?<?php echo time(); ?>"></script>
 	</body>
