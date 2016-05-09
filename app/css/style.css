@@ -277,13 +277,12 @@ h1, h2, h3, h4, h5, h6 {
     -o-transition: all 0.3s;
     transition: all 0.3s;
 }
-.btn-primary:hover,
 .btn-primary:focus,
-.btn-primary:active,
-.btn-primary.active {
+.btn-primary:hover,
+.btn-primary:active {
     color: #E17B0D;
     border-color: #E17B0D;
-    background: transparent;
+    background: transparent !important;
     background-color: none !important;
 }
 /* Vertical align */
