@@ -4,7 +4,8 @@ define(['app'], function (app) {
 	app.config(['$routeProvider', function ($routeProvider) {
 		$routeProvider
 			.when('/toernooi', {
-				templateUrl: '/ttsdb/app/partials/toernooi/frontend/views/toernooiaanmaken.html'
+				templateUrl: '/ttsdb/app/partials/toernooi/frontend/views/toernooiaanmaken.html',
+				controller: 'ToernooiController'
 			});
 	}]);
 });
