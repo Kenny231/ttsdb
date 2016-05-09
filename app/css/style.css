@@ -249,13 +249,15 @@ h1, h2, h3, h4, h5, h6 {
 .view-animate.ng-leave.ng-leave-active {
   left:-100%;
 }
-/* Input fields */
+/* Input / select fields */
 .container input,
-.container textarea {
+.container textarea,
+.container select {
     padding: 20px;
     width: 100%;
 }
-.container input.form-control {
+.container input.form-control,
+.container select.form-control {
     height: auto;
 }
 .container textarea.form-control {
@@ -310,7 +312,8 @@ h1, h2, h3, h4, h5, h6 {
 .toernooi-form .row {
   margin-bottom: 1%;
 }
-.toernooi-form .btn-primary{
+.toernooi-form .btn-primary,
+.toernooi-form select {
   padding: 15px;
   font-size: 16px;
 }

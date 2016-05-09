@@ -7,9 +7,9 @@
       </div>
 
       <div class="col-sm-8 col-xs-11">
-        <h3 style="padding-left: 3%;">Toernooi details:</h3>
-
         <div ng-show="page==1">
+          <h3 style="padding-left: 3%;">Toernooi details:</h3>
+
           <div class="row vertical-align">
             <div class="hidden-xs col col-xs-3">
               <p>Toernooinaam:</p>
@@ -24,7 +24,7 @@
               <p> toernooitype: </p>
             </div>
             <div class="col-xs-offset-1 col-sm-8 col-xs-11">
-              <input type="text" class="form-control" ng-model="toernooitype" placeholder="toernooitype">
+              <select class="form-control" ng-model="toernooitype" ng-options="t for t in select_toernooi"></select>
             </div>
           </div>
 
@@ -33,7 +33,7 @@
               <p> geslacht:</p>
             </div>
             <div class="col-xs-offset-1 col-sm-8 col-xs-11">
-              <input type="text" class="form-control" ng-model="geslacht" placeholder="m/v/mv">
+              <select class="form-control" ng-model="geslacht" ng-options="g.name for g in select_geslacht"></select>
             </div>
           </div>
 
@@ -42,7 +42,7 @@
               <p> enkel:</p>
             </div>
             <div class="col-xs-offset-1 col-sm-8 col-xs-11">
-              <input type="text" class="form-control" ng-model="enkel" placeholder="ja/nee">
+              <select class="form-control" ng-model="enkel" ng-options="e for e in select_enkel"></select>
             </div>
           </div>
 
@@ -52,6 +52,8 @@
         </div>
 
         <div ng-show="page==2">
+          <h3 style="padding-left: 3%;">Toernooi organisatie:</h3>
+
           <div class="row vertical-align">
             <div class="hidden-xs col col-xs-3">
               <p>Start datum:</p>
@@ -105,7 +107,7 @@
 
         <p> Toernooinaam: {{toernooinaam}} </p>
         <p> Type: {{toernooitype}} </p>
-        <p> Geslacht: {{geslacht}} </p>
+        <p> Geslacht: {{geslacht.name}} </p>
         <p> Enkel: {{enkel}} </p>
 
         <hr>
