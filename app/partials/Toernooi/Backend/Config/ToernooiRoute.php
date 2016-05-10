@@ -10,7 +10,7 @@ class ToernooiRoute
 
 	private function createRoutes($app) {
     $app->group('/toernooi', function() {
-      $this->post('/add', 'Toernooi\Backend\Controller\ToernooiController:create');
+      $this->post('/add', 'Toernooi\Backend\Controllers\ToernooiController:create');
     });
 	}
 }

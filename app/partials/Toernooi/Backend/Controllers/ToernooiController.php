@@ -2,7 +2,7 @@
 
 namespace Toernooi\Backend\Controllers;
 
-use Toernooi\Backend\Service\ToernooiService;
+use Toernooi\Backend\Services\ToernooiService;
 
 class ToernooiController
 {

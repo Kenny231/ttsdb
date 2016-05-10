@@ -3,7 +3,9 @@ define(['app'], function (app) {
     $scope.page = 1;
 
 		$scope.create = function() {
-			var data {
+			console.log('Creating');
+
+			var data = {
 				naam: 				$scope.toernooinaam,
 				type: 				$scope.toernooitype,
 				geslacht: 		$scope.geslacht,
@@ -13,7 +15,11 @@ define(['app'], function (app) {
 				organisatie: 	$scope.organisatie,
 				tijd: 				$scope.aanvangstijdstip
 			};
-			toernooiService.create(data);
+			toernooiService
+			.create(data)
+			.success(function(response) {
+				console.log(response);
+			});
 		}
 		/*
 		 *Select data

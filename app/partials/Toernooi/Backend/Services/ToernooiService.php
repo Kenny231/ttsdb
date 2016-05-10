@@ -9,6 +9,13 @@ class ToernooiService extends BaseService
 {
   public function addToernooi($data)
   {
+    $em = parent::GetEntityManager();
+    $toernooi = createToernooi($data);
+    $em->persist($toernooi);
+    $em->flush();
+  }
+
+  private function createToernooi($data) {
     $toernooi = new Toernooi();
 
     $toernooi->toernooi_naam      = $data['naam'];
@@ -22,6 +29,8 @@ class ToernooiService extends BaseService
     // Default waardes voor nu
     $toernooi->postcode           = '4325KB';
     $toernooi->vereniging_naam    = 'Vereniging';
+
+    return $toernooi;
   }
 }
 

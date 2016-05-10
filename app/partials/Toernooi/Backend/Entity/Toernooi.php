@@ -20,7 +20,7 @@ class Toernooi
   * @Column(type="string")
   */
   protected $toernooi_naam;
-  
+
   /**
   * @Column(type="string")
   */
@@ -75,7 +75,7 @@ class Toernooi
   /**
    * @ManyToMany(targetEntity="Team", mappedBy="toernooien")
    */
-  protected $teams
+  protected $teams;
 
   function __construct()
   {

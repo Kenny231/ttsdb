@@ -27,6 +27,7 @@ class ClassLoader
 	 * Dependency Injection
 	 */
 	public function RegisterDependencyInjection() {
+		new Toernooi\Backend\DependencyInjection\ToernooiDI($this->app);
 		new Resources\Backend\DependencyInjection\ResourceDI($this->app);
 		//new Account\Backend\DependencyInjection\AccountDI($this->app);
 	}
