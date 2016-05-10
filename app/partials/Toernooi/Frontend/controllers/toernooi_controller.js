@@ -1,6 +1,20 @@
 define(['app'], function (app) {
-	app.controller('ToernooiController', ['$scope', '$http', function ($scope, $http, $localStorage, accountService) {
+	app.controller('ToernooiController', ['$scope', '$http', 'toernooiService', function ($scope, $http, toernooiService) {
     $scope.page = 1;
+
+		$scope.create = function() {
+			var data {
+				naam: 				$scope.toernooinaam,
+				type: 				$scope.toernooitype,
+				geslacht: 		$scope.geslacht,
+				enkel: 				$scope.enkel,
+				start_datum: 	$scope.start_datum,
+				eind_datum: 	$scope.eind_datum,
+				organisatie: 	$scope.organisatie,
+				tijd: 				$scope.aanvangstijdstip
+			};
+			toernooiService.create(data);
+		}
 		/*
 		 *Select data
 		*/

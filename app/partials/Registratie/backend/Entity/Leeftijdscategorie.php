@@ -4,6 +4,9 @@ namespace Registratie\Backend\Entity;
 
 use \Doctrine\Common\Collections\ArrayCollection;
 
+/**
+ * @Entity @Table(name="Leeftijdscategorie")
+ */
 class Leeftijdscategorie
 {
   public function __construct() {

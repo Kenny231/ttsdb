@@ -5,7 +5,9 @@ namespace Toernooi\Backend\Entity;
 
 use \Doctrine\Common\Collections\ArrayCollection;
 
-
+/**
+ * @Entity @Table(name="Toernooi")
+ */
 class Toernooi
 {
   /**
@@ -14,9 +16,14 @@ class Toernooi
   */
   protected $id;
 
- /**
- * @Column(type="string")
- */
+  /**
+  * @Column(type="string")
+  */
+  protected $toernooi_naam;
+  
+  /**
+  * @Column(type="string")
+  */
   protected $vereniging_naam;
 
   /**

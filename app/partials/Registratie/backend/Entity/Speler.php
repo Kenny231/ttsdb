@@ -4,6 +4,9 @@ namespace Registratie\Backend\Entity;
 
 use \Doctrine\Common\Collections\ArrayCollection;
 
+/**
+ * @Entity @Table(name="Speler")
+ */
 class Speler
 {
   public function __construct() {
