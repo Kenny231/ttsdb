@@ -1,24 +1,23 @@
 define(['app'], function (app) {
-	app.controller('ToernooiController', ['$scope', '$http', 'toernooiService', function ($scope, $http, toernooiService) {
+	app.controller('ToernooiController', ['$scope', '$http', '$filter', '$location', 'toernooiService', function ($scope, $http, $filter, $location, toernooiService) {
     $scope.page = 1;
 
 		$scope.create = function() {
-			console.log('Creating');
-
+			console.log($scope.enkel.value);
 			var data = {
 				naam: 				$scope.toernooinaam,
 				type: 				$scope.toernooitype,
-				geslacht: 		$scope.geslacht,
-				enkel: 				$scope.enkel,
-				start_datum: 	$scope.start_datum,
-				eind_datum: 	$scope.eind_datum,
+				geslacht: 		$scope.geslacht.value,
+				enkel: 				$scope.enkel.value,
+				start_datum: 	$filter('date')($scope.start_datum, "yyyy-MM-dd"),
+				eind_datum:   $filter('date')($scope.eind_datum, "yyyy-MM-dd"),
 				organisatie: 	$scope.organisatie,
-				tijd: 				$scope.aanvangstijdstip
+				tijd: 				$filter('date')($scope.aanvangstijdstip, "HH:mm:ss")
 			};
 			toernooiService
 			.create(data)
 			.success(function(response) {
-				console.log(response);
+				$location.path('/');
 			});
 		}
 		/*
@@ -40,8 +39,8 @@ define(['app'], function (app) {
 		$scope.toernooitype = $scope.select_toernooi[0];
 		/* Enkel */
 		$scope.select_enkel = [
-			'Ja',
-			'Nee'
+			{name: 'Nee', value: '0'},
+			{name: 'Ja',  value: '1'}
 		];
 		$scope.enkel = $scope.select_enkel[0];
 	}]);

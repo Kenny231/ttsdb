@@ -49,8 +49,14 @@ class DateTimeType extends Type
      */
     public function convertToDatabaseValue($value, AbstractPlatform $platform)
     {
-        return ($value !== null)
-            ? $value->format($platform->getDateTimeFormatString()) : null;
+        if ($value === null)
+          return null;
+
+        $value = $value->format($platform->getDateTimeFormatString());
+        if (strlen($value) == 26 && $platform->getDateTimeFormatString() == 'Y-m-d H:i:s.u')
+          $value = substr($value, 0, \strlen($value)-3);
+
+        return $value;
     }
 
     /**

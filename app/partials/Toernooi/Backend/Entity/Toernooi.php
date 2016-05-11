@@ -4,6 +4,7 @@ namespace Toernooi\Backend\Entity;
 
 
 use \Doctrine\Common\Collections\ArrayCollection;
+use Registratie\Backend\Entity\Team;
 
 /**
  * @Entity @Table(name="Toernooi")
@@ -12,9 +13,10 @@ class Toernooi
 {
   /**
   * @Id
+  * @GeneratedValue
   * @Column(type="integer")
   */
-  protected $id;
+  protected $toernooi_id;
 
   /**
   * @Column(type="string")
@@ -51,12 +53,6 @@ class Toernooi
   */
   protected $goedkeuring;
 
-
-  /**
-  * @Column(type="datetime")
-  */
-  protected $aanvangstijdstip;
-
   /**
   * @Column(type="string", length=15)
   */
@@ -72,14 +68,22 @@ class Toernooi
   */
   protected $enkel;
 
-  /**
-   * @ManyToMany(targetEntity="Team", mappedBy="toernooien")
-   */
+  /*
+   * @ManyToMany(targetEntity="Registratie\Backend\Entity\Team", mappedBy="toernooien")
+
   protected $teams;
 
   function __construct()
   {
     $this->teams = new ArrayCollection();
+  }*/
+
+  public function __get($property) {
+    return $this->$property;
+  }
+
+  public function __set($property, $value) {
+      $this->$property = $value;
   }
 }
  ?>

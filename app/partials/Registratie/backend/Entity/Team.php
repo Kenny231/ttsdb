@@ -28,7 +28,7 @@ class Team
    protected $spelers;
 
    /**
-   * @ManyToMany(targetEntity="Toernooi", inversedBy="teams")
+   * @ManyToMany(targetEntity="Toernooi\Backend\Entity\Toernooi", inversedBy="teams")
    * @JoinTable(name="TeamInToernooi",
    *   joinColumns={@JoinColumn(name="team_naam", referencedColumnName="team_naam")},
    *   inverseJoinColumns={@JoinColumn(name="toernooi_id", referencedColumnName="toernooi_id")}

@@ -10,7 +10,7 @@ class ToernooiService extends BaseService
   public function addToernooi($data)
   {
     $em = parent::GetEntityManager();
-    $toernooi = createToernooi($data);
+    $toernooi = $this->createToernooi($data);
     $em->persist($toernooi);
     $em->flush();
   }
@@ -20,15 +20,15 @@ class ToernooiService extends BaseService
 
     $toernooi->toernooi_naam      = $data['naam'];
     $toernooi->toernooitype       = $data['type'];
-    $toernooi->geslacht           = $data['geslacht'];
+    $toernooi->geslacht           = $data['geslacht'] != 'mv' ? $data['geslacht'] : null;
     $toernooi->enkel              = $data['enkel'];
-    $toernooi->start_datum        = $data['start_datum'];
-    $toernooi->eind_datum         = $data['eind_datum'];
+    $toernooi->start_datum        = new \DateTime($data['start_datum'] . ' ' . $data['tijd']);
+    $toernooi->eind_datum         = new \DateTime($data['eind_datum']);
     $toernooi->organisatie        = $data['organisatie'];
-    $toernooi->aanvangstijdstip   = $data['tijd'];
     // Default waardes voor nu
     $toernooi->postcode           = '4325KB';
     $toernooi->vereniging_naam    = 'Vereniging';
+    $toernooi->goedkeuring        = 0;
 
     return $toernooi;
   }
