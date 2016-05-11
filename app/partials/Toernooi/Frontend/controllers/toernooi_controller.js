@@ -3,7 +3,6 @@ define(['app'], function (app) {
     $scope.page = 1;
 
 		$scope.create = function() {
-			console.log($scope.enkel.value);
 			var data = {
 				naam: 				$scope.toernooinaam,
 				type: 				$scope.toernooitype,
@@ -17,7 +16,8 @@ define(['app'], function (app) {
 			toernooiService
 			.create(data)
 			.success(function(response) {
-				$location.path('/');
+				if (!response.error)
+					$location.path('/');
 			});
 		}
 		/*

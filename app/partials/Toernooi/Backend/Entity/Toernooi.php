@@ -19,12 +19,12 @@ class Toernooi
   protected $toernooi_id;
 
   /**
-  * @Column(type="string")
+  * @Column(type="string", length=75)
   */
   protected $toernooi_naam;
 
   /**
-  * @Column(type="string")
+  * @Column(type="string", length=75)
   */
   protected $vereniging_naam;
 

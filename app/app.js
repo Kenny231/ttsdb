@@ -4,6 +4,7 @@ define([
 	'angular.storage',
 	'angular.animate',
 	'angular.bootstrap',
+	'jquery.datatables',
 ], function (angular) {
 	'use strict';
 	var app = angular.module('app', [

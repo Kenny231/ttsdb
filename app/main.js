@@ -1,6 +1,7 @@
 require.config({
 	paths: {
 		'jquery': 'libs/jquery/jquery.min',
+		'jquery.datatables': 'libs/jquery/jquery-datatables.min',
 		'angular': 'libs/angular/angular.min',
 		'angular.route': 'libs/angular/angular-route.min',
 		'angular.storage': 'libs/angular/angular-storage.min',
@@ -21,6 +22,7 @@ require.config({
 		'jquery': {
 			'exports': 'jquery'
 		},
+		'jquery.datatables': ['jquery'],
 		'angular.bootstrap': ['angular'],
 		'dom-ready': ['angular']
 	},
