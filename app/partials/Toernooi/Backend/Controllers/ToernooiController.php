@@ -27,6 +27,38 @@ class ToernooiController
 
     $this->toernooiService->addToernooi($data);
   }
+
+  public function delete($request, $response, $args) {
+    $data = $request->getParsedBody();
+
+    $toernooi_id = $data['id'];
+    if (!isset($toernooi_id))
+      return $response->withJson($this->construct_error("Data mag niet null zijn."));
+
+    $this->toernooiService->deleteToernooi($toernooi_id);
+  }
+
+  public function getList($request, $response, $args) {
+    $ret_data = array();
+    $data = $this->toernooiService->getList();
+    for ($i=0; $i<count($data);$i++) {
+      $row = $data[$i];
+      array_push($ret_data, array(
+        'toernooi_id' => $row->toernooi_id,
+        'toernooi_naam' => $row->toernooi_naam,
+        'vereniging_naam' => $row->vereniging_naam,
+        'postcode' => $row->postcode,
+        'start_datum' => $row->start_datum,
+        'eind_datum' => $row->eind_datum,
+        'organisatie' => $row->organisatie,
+        'goedkeuring' => $row->goedkeuring,
+        'toernooitype' => $row->toernooitype,
+        'geslacht' => $row->geslacht,
+        'enkel' => $row->enkel
+      ));
+    }
+    return $response->withJson($ret_data);
+  }
 }
 
 ?>

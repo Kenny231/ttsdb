@@ -1,45 +1,63 @@
 <div class="container read-toernooi-form" style="padding-top: 30px;">
   <div class= "thumbnail" style="color:black; background-color: rgba(255, 255, 255, 0.8); border: solid #555555 1px; height: 700px;">
-    <div class="row">
-      <center><h2>Toernooien</h2></center>
-    </div>
     <div class="col-xs-offset-1 col-xs-10">
       <div class="row" style="height: 100px">
         <md-toolbar class="md-table-toolbar md-default">
           <div class="md-toolbar-tools">
-            <span>Nutrition</span>
+            <span>Toernooien</span>
+            <div class="col-xs-offset-1 col-xs-4">
+              <div class="input-group">
+                <span class="input-group-addon">
+                  <i class="glyphicon glyphicon-search"></i>
+                </span>
+                <input style="height: 15px;"type="text" class="form-control" ng-model="search" placeholder="Zoeken"/>
+              </div>
+            </div>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="onDelete()">
+              <span class="glyphicon glyphicon-edit" />
+            </md-button>
+            <md-button class="md-icon-button" ng-click="showConfirm()">
+              <span class="glyphicon glyphicon-trash" />
+            </md-button>
           </div>
         </md-toolbar>
 
         <!-- exact table from live demo -->
         <md-table-container>
-          <table md-table md-row-select multiple ng-model="selected">
-            <thead md-head md-order="name">
+          <table md-table md-row-select ng-model="selected">
+            <thead md-head md-head data-md-order="order">
               <tr md-row>
-                <th md-column md-order-by="nameToLower"><span>Dessert (100g serving)</span></th>
-                <th md-column md-numeric md-order-by="calories.value"><span>Calories</span></th>
-                <th md-column md-numeric>Fat (g)</th>
-                <th md-column md-numeric>Carbs (g)</th>
-                <th md-column md-numeric>Protein (g)</th>
-                <th md-column md-numeric>Sodium (mg)</th>
-                <th md-column md-numeric>Calcium (%)</th>
-                <th md-column md-numeric>Iron (%)</th>
+                <th md-column md-order-by="toernooi_naam"><span>Toernooi</span></th>
+                <th md-column><span>Vereniging</span></th>
+                <th md-column>Type</th>
+                <th md-column>Start datum</th>
+                <th md-column>Eind datum</th>
+                <th md-column> Aanvangstijdstip </th>
+                <th md-column>Geslacht</th>
+                <th md-column>Enkel</th>
+                <th md-column>Postcode</th>
+                <th md-column>Organisatie</th>
               </tr>
             </thead>
             <tbody md-body>
-              <tr md-row md-select="dessert" md-select-id="name" md-auto-select ng-repeat="dessert in desserts">
-                <td md-cell>{{dessert.name}}</td>
-                <td md-cell>{{dessert.calories.value}}</td>
-                <td md-cell>{{dessert.fat.value | number: 1}}</td>
-                <td md-cell>{{dessert.carbs.value}}</td>
-                <td md-cell>{{dessert.protein.value | number: 1}}</td>
-                <td md-cell>{{dessert.sodium.value}}</td>
-                <td md-cell>{{dessert.calcium.value}}{{dessert.calcium.unit}}</td>
-                <td md-cell>{{dessert.iron.value}}{{dessert.iron.unit}}</td>
+              <tr md-row md-select="toernooi" md-select-id="name" md-auto-select ng-repeat="toernooi in data  | filter: search | orderBy: order | limitTo: limit : (page - 1) * limit">
+                <td md-cell>{{toernooi.toernooi_naam}}</td>
+                <td md-cell>{{toernooi.vereniging_naam}}</td>
+                <td md-cell>{{toernooi.toernooitype}}</td>
+                <td md-cell>{{convertDate(toernooi.start_datum.date) | date: "yyyy-MM-dd"}}</td>
+                <td md-cell>{{convertDate(toernooi.eind_datum.date) | date: "yyyy-MM-dd"}}</td>
+                <td md-cell>{{convertDate(toernooi.start_datum.date) | date: "HH:mm"}}</td>
+                <td md-cell>{{toernooi.geslacht == 'm' ? 'Man' : toernooi.geslacht == 'v' ? 'Vrouw' : 'Beide'}}</td>
+                <td md-cell>{{toernooi.enkel == 1 ? 'Ja' : 'Nee'}}</td>
+                <td md-cell>{{toernooi.postcode}}</td>
+                <td md-cell>{{toernooi.organisatie}}</td>
               </tr>
             </tbody>
           </table>
         </md-table-container>
+
+        <md-table-pagination md-limit="limit" md-limit-options="[5, 10, 15]" md-page="page" md-total="{{(data|filter:search).length}}" md-page-select></md-table-pagination>
       </div>
     </div>
     <div class="row"></div>

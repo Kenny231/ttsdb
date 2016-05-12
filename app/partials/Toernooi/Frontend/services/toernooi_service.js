@@ -8,7 +8,25 @@ define(['app'], function(app) {
           url: url,
           data: data
         });
-      }
+      },
+			list: function() {
+				var url = 'app/api/toernooi/list';
+				return $http({
+					method: 'GET',
+					url: url
+				});
+			},
+			delete: function(id) {
+				var url = 'app/api/toernooi/delete';
+				var data = {
+					id: id
+				};
+				return $http({
+					method: 'POST',
+					url: url,
+					data: data
+				});
+			}
     };
   }]);
 });

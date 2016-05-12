@@ -7,12 +7,30 @@ use Resources\Backend\Service\BaseService;
 
 class ToernooiService extends BaseService
 {
-  public function addToernooi($data)
-  {
+  public function addToernooi($data) {
     $em = parent::GetEntityManager();
     $toernooi = $this->createToernooi($data);
     $em->persist($toernooi);
     $em->flush();
+  }
+
+  public function deleteToernooi($id) {
+    $em = parent::GetEntityManager();
+    $toernooi = $em->getReference(Toernooi::class, $id);
+    $em->remove($toernooi);
+    $em->flush();
+  }
+
+  public function getList() {
+    return parent::GetEntityManager()
+      ->GetRepository(Toernooi::class)
+      ->findAll();
+  }
+
+  public function getById($id) {
+    return parent::GetEntityManager()
+      ->GetRepository(Toernooi::class)
+      ->find($id);
   }
 
   private function createToernooi($data) {
