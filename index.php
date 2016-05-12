@@ -10,7 +10,8 @@
 		<!-- Bootstrap -->
 		<link href="app/libs/bootstrap/css/bootstrap.min.css?<?php echo time(); ?>" rel="stylesheet">
 		<link href="app/css/style.css?<?php echo time(); ?>" rel="stylesheet">
-		<link href="app/css/jquery-datatables.min.css?<?php echo time(); ?>" rel="stylesheet">
+		<link href="app/css/angular-material.min.css?<?php echo time(); ?>" rel="stylesheet">
+		<link href="app/css/md-data-table.min.css?<?php echo time(); ?>" rel="stylesheet">
 		<link href="app/css/font-awesome.min.css?<?php echo time(); ?>" rel="stylesheet">
 		<link href="app/css/animate.min.css?<?php echo time(); ?>" rel="stylesheet">
 		<link href="app/css/font-oswald.css?<?php echo time(); ?>" rel="stylesheet">
