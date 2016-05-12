@@ -34,6 +34,7 @@ require.config({
 		'./partials/home/frontend/home_module',
 		'./partials/toernooi/frontend/toernooi_module',
 		'./partials/resources/frontend/resources_module',
+		'./partials/login/frontend/login_module',
 		'bootstrap'
 	],
 	priority: [
