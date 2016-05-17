@@ -18,6 +18,18 @@ define(['app'], function (app) {
 		$scope.getSelection = function() {
 			return $scope.selected[0];
 		}
+		/*
+		 * Methode om te kijken of er een toernooi is geselecteerd.
+		 */
+		$scope.hasSelection = function() {
+			return $scope.getSelection() != null;
+		}
+		/*
+		 * Methode of de huidige selectie leeg te maken.
+		 */
+		$scope.eraseSelection = function() {
+			$scope.selected[0] = null;
+		}
     /*
 		 * Methode om alle toernooien op te halen.
 		 * Deze worden vervolgens ingeladen in de datatable.
@@ -38,14 +50,16 @@ define(['app'], function (app) {
 		 * als de datatable verwijderen.
 		 */
 		$scope.onDelete = function() {
-			var item = $scope.getSelection().toernooi_id;
-			if (item !== 'undefined') {
+			if ($scope.hasSelection()) {
+				var item = $scope.getSelection().toernooi_id;
 				toernooiService
 				.delete(item)
 				.success(function(response) {
 					if (!response.error) {
 						$scope.data.splice($scope.getIndexById(item), 1);
 						$scope.row_count = $scope.row_count - 1;
+						console.log('Delete item');
+						$scope.eraseSelection();
 					}
 				});
 			}
@@ -80,17 +94,18 @@ define(['app'], function (app) {
 		 * een record probeerd te verwijderen.
 		 */
 		$scope.showConfirm = function() {
-			// Appending dialog to document.body to cover sidenav in docs app
-			var confirm = $mdDialog.confirm()
-				.title('Warning')
-				.textContent('Weet u zeker dat u dit toernooi wilt verwijderen?')
-				.ariaLabel('Verwijder Toernooi')
-				.ok('Ja')
-				.cancel('Nee');
+			if ($scope.hasSelection()) {
+				var confirm = $mdDialog.confirm()
+					.title('Warning')
+					.textContent('Weet u zeker dat u dit toernooi wilt verwijderen?')
+					.ariaLabel('Verwijder Toernooi')
+					.ok('Ja')
+					.cancel('Nee');
 
-			$mdDialog.show(confirm).then(function() {
-				$scope.onDelete();
-			});
+				$mdDialog.show(confirm).then(function() {
+					$scope.onDelete();
+				});
+			}
 		};
 		// Form data
 		$scope.formData = {};
@@ -145,9 +160,11 @@ define(['app'], function (app) {
 		 * Wordt aangeroepen, als er op de edit knop gedrukt wordt.
 		 */
 		$scope.onEdit = function() {
-			$scope.update_page = 2;
-
-			$scope.populateFields();
+			if ($scope.hasSelection()) {
+				$scope.page = 1;
+				$scope.update_page = 2;
+				$scope.populateFields();
+			}
 		}
 		/*
 		 * Wordt aangeroepen als het edit form gesubmit wordt.
