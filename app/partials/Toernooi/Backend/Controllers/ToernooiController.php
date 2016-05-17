@@ -28,6 +28,19 @@ class ToernooiController
     $this->toernooiService->addToernooi($data);
   }
 
+  public function update($request, $response, $args) {
+    $data = $request->getParsedBody();
+
+    foreach($data as $key => $value) {
+      if (!isset($data[$key]) || $data[$key] == "")
+        return $response->withJson($this->construct_error("Data mag niet null zijn."));
+    }
+
+    $this->toernooiService->updateToernooi($data);
+
+    return $response->withJson("Toernooi id: " . $data['id']);
+  }
+
   public function delete($request, $response, $args) {
     $data = $request->getParsedBody();
 
@@ -42,22 +55,31 @@ class ToernooiController
     $ret_data = array();
     $data = $this->toernooiService->getList();
     for ($i=0; $i<count($data);$i++) {
-      $row = $data[$i];
-      array_push($ret_data, array(
-        'toernooi_id' => $row->toernooi_id,
-        'toernooi_naam' => $row->toernooi_naam,
-        'vereniging_naam' => $row->vereniging_naam,
-        'postcode' => $row->postcode,
-        'start_datum' => $row->start_datum,
-        'eind_datum' => $row->eind_datum,
-        'organisatie' => $row->organisatie,
-        'goedkeuring' => $row->goedkeuring,
-        'toernooitype' => $row->toernooitype,
-        'geslacht' => $row->geslacht,
-        'enkel' => $row->enkel
-      ));
+      array_push($ret_data, $this->entityToArray($data[$i]));
     }
     return $response->withJson($ret_data);
+  }
+
+  public function find($request, $response, $args) {
+    $data = $request->getParsedBody();
+    $toernooi = $this->toernooiService->getById($data['id']);
+    return $response->withJson($this->entityToArray($toernooi));
+  }
+
+  private function entityToArray($entity) {
+    return array(
+      'toernooi_id' => $entity->toernooi_id,
+      'toernooi_naam' => $entity->toernooi_naam,
+      'vereniging_naam' => $entity->vereniging_naam,
+      'postcode' => $entity->postcode,
+      'start_datum' => $entity->start_datum,
+      'eind_datum' => $entity->eind_datum,
+      'organisatie' => $entity->organisatie,
+      'goedkeuring' => $entity->goedkeuring,
+      'toernooitype' => $entity->toernooitype,
+      'geslacht' => $entity->geslacht,
+      'enkel' => $entity->enkel
+    );
   }
 }
 

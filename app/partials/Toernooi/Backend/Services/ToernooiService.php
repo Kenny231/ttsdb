@@ -14,6 +14,13 @@ class ToernooiService extends BaseService
     $em->flush();
   }
 
+  public function updateToernooi($data) {
+    $em = parent::GetEntityManager($data);
+    $toernooi = $this->createToernooi($data, $this->getById($data['id']));
+    $em->persist($toernooi);
+    $em->flush();
+  }
+
   public function deleteToernooi($id) {
     $em = parent::GetEntityManager();
     $toernooi = $em->getReference(Toernooi::class, $id);
@@ -33,8 +40,12 @@ class ToernooiService extends BaseService
       ->find($id);
   }
 
-  private function createToernooi($data) {
-    $toernooi = new Toernooi();
+  private function createToernooi($data, $entity = null) {
+    $toernooi = null;
+    if ($entity == null)
+      $toernooi = new Toernooi();
+    else
+      $toernooi = $entity;
 
     $toernooi->toernooi_naam      = $data['naam'];
     $toernooi->toernooitype       = $data['type'];
