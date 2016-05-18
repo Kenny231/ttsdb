@@ -1,17 +1,26 @@
 <div class="container" style="padding-top: 30px;">
   <div class= "thumbnail" style="color:black; background-color: rgba(255, 255, 255, 0.8); border: solid #555555 1px;">
-    <form class="form-horizontal">
+    <form method="post"
+     name="LoginForm"  class="form-horizontal" 	ng-submit="LoginForm.$valid && login()" >
 
       <div class="row">
         <center><h2> Login </h2></center>
       </div>
+
       <div class="col-xs-11">
+        <div class="row col-xs-offset-4 colx-xs-7">
+          <span class="error-msg" ng-show="login_error">
+            <div class="alert alert-danger">
+              <span class="glyphicon glyphicon-exclamation-sign"></span> {{login_error}}
+            </div>
+          </span>
+        </div>
         <div class="row vertical-align">
           <div class="hidden-xs col col-xs-3">
             <p>Gebruikersnaam:</p>
           </div>
           <div class="col-xs-offset-1  col-xs-8">
-            <input type="text" class="form-control" ng-model="gebruikersnaam" placeholder="Gebruikersnaam">
+            <input type="text" class="form-control" ng-model="username" placeholder="Gebruikersnaam" required >
           </div>
         </div>
 
@@ -20,13 +29,13 @@
             <p> Wachtwoord: </p>
           </div>
           <div class="col-xs-offset-1  col-xs-8">
-            <input type="text" class="form-control" ng-model="wachtwoord" placeholder="Wachtwoord">
+            <input type="password" class="form-control" ng-model="password" placeholder="Wachtwoord" required >
           </div>
         </div>
 
         <div class="row col-xs-offset-1">
           <br>
-          <button class="btn btn-primary pull-right "> Login </button>
+          <button class="btn btn-primary pull-right " type="submit"  > Login </button>
         </div>
       </div>
       <div class="row"> </div>

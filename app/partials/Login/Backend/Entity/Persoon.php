@@ -3,16 +3,15 @@
 namespace Login\Backend\Entity;
 
 /**
- * @Entity @Table(name="Persoon")
+ * @Entity @Table(name="PERSOON")
  */
 class Persoon
 {
-
   /**
   * @Id
   * @Column(type="integer")
   */
-  protected $id;
+  protected $persoon_id;
 
 
   /**
@@ -45,17 +44,13 @@ class Persoon
   */
   protected $geboortedatum;
 
+  public function __get($property) {
+    return $this->$property;
+  }
 
-
-
-  function __construct(argument)
-  {
-
+  public function __set($property, $value) {
+      $this->$property = $value;
   }
 }
-
-
-
-
 
  ?>

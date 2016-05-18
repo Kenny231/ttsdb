@@ -14,6 +14,7 @@ class ClassLoader
 	public function RegisterRouters() {
 		//new Account\Backend\Config\AccountRouter($this->app);
 		new Toernooi\Backend\Config\ToernooiRoute($this->app);
+		new Login\Backend\Config\LoginRouter($this->app);
 	}
 
 	/*
@@ -29,7 +30,9 @@ class ClassLoader
 	public function RegisterDependencyInjection() {
 		new Toernooi\Backend\DependencyInjection\ToernooiDI($this->app);
 		new Resources\Backend\DependencyInjection\ResourceDI($this->app);
+		new Login\Backend\DependencyInjection\LoginDI($this->app);
 		//new Account\Backend\DependencyInjection\AccountDI($this->app);
+
 	}
 }
 

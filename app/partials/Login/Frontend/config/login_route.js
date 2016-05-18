@@ -4,8 +4,8 @@ define(['app'], function (app) {
 	app.config(['$routeProvider', function ($routeProvider) {
 		$routeProvider
 			.when('/login', {
-				templateUrl: '/ttsdb/app/partials/login/frontend/views/login.html'
-
+				templateUrl: '/ttsdb/app/partials/login/frontend/views/login.html',
+				controller: 'LoginController'
 			});
 	}]);
 });
