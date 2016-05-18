@@ -20,6 +20,9 @@ define([
 	]);
 	app.run(function($rootScope, $location, $localStorage) {
     $rootScope.$on("$locationChangeStart", function(event, next, current) {
+			var segment = next.substring(next.indexOf('#')+1, next.length);
+			if (segment == '/logout')
+				$localStorage.loggedIn = false;
 			if ($localStorage.loggedIn == 'undefined' || !$localStorage.loggedIn)
     		$location.path('/login');
     });
