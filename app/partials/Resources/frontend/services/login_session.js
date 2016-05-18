@@ -8,6 +8,9 @@ define(['app'], function(app) {
         $localStorage.loggedIn = false;
       },
       isLoggedIn: function() {
+				if ($localStorage.loggedIn == 'undefined')
+				  return false;
+					
         return $localStorage.loggedIn;
       }
     };

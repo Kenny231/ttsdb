@@ -6,7 +6,7 @@ define([
 	'angular.animate',
 	'angular.material',
 	'angular.bootstrap',
-	'md.datatable'
+	'md.datatable',
 ], function (angular) {
 	'use strict';
 	var app = angular.module('app', [
@@ -18,5 +18,11 @@ define([
 		'ui.bootstrap',
 		'md.data.table'
 	]);
+	app.run(function($rootScope, $location, $localStorage) {
+    $rootScope.$on("$locationChangeStart", function(event, next, current) {
+			if ($localStorage.loggedIn == 'undefined' || !$localStorage.loggedIn)
+    		$location.path('/login');
+    });
+	});
 	return app;
 });
