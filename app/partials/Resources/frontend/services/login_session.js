@@ -10,7 +10,6 @@ define(['app'], function(app) {
       isLoggedIn: function() {
 				if ($localStorage.loggedIn == 'undefined')
 				  return false;
-					
         return $localStorage.loggedIn;
       }
     };
