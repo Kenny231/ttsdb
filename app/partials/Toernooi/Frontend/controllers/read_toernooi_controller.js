@@ -1,6 +1,5 @@
 define(['app'], function (app) {
 	app.controller('ReadToernooiController', ['$scope', '$http', '$filter', '$mdDialog', 'toernooiService', function ($scope, $http, $filter, $mdDialog, toernooiService) {
-    $scope.page = 1;
 		/*
 		 * Datatable
 		 */
@@ -58,7 +57,6 @@ define(['app'], function (app) {
 					if (!response.error) {
 						$scope.data.splice($scope.getIndexById(item), 1);
 						$scope.row_count = $scope.row_count - 1;
-						console.log('Delete item');
 						$scope.eraseSelection();
 					}
 				});
@@ -109,6 +107,8 @@ define(['app'], function (app) {
 		};
 		// Form data
 		$scope.formData = {};
+		// Update pagina page
+	  $scope.formData.page = 1;
 		/*
 		 * Select data
 		 */
@@ -135,6 +135,10 @@ define(['app'], function (app) {
 		/*
 		 * Update pagina
 		 */
+    $scope.togglePage = function() {
+			$scope.formData.page = 1;
+		}
+
 		$scope.update_page = 1;
 		/*
 		 * Methode om het update formulier met de juiste

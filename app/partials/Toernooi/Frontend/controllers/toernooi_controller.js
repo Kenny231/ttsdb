@@ -1,8 +1,9 @@
 define(['app'], function (app) {
 	app.controller('ToernooiController', ['$scope', '$http', '$filter', '$location', 'toernooiService', function ($scope, $http, $filter, $location, toernooiService) {
-    $scope.page = 1;
 		// Form data
 		$scope.formData = {};
+		// pagina
+		$scope.formData.page = 1;
 		/*
 		 * Methode die wordt aangeroepen als het formulier
 		 * gesubmit wordt.
