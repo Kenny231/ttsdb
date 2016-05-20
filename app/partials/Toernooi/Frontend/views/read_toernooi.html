@@ -42,7 +42,7 @@
                 </tr>
               </thead>
               <tbody md-body>
-                <tr md-row md-select="toernooi" md-select-id="name" md-auto-select ng-repeat="toernooi in data  | filter: search | orderBy: order | limitTo: limit : (data_page - 1) * limit">
+                <tr md-row md-on-select="onSelect" md-on-deselect="onDeselect" md-select="toernooi" md-select-id="name" md-auto-select ng-repeat="toernooi in data  | filter: search | orderBy: order | limitTo: limit : (data_page - 1) * limit">
                   <td md-cell>{{toernooi.toernooi_naam}}</td>
                   <td md-cell>{{toernooi.vereniging_naam}}</td>
                   <td md-cell>{{toernooi.toernooitype}}</td>

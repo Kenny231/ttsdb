@@ -8,6 +8,12 @@ define(['app'], function (app) {
 
 			if ($scope.toernooi_form_style == null)
 				$scope.toernooi_form_style = "thumbnail form-style";
+
+			if ($scope.onSelect == null)
+				$scope.onSelect = function() { }
+
+			if ($scope.onDeselect == null)
+				$scope.onDeselect = function() { }
 		}
 		construct();
 		/*
