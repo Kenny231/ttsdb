@@ -1,5 +1,11 @@
 define(['app'], function (app) {
 	app.controller('ReadToernooiController', ['$scope', '$http', '$filter', '$mdDialog', 'toernooiService', function ($scope, $http, $filter, $mdDialog, toernooiService) {
+		function construct() {
+			// Kan door een andere controller al geregeld zijn.
+			if ($scope.show_toernooi_buttons == null)
+			  $scope.show_toernooi_buttons = true;
+		}
+		construct();
 		/*
 		 * Datatable
 		 */
@@ -107,7 +113,7 @@ define(['app'], function (app) {
 		};
 		// Form data
 		$scope.formData = {};
-		// Update pagina page
+		// Update (detail) pagina page
 	  $scope.formData.page = 1;
 		/*
 		 * Select data
@@ -139,7 +145,7 @@ define(['app'], function (app) {
 			$scope.formData.page = 1;
 		}
 
-		$scope.update_page = 1;
+		$scope.main_page = 1;
 		/*
 		 * Methode om het update formulier met de juiste
 		 * waardes te vullen.
@@ -166,7 +172,7 @@ define(['app'], function (app) {
 		$scope.onEdit = function() {
 			if ($scope.hasSelection()) {
 				$scope.page = 1;
-				$scope.update_page = 2;
+				$scope.main_page = 2;
 				$scope.populateFields();
 			}
 		}
@@ -174,7 +180,7 @@ define(['app'], function (app) {
 		 * Wordt aangeroepen als het edit form gesubmit wordt.
 		 */
 		$scope.submit = function() {
- 			$scope.update_page = 1;
+ 			$scope.main_page = 1;
 			var data = {
 				id:						$scope.getSelection().toernooi_id,
 				naam: 				$scope.formData.toernooinaam,
@@ -196,6 +202,7 @@ define(['app'], function (app) {
 				.find(id)
 				.success(function(resp) {
 					$scope.data[index] = resp;
+					$scope.eraseSelection();
 				});
 			});
  		}

@@ -1,5 +1,5 @@
 define(['app'], function (app) {
-	app.controller('ToernooiController', ['$scope', '$http', '$filter', '$location', 'toernooiService', function ($scope, $http, $filter, $location, toernooiService) {
+	app.controller('CreateToernooiController', ['$scope', '$http', '$filter', '$location', 'toernooiService', function ($scope, $http, $filter, $location, toernooiService) {
 		// Form data
 		$scope.formData = {};
 		// pagina

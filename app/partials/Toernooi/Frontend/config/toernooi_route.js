@@ -3,13 +3,13 @@ define(['app'], function (app) {
 
 	app.config(['$routeProvider', function ($routeProvider) {
 		$routeProvider
-			.when('/toernooi', {
-				templateUrl: '/ttsdb/app/partials/toernooi/frontend/views/toernooiaanmaken.html',
-				controller: 'ToernooiController'
+			.when('/toernooi/create', {
+				templateUrl: '/ttsdb/app/partials/toernooi/frontend/views/create_toernooi.html',
+				controller: 'CreateToernooiController'
 			})
 			.when('/toernooi/read', {
 				templateUrl: '/ttsdb/app/partials/toernooi/frontend/views/read_toernooi.html',
-				controller: 'ReadToernooiController'
+				//controller: 'ReadToernooiController' -- Gedefinieerd in view.
 			});
 	}]);
 });
