@@ -41,7 +41,7 @@ class Speler
   /**
    * @ManyToMany(targetEntity="Team", mappedBy="spelers")
    */
-  protected $teams
+  protected $teams;
 }
 
 ?>

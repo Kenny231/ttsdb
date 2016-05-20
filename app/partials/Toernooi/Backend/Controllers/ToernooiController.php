@@ -78,7 +78,8 @@ class ToernooiController
       'goedkeuring' => $entity->goedkeuring,
       'toernooitype' => $entity->toernooitype,
       'geslacht' => $entity->geslacht,
-      'enkel' => $entity->enkel
+      'enkel' => $entity->enkel,
+      'team' => $entity->teams
     );
   }
 }

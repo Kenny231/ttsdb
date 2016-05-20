@@ -2,9 +2,7 @@
 
 namespace Toernooi\Backend\Entity;
 
-
 use \Doctrine\Common\Collections\ArrayCollection;
-use Registratie\Backend\Entity\Team;
 
 /**
  * @Entity @Table(name="Toernooi")
@@ -64,19 +62,19 @@ class Toernooi
   protected $geslacht;
 
   /**
-  * @Column(type="boolean")
-  */
+   * @Column(type="boolean")
+   */
   protected $enkel;
 
-  /*
+  /**
    * @ManyToMany(targetEntity="Registratie\Backend\Entity\Team", mappedBy="toernooien")
-
+   */
   protected $teams;
 
   function __construct()
   {
     $this->teams = new ArrayCollection();
-  }*/
+  }
 
   public function __get($property) {
     return $this->$property;

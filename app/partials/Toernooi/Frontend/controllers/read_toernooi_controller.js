@@ -1,40 +1,26 @@
 define(['app'], function (app) {
-	app.controller('ReadToernooiController', ['$scope', '$http', '$filter', '$mdDialog', 'toernooiService', function ($scope, $http, $filter, $mdDialog, toernooiService) {
+	app.controller('ReadToernooiController', ['$scope', '$http', '$filter', '$mdDialog', 'toernooiService', 'DatatableService', function ($scope, $http, $filter, $mdDialog, toernooiService, DatatableService) {
+		$scope.DatatableService = DatatableService;
 		function construct() {
 			// Kan door een andere controller al geregeld zijn.
 			if ($scope.show_toernooi_buttons == null)
 			  $scope.show_toernooi_buttons = true;
+
+			if ($scope.toernooi_form_style == null)
+				$scope.toernooi_form_style = "thumbnail form-style";
 		}
 		construct();
 		/*
 		 * Datatable
 		 */
 		// Geselecteerde rij.
-		$scope.selected = [];
+		DatatableService.selected = [];
 		// Huidige pagina in de datatable.
 		$scope.data_page = 1;
 		// Standaard aantal rijen per pagina.
 		$scope.limit = 5;
 		// Sorteer volgorde
 		$scope.order = 'toernooi_naam';
-		/*
-		 * Methode om het huidig geselecteerde toernooi te verkrijgen.
-		 */
-		$scope.getSelection = function() {
-			return $scope.selected[0];
-		}
-		/*
-		 * Methode om te kijken of er een toernooi is geselecteerd.
-		 */
-		$scope.hasSelection = function() {
-			return $scope.getSelection() != null;
-		}
-		/*
-		 * Methode of de huidige selectie leeg te maken.
-		 */
-		$scope.eraseSelection = function() {
-			$scope.selected[0] = null;
-		}
     /*
 		 * Methode om alle toernooien op te halen.
 		 * Deze worden vervolgens ingeladen in de datatable.
@@ -55,15 +41,15 @@ define(['app'], function (app) {
 		 * als de datatable verwijderen.
 		 */
 		$scope.onDelete = function() {
-			if ($scope.hasSelection()) {
-				var item = $scope.getSelection().toernooi_id;
+			if (DatatableService.hasSelection()) {
+				var item = DatatableService.getSelection().toernooi_id;
 				toernooiService
 				.delete(item)
 				.success(function(response) {
 					if (!response.error) {
 						$scope.data.splice($scope.getIndexById(item), 1);
 						$scope.row_count = $scope.row_count - 1;
-						$scope.eraseSelection();
+						DatatableService.eraseSelection();
 					}
 				});
 			}
@@ -98,7 +84,7 @@ define(['app'], function (app) {
 		 * een record probeerd te verwijderen.
 		 */
 		$scope.showConfirm = function() {
-			if ($scope.hasSelection()) {
+			if (DatatableService.hasSelection()) {
 				var confirm = $mdDialog.confirm()
 					.title('Warning')
 					.textContent('Weet u zeker dat u dit toernooi wilt verwijderen?')
@@ -151,7 +137,7 @@ define(['app'], function (app) {
 		 * waardes te vullen.
 		 */
 		$scope.populateFields = function() {
-			var item = $scope.getSelection();
+			var item = DatatableService.getSelection();
 			// Select id's
 			var enkel_id = item.enkel == 1 ? 1 : 0; // Werkt niet direct als index.
 			var geslacht_id = item.geslacht == 'm' ? 0 : item.geslacht == 'v' ? 1 : 2;
@@ -170,7 +156,7 @@ define(['app'], function (app) {
 		 * Wordt aangeroepen, als er op de edit knop gedrukt wordt.
 		 */
 		$scope.onEdit = function() {
-			if ($scope.hasSelection()) {
+			if (DatatableService.hasSelection()) {
 				$scope.page = 1;
 				$scope.main_page = 2;
 				$scope.populateFields();
@@ -182,7 +168,7 @@ define(['app'], function (app) {
 		$scope.submit = function() {
  			$scope.main_page = 1;
 			var data = {
-				id:						$scope.getSelection().toernooi_id,
+				id:						DatatableService.getSelection().toernooi_id,
 				naam: 				$scope.formData.toernooinaam,
 				type: 				$scope.formData.toernooitype,
 				geslacht: 		$scope.formData.geslacht.value,
@@ -195,14 +181,14 @@ define(['app'], function (app) {
 			toernooiService
 			.update(data)
 			.success(function(response) {
-				var id = $scope.getSelection().toernooi_id;
+				var id = DatatableService.getSelection().toernooi_id;
 				var index = $scope.getIndexById(id);
 				// Reload row.
 				toernooiService
 				.find(id)
 				.success(function(resp) {
 					$scope.data[index] = resp;
-					$scope.eraseSelection();
+					DatatableService.eraseSelection();
 				});
 			});
  		}
