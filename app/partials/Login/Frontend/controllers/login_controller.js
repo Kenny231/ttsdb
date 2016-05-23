@@ -7,7 +7,7 @@ define(['app'], function (app) {
 				if (response.error)
 					$scope.login_error = response.error;
 			  else{
-				  LoginSession.login();
+				  LoginSession.login(response.voornaam, response.achternaam);
 					$location.path('/');
 				}
 			});

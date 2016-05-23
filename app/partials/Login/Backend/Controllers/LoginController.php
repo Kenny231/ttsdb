@@ -28,7 +28,7 @@ class LoginController
     if (!$user instanceof Persoon || $password != $user->achternaam)
       return $response->withJson($this->construct_error('Gebruikersnaam of wachtwoord onjuist.'));
 
-    return $response->withJson("success");
+    return $response->withJson(array('voornaam' => $user->voornaam, 'achternaam' => $user->achternaam));
   }
 }
 ?>
