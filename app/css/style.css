@@ -106,10 +106,11 @@ h1, h2, h3, h4, h5, h6 {
   border: 5px solid transparent;
 }
 /* Tile style */
-.tile:hover{
+.tile:hover {
   border: 5px solid rgba(255, 255, 255, 0.70);
 }
 .tile:hover a {
+  color: #fff;
   text-decoration: none;
 }
 .tile a {
