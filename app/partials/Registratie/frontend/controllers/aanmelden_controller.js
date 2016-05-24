@@ -6,6 +6,8 @@ define(['app'], function (app) {
 		$scope.show_toernooi_buttons = false;
     // Geen style.
     $scope.toernooi_form_style = "";
+		// Data
+		DatatableService.data = [];
 		$scope.showConfirm = function() {
 			var confirm = $mdDialog.confirm()
 				.title('Melding')

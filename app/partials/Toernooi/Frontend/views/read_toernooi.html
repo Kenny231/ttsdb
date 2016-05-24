@@ -42,7 +42,7 @@
                 </tr>
               </thead>
               <tbody md-body>
-                <tr md-row md-on-select="onSelect" md-on-deselect="onDeselect" md-select="toernooi" md-select-id="name" md-auto-select ng-repeat="toernooi in data  | filter: search | orderBy: order | limitTo: limit : (data_page - 1) * limit">
+                <tr md-row md-on-select="onSelect" md-on-deselect="onDeselect" md-select="toernooi" md-select-id="name" md-auto-select ng-repeat="toernooi in DatatableService.data  | filter: search | orderBy: order | limitTo: DatatableService.limit : (DatatableService.data_page - 1) * DatatableService.limit">
                   <td md-cell>{{toernooi.toernooi_naam}}</td>
                   <td md-cell>{{toernooi.vereniging_naam}}</td>
                   <td md-cell>{{toernooi.toernooitype}}</td>
@@ -58,7 +58,7 @@
             </table>
           </md-table-container>
 
-          <md-table-pagination md-limit="limit" md-limit-options="[5, 10, 15]" md-page="data_page" md-total="{{(data|filter:search).length}}" md-page-select></md-table-pagination>
+          <md-table-pagination md-limit="DatatableService.limit" md-limit-options="[5, 10, 15]" md-page="DatatableService.data_page" md-total="{{(DatatableService.data|filter:search).length}}" md-page-select></md-table-pagination>
         </div>
       </div>
       <div class="row"></div>

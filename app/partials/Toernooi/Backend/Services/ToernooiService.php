@@ -2,6 +2,9 @@
 
 namespace Toernooi\Backend\Services;
 
+use Doctrine\ORM\Query\ResultSetMapping;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
+
 use Toernooi\Backend\Entity\Toernooi;
 use Resources\Backend\Service\BaseService;
 

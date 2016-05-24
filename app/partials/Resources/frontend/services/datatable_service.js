@@ -4,6 +4,12 @@ define(['app'], function(app) {
 
     // Geselecteerde rij.
     factory.selected = [];
+		// Data
+		factory.data = null;
+		// Huidige pagina in de datatable.
+		factory.data_page = 1;
+		// Standaard aantal rijen per pagina.
+		factory.limit = 5;
     /*
      * Methode om het huidig geselecteerde toernooi te verkrijgen.
      */

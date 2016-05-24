@@ -2,44 +2,30 @@ define(['app'], function (app) {
 	app.controller('ReadToernooiController', ['$scope', '$http', '$filter', '$mdDialog', 'toernooiService', 'DatatableService', function ($scope, $http, $filter, $mdDialog, toernooiService, DatatableService) {
 		$scope.DatatableService = DatatableService;
 		function construct() {
-			// Kan door een andere controller al geregeld zijn.
-			if ($scope.show_toernooi_buttons == null)
-			  $scope.show_toernooi_buttons = true;
-
-			if ($scope.toernooi_form_style == null)
+			// Zitten we op een subform?
+			if ($scope.subFormData == null) {
+				list();
+				$scope.show_toernooi_buttons = true;
 				$scope.toernooi_form_style = "thumbnail form-style";
-
-			if ($scope.onSelect == null)
-				$scope.onSelect = function() { }
-
-			if ($scope.onDeselect == null)
-				$scope.onDeselect = function() { }
+			}
 		}
 		construct();
 		/*
 		 * Datatable
 		 */
-		// Geselecteerde rij.
-		DatatableService.selected = [];
-		// Huidige pagina in de datatable.
-		$scope.data_page = 1;
-		// Standaard aantal rijen per pagina.
-		$scope.limit = 5;
 		// Sorteer volgorde
 		$scope.order = 'toernooi_naam';
     /*
 		 * Methode om alle toernooien op te halen.
 		 * Deze worden vervolgens ingeladen in de datatable.
 		 */
-		$scope.list = function() {
+		function list() {
 			toernooiService
 			.list()
 			.success(function(response) {
-				$scope.data = response;
+				DatatableService.data = response;
 			});
 		}
-    // Datatable data.
-		$scope.data = $scope.list();
 		/*
 		 * Delete callback, deze methode wordt aangeroepen
 		 * zodra er op de verwijder knop gedrukt wordt.
@@ -53,7 +39,7 @@ define(['app'], function (app) {
 				.delete(item)
 				.success(function(response) {
 					if (!response.error) {
-						$scope.data.splice($scope.getIndexById(item), 1);
+						DatatableService.data.splice($scope.getIndexById(item), 1);
 						$scope.row_count = $scope.row_count - 1;
 						DatatableService.eraseSelection();
 					}
@@ -69,8 +55,8 @@ define(['app'], function (app) {
 		 * @return De bijbehornde index in de datatable.
 		 */
 		$scope.getIndexById = function(id) {
-			for(var i = 0; i < $scope.data.length; i++) {
-				if ($scope.data[i].toernooi_id == id)
+			for(var i = 0; i < DatatableService.data.length; i++) {
+				if (DatatableService.data[i].toernooi_id == id)
 					return i;
 			}
 		}
@@ -108,28 +94,65 @@ define(['app'], function (app) {
 		// Update (detail) pagina page
 	  $scope.formData.page = 1;
 		/*
-		 * Select data
+		 *Select data
+		*/
+		$scope.select_data = [
+			{
+				"type" : "Ladder",
+				"geslacht" : [
+					{"name" : "Gemengd", "value" : "mv"}
+				],
+				"enkel" : [
+					{"name" : "Ja", "value" : "1"}
+				]
+			}, {
+				"type" : "Familie",
+				"geslacht" : [
+					{"name" : "Man", "value" : "m"},
+					{"name" : "Vrouw", "value" : "v"},
+					{"name" : "Gemengd", "value" : "mv"}
+				],
+				"enkel" : [
+					{"name" : "Nee", "value" : "0"},
+					{"name" : "Ja", "value" : "1"}
+				]
+			}, {
+				"type" : "Prestatie",
+				"geslacht" : [
+					{"name" : "Man", "value" : "m"},
+					{"name" : "Vrouw", "value" : "v"},
+					{"name" : "Gemengd", "value" : "mv"}
+				],
+				"enkel" : [
+					{"name" : "Nee", "value" : "0"},
+					{"name" : "Ja", "value" : "1"}
+				]
+			}
+		]
+
+		$scope.formData.toernooitype = $scope.select_data[0];
+		$scope.formData.geslacht = $scope.select_data[0].geslacht[0];
+		$scope.formData.enkel = $scope.select_data[0].enkel[0];
+		/*
+		 * Methode die de index van de select data teruggeeft,
+		 * op basis van het toernooi type.
 		 */
-		/* Geslacht */
-		$scope.select_geslacht = [
-			{name: 'Man',     value: 'm'},
-			{name: 'Vrouw',   value: 'v'},
-			{name: 'Gemengd', value: 'mv'}
-		];
-		$scope.formData.geslacht = $scope.select_geslacht[0];
-		/* Toernooitype */
-		$scope.select_toernooi = [
-			'Familie',
-			'Ladder',
-			'Prestatie'
-		];
-		$scope.formData.toernooitype = $scope.select_toernooi[0];
-		/* Enkel */
-		$scope.select_enkel = [
-			{name: 'Nee', value: '0'},
-			{name: 'Ja',  value: '1'}
-		];
-		$scope.formData.enkel = $scope.select_enkel[0];
+		function getIndexByType(type) {
+			for (var i=0; i<$scope.select_data.length; i++) {
+				if ($scope.select_data[i].type == type)
+					return i;
+			}
+			return 0;
+		}
+		/*
+		 * Methode die wordt aangeroepen zodra het toernooitype
+		 * input veld veranderd.
+		 */
+		$scope.onChange = function() {
+			var index = getIndexByType($scope.formData.toernooitype.type);
+			$scope.formData.geslacht = $scope.select_data[index].geslacht[0];
+			$scope.formData.enkel = $scope.select_data[index].enkel[0];
+		}
 		/*
 		 * Update pagina
 		 */
@@ -145,14 +168,15 @@ define(['app'], function (app) {
 		$scope.populateFields = function() {
 			var item = DatatableService.getSelection();
 			// Select id's
+			var index = getIndexByType(item.toernooitype);
 			var enkel_id = item.enkel == 1 ? 1 : 0; // Werkt niet direct als index.
 			var geslacht_id = item.geslacht == 'm' ? 0 : item.geslacht == 'v' ? 1 : 2;
 			var toernooitype_id = item.toernooitype == 'Familie' ? 0 : item.toernooitype == 'Ladder' ? 1 : 2;
 			// Waardes invullen
 			$scope.formData.toernooinaam = item.toernooi_naam;
-			$scope.formData.geslacht = $scope.select_geslacht[geslacht_id];
-			$scope.formData.toernooitype = $scope.select_toernooi[toernooitype_id];
-			$scope.formData.enkel = $scope.select_enkel[enkel_id];
+			$scope.formData.geslacht = $scope.select_data[index].geslacht[geslacht_id];
+			$scope.formData.toernooitype = $scope.select_data[index];
+			$scope.formData.enkel = $scope.select_data[index].enkel[enkel_id];
 			$scope.formData.start_datum = $scope.convertDate(item.start_datum.date);
 			$scope.formData.eind_datum = $scope.convertDate(item.eind_datum.date);
 			$scope.formData.aanvangstijdstip = $scope.convertDate(item.start_datum.date);
@@ -193,7 +217,7 @@ define(['app'], function (app) {
 				toernooiService
 				.find(id)
 				.success(function(resp) {
-					$scope.data[index] = resp;
+					DatatableService.data[index] = resp;
 					DatatableService.eraseSelection();
 				});
 			});
