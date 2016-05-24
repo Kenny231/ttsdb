@@ -15,6 +15,7 @@ class ClassLoader
 		//new Account\Backend\Config\AccountRouter($this->app);
 		new Toernooi\Backend\Config\ToernooiRoute($this->app);
 		new Login\Backend\Config\LoginRouter($this->app);
+		new Inschrijfadres\Backend\Config\InschrijfadresRoute($this->app);
 	}
 
 	/*
@@ -31,6 +32,7 @@ class ClassLoader
 		new Toernooi\Backend\DependencyInjection\ToernooiDI($this->app);
 		new Resources\Backend\DependencyInjection\ResourceDI($this->app);
 		new Login\Backend\DependencyInjection\LoginDI($this->app);
+		new Inschrijfadres\Backend\DependencyInjection\InschrijfadresDI($this->app);
 		//new Account\Backend\DependencyInjection\AccountDI($this->app);
 
 	}
