@@ -6,17 +6,17 @@ use Login\Backend\Services\LoginService;
 
 class LoginDI
 {
-	public function __construct($app) {
-	   $this->setDependencies($app);
-	}
+  public function __construct($app) {
+     $this->setDependencies($app);
+  }
 
-	private function setDependencies($app) {
-		$container = $app->getContainer();
+  private function setDependencies($app) {
+    $container = $app->getContainer();
 
-		$container['LoginService'] = function($container) {
-			return new LoginService($container);
-		};
-	}
+    $container['LoginService'] = function($container) {
+      return new LoginService($container);
+    };
+  }
 }
 
 

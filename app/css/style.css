@@ -23,24 +23,24 @@ var{
     border: 0 none;
     font-size: 100%;
     margin: 0;
-		padding: 0;
-		border: 0;
-		outline: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
     vertical-align: top; }
 
 blockquote, q {
-	quotes: none;
+  quotes: none;
 }
 table, table td {
-	padding:0;
-	border:none;
-	border-collapse:collapse;
+  padding:0;
+  border:none;
+  border-collapse:collapse;
 }
 img {
-	vertical-align:top;
+  vertical-align:top;
 }
 embed {
-	vertical-align:top;
+  vertical-align:top;
 }
 * { border:none}
 /* Bootstrap / Angular fix for empty hrefs */
@@ -50,9 +50,9 @@ body {
   font: 14px;
   font-weight: 300;
   font-family: "Open Sans", Helvetica,Arial,sans-serif;
-	margin: 0;
-	padding: 0;
-	color: #000;
+  margin: 0;
+  padding: 0;
+  color: #000;
 
   /* Background */
   background: url(../images/bg4.jpg) no-repeat center center fixed;
@@ -67,22 +67,22 @@ body {
 }
 /* Standard text */
 p {
-	line-height:150%!important;
+  line-height:150%!important;
 }
 h1, h2, h3, h4, h5, h6 {
-	font-family: "Open Sans",Helvetica,Arial,sans-serif;
+  font-family: "Open Sans",Helvetica,Arial,sans-serif;
 }
 /* Bootstrap component changes */
 .alert {
-	margin-bottom: 0px;
+  margin-bottom: 0px;
 }
 /* Reset standard column padding */
 .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9,
 .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9,
 .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9,
 .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9  {
-	padding-left: 0px;
-	padding-right: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 /* Main */
 .mainbody-section {
@@ -102,8 +102,8 @@ h1, h2, h3, h4, h5, h6 {
   padding-bottom: 50px;
   margin-bottom: 5px;
   margin-right: 5px;
-	-webkit-transition: all 0.3s;
-	transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
   border: 5px solid transparent;
 }
 /* Tile style */
@@ -117,8 +117,8 @@ h1, h2, h3, h4, h5, h6 {
 .tile a {
   color: #fff;
   display: block;
-	-webkit-transition: all 0.3s;
-	transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
 }
 .tile a p {
   font-family: "Open Sans",Helvetica,Arial,sans-serif;

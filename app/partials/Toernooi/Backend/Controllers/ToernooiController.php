@@ -7,9 +7,9 @@ use Toernooi\Backend\Services\ToernooiService;
 class ToernooiController
 {
   private $toernooiService;
-	public function __construct($container) {
-		$this->toernooiService = $container->ToernooiService;
-	}
+  public function __construct($container) {
+    $this->toernooiService = $container->ToernooiService;
+  }
 
   private function construct_error($error_msg) {
     return array(

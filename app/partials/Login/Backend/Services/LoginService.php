@@ -6,10 +6,10 @@ use Resources\Backend\Service\BaseService;
 
 class LoginService extends BaseService
 {
-	public function findUserByUsername($username) {
-		return parent::GetEntityManager()
-			->getRepository(Persoon::class)
-			->findOneBy(array('voornaam' => $username));
-	}
+  public function findUserByUsername($username) {
+    return parent::GetEntityManager()
+      ->getRepository(Persoon::class)
+      ->findOneBy(array('voornaam' => $username));
+  }
 }
 ?>

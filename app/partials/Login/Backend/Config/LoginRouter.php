@@ -5,7 +5,7 @@ namespace Login\Backend\Config;
 class LoginRouter
 {
 
-    public function __construct($app)
+  public function __construct($app)
   {
     $this->createRoutes($app);
   }

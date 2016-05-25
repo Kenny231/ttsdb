@@ -6,17 +6,17 @@ use Toernooi\Backend\Services\ToernooiService;
 
 class ToernooiDI
 {
-	public function __construct($app) {
-	   $this->setDependencies($app);
-	}
+  public function __construct($app) {
+     $this->setDependencies($app);
+  }
 
-	private function setDependencies($app) {
-		$container = $app->getContainer();
+  private function setDependencies($app) {
+    $container = $app->getContainer();
 
-		$container['ToernooiService'] = function($container) {
-			return new ToernooiService($container);
-		};
-	}
+    $container['ToernooiService'] = function($container) {
+      return new ToernooiService($container);
+    };
+  }
 }
 
 ?>
