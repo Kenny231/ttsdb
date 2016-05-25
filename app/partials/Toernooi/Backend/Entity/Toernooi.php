@@ -66,7 +66,7 @@ class Toernooi
    */
   protected $enkel;
 
-  /**
+  /*
    * @ManyToMany(targetEntity="Registratie\Backend\Entity\Team", mappedBy="toernooien")
    */
   protected $teams;

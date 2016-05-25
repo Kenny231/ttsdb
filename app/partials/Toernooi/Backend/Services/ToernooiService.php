@@ -3,7 +3,6 @@
 namespace Toernooi\Backend\Services;
 
 use Doctrine\ORM\Query\ResultSetMapping;
-use Doctrine\ORM\Query\ResultSetMappingBuilder;
 
 use Toernooi\Backend\Entity\Toernooi;
 use Resources\Backend\Service\BaseService;
@@ -41,6 +40,29 @@ class ToernooiService extends BaseService
     return parent::GetEntityManager()
       ->GetRepository(Toernooi::class)
       ->find($id);
+  }
+
+  public function findAvailable($persoon_id) {
+    $em = parent::GetEntityManager();
+
+    $rsm = new ResultSetMapping();
+    $rsm->addEntityResult(Toernooi::class, 't');
+    $rsm->addFieldResult('t', 'TOERNOOI_ID', 'toernooi_id');
+    $rsm->addFieldResult('t', 'TOERNOOI_NAAM', 'toernooi_naam');
+    $rsm->addFieldResult('t', 'VERENIGING_NAAM', 'vereniging_naam');
+    $rsm->addFieldResult('t', 'POSTCODE', 'postcode');
+    $rsm->addFieldResult('t', 'START_DATUM', 'start_datum');
+    $rsm->addFieldResult('t', 'EIND_DATUM', 'eind_datum');
+    $rsm->addFieldResult('t', 'ORGANISATIE', 'organisatie');
+    $rsm->addFieldResult('t', 'GOEDKEURING', 'goedkeuring');
+    $rsm->addFieldResult('t', 'TOERNOOITYPE', 'toernooitype');
+    $rsm->addFieldResult('t', 'GESLACHT', 'geslacht');
+    $rsm->addFieldResult('t', 'ENKEL', 'enkel');
+
+    $sql = 'SELECT * FROM [dbo].fnGetMogelijkeToernooien(' . $persoon_id . ')';
+    $query = $em->createNativeQuery($sql, $rsm);
+
+    return $query->getResult();
   }
 
   private function createToernooi($data, $entity = null) {

@@ -1,5 +1,5 @@
 define(['app'], function (app) {
-	app.controller('AanmeldenController', ['$scope', '$http', '$mdDialog', 'DatatableService', function ($scope, $http, $mdDialog, DatatableService) {
+	app.controller('AanmeldenController', ['$scope', '$http', '$mdDialog', 'aanmeldenService', 'DatatableService', 'LoginSession', function ($scope, $http, $mdDialog, aanmeldenService, DatatableService, LoginSession) {
 		$scope.showSubForm = false;
 		$scope.subFormData = {};
 		// Geen edit / delete buttons.
@@ -7,7 +7,15 @@ define(['app'], function (app) {
     // Geen style.
     $scope.toernooi_form_style = "";
 		// Data
-		DatatableService.data = [];
+		function findAvailable() {
+			console.log(LoginSession.getPersoonId());
+			aanmeldenService
+			.findAvailable(LoginSession.getPersoonId())
+			.success(function(response) {
+				DatatableService.data = response;
+			});
+		}
+		findAvailable();
 		$scope.showConfirm = function() {
 			var confirm = $mdDialog.confirm()
 				.title('Melding')

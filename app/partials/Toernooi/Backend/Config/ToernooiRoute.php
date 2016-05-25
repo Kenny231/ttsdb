@@ -15,6 +15,7 @@ class ToernooiRoute
 			$this->post('/delete', 'Toernooi\Backend\Controllers\ToernooiController:delete');
 			$this->post('/update', 'Toernooi\Backend\Controllers\ToernooiController:update');
 			$this->post('/find', 'Toernooi\Backend\Controllers\ToernooiController:find');
+			$this->post('/available', 'Toernooi\Backend\Controllers\ToernooiController:findAvailable');
     });
 	}
 }

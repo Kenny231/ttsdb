@@ -4,7 +4,7 @@ define(['app'], function (app) {
 		function construct() {
 			// Zitten we op een subform?
 			if ($scope.subFormData == null) {
-				list();
+				list(); // Set datatable data.
 				$scope.show_toernooi_buttons = true;
 				$scope.toernooi_form_style = "thumbnail form-style";
 			}

@@ -1,10 +1,11 @@
 define(['app'], function(app) {
 	app.service('LoginSession', ['$localStorage', function ($localStorage) {
     return {
-      login: function(voornaam, achternaam) {
+      login: function(voornaam, achternaam, persoon_id) {
         $localStorage.loggedIn = true;
 				$localStorage.voornaam = voornaam;
 				$localStorage.achternaam = achternaam;
+				$localStorage.persoon_id = persoon_id;
       },
       logout: function() {
         $localStorage.loggedIn = false;
@@ -19,6 +20,9 @@ define(['app'], function(app) {
 			},
 			getAchternaam: function() {
 				return $localStorage.achternaam;
+			},
+			getPersoonId: function() {
+				return $localStorage.persoon_id;
 			}
     };
   }]);
