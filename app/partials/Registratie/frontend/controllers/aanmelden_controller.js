@@ -20,6 +20,7 @@ define(['app'], function (app) {
 					return i;
 			}
 		}
+		
 		// Data
 		function findAvailable() {
 			aanmeldenService
@@ -65,9 +66,9 @@ define(['app'], function (app) {
 						// Reset form
 						resetSubForm();
 						DatatableService.data.splice($scope.getIndexById(row.toernooi_id), 1);
-					})
+					});
 				}
-			})
+			});
 		}
 
 		// Wanneer een record geselecteerd wordt.

@@ -93,7 +93,6 @@ h1, h2, h3, h4, h5, h6 {
   background: #F0701D url(../images/header.jpg) repeat top center;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.6), 0 12px 40px 0 rgba(0, 0, 0, 0.6);
   border-bottom: solid #F2763D 1px;
-  font-size: 20px !important;
 }
 /* Tiles */
 .tile {
@@ -288,6 +287,28 @@ h1, h2, h3, h4, h5, h6 {
     border-color: #E17B0D;
     background: transparent !important;
     background-color: none !important;
+}
+/* Header */
+.menu .btn-primary {
+  color: #FFF;
+  border-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.2);
+  font-weight: 500;
+  -webkit-border-radius:3px;
+  -moz-border-radius:3px;
+  -o-border-radius:3px;
+  border-radius:3px;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.menu .btn-primary:focus,
+.menu .btn-primary:hover,
+.menu .btn-primary:active {
+  color: #FFF;
+  border-color: #FFF;
+  background-color: rgba(255, 255, 255, 0.4) !important;
 }
 /* Forms */
 .form-style {
