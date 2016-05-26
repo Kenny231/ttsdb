@@ -11,5 +11,11 @@ class LoginService extends BaseService
       ->getRepository(Persoon::class)
       ->findOneBy(array('voornaam' => $username));
   }
+
+  public function findUserById($id) {
+    return parent::GetEntityManager()
+      ->getRepository(Persoon::class)
+      ->find($id);
+  }
 }
 ?>

@@ -18,7 +18,7 @@ class LoginController
    );
   }
 
-   public function login($request, $response, $args){
+  public function login($request, $response, $args) {
     $data = $request->getParsedBody();
 
     $username = $data['username'];
@@ -34,5 +34,21 @@ class LoginController
       'persoon_id' => $user->persoon_id
     ));
   }
+
+  public function findUserById($request, $response, $args) {
+    $data = $request->getParsedBody();
+    $id = $data['id'];
+
+    $user = $this->loginService->findUserById($id);
+    if (!$user instanceof Persoon)
+      return $response->withJson($this->construct_error('Ongeldig lidnummer.'));
+
+    return $response->withJson(array(
+      'voornaam' => $user->voornaam,
+      'achternaam' => $user->achternaam,
+      'persoon_id' => $user->persoon_id
+    ));
+  }
+
 }
 ?>

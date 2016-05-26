@@ -5,14 +5,13 @@ namespace Login\Backend\Config;
 class LoginRouter
 {
 
-  public function __construct($app)
-  {
+  public function __construct($app) {
     $this->createRoutes($app);
   }
 
-
-  private function createRoutes($app){
+  private function createRoutes($app) {
     $app->post('/login','Login\Backend\Controllers\LoginController:login');
+    $app->post('/findUserById', 'Login\Backend\Controllers\LoginController:findUserById');
   }
 }
 
