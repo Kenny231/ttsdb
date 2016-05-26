@@ -10,9 +10,35 @@ class InschrijfadresService  extends BaseService
   public function addInschrijfadres($data) {
     $em = parent::GetEntityManager();
     $inschrijfadres = $this->createInschrijfadres($data);
-   $em->persist($inschrijfadres);
+    $em->persist($inschrijfadres);
     $em->flush();
     return $inschrijfadres;
+  }
+
+  public function updateInschrijfadres($data) {
+    $em = parent::GetEntityManager($data);
+    $inschrijfadres = $this->createInschrijfadres($data, $this->getById($data['id']));
+    $em->persist($inschrijfadres);
+    $em->flush();
+  }
+
+  public function deleteInschrijfadres($id) {
+    $em = parent::GetEntityManager();
+    $inschrijfadres = $em->getReference(Inschrijfadres::class, $id);
+    $em->remove($inschrijfadres);
+    $em->flush();
+  }
+
+  public function getList() {
+    return parent::GetEntityManager()
+      ->GetRepository(Inschrijfadres::class)
+      ->findAll();
+  }
+
+  public function getById($id) {
+    return parent::GetEntityManager()
+      ->GetRepository(Inschrijfadres::class)
+      ->find($id);
   }
 
 

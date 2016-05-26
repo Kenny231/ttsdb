@@ -307,7 +307,7 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: flex-end;
 }
 /* Toernooi form */
-.toernooi-form hr {
+.form-style hr {
   display: block;
   height: 1px;
   border: 0;
@@ -317,11 +317,11 @@ h1, h2, h3, h4, h5, h6 {
   float: left;
   width: 80%;
 }
-.toernooi-form .row {
+.form-style .row {
   margin-bottom: 1%;
 }
-.toernooi-form .btn-primary,
-.toernooi-form select {
+.form-style .btn-primary,
+.form-style select {
   padding: 15px;
   font-size: 16px;
 }

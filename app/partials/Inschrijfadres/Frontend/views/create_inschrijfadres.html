@@ -1,72 +1,71 @@
-  <div class="container" style="padding-top: 30px;">
-      <div class= "thumbnail form-style">
-    <form name="InschrijfadresForm" class="form-horizontal" ng-submit="InschrijfadresForm.$valid && submit()">
+<div class="container" style="padding-top: 30px;">
+  <div class= "thumbnail form-style">
+    <form name="InschrijfadresForm" class=" form-horizontal" ng-submit="InschrijfadresForm.$valid && submit()">
 
       <div class="row">
         <center><h2> Inschrijfadres aanmaken </h2></center>
       </div>
-  <div class="col-xs-11">
-      <div class="row vertical-align">
-        <div class="hidden-xs col col-xs-3">
-          <p>Postcode:</p>
+      <div class="col-xs-11">
+        <div class="row vertical-align">
+          <div class="hidden-xs col col-xs-3">
+            <p>Postcode:</p>
+          </div>
+          <div class="col-xs-offset-1 col-sm-8 col-xs-11">
+            <input type="text" class="form-control" ng-model="formData.postcode" maxlength="6" placeholder="Postcode" required>
+          </div>
         </div>
-        <div class="col-xs-offset-1 col-sm-8 col-xs-11">
-          <input type="text" class="form-control" ng-model="formData.postcode" maxlength="6" placeholder="Postcode" required>
+
+        <div class="row vertical-align">
+          <div class="hidden-xs col col-xs-3">
+            <p>huisnummer:</p>
+          </div>
+          <div class="col-xs-offset-1 col-sm-8 col-xs-11">
+            <input type="text" class="form-control" ng-model="formData.huisnummer" maxlength="10" placeholder="huisnummer" required>
+          </div>
+        </div>
+
+        <div class="row vertical-align">
+          <div class="hidden-xs col col-xs-3">
+            <p>categorie naam:</p>
+          </div>
+          <div class="col-xs-offset-1 col-sm-8 col-xs-11">
+            <input type="text" class="form-control" ng-model="formData.categorie_naam" maxlength="15" placeholder="senioren/junioren" required>
+          </div>
+        </div>
+
+        <div class="row vertical-align">
+          <div class="hidden-xs col col-xs-3">
+            <p>persoonid:</p>
+          </div>
+          <div class="col-xs-offset-1 col-sm-8 col-xs-11">
+            <input type="text" class="form-control" ng-model="formData.persoon_id" maxlength="50" placeholder="persoon id" required>
+          </div>
+        </div>
+
+        <div class="row vertical-align">
+          <div class="hidden-xs col col-xs-3">
+            <p>telefoonnummer:</p>
+          </div>
+          <div class="col-xs-offset-1 col-sm-8 col-xs-11">
+            <input type="text" class="form-control" ng-model="formData.telefoonnummer" maxlength="10" placeholder="telenfoonummer" required>
+          </div>
+        </div>
+
+        <div class="row vertical-align">
+          <div class="hidden-xs col col-xs-3">
+            <p>E-mail:</p>
+          </div>
+          <div class="col-xs-offset-1 col-sm-8 col-xs-11">
+            <input type="text" class="form-control" ng-model="formData.email" maxlength="100" placeholder="E-mail" required>
+          </div>
+        </div>
+
+        <div class="row col-xs-offset-1">
+          <button class="btn btn-primary pull-right"  type="submit"> Submit </button>
         </div>
       </div>
-
-      <div class="row vertical-align">
-        <div class="hidden-xs col col-xs-3">
-          <p>huisnummer:</p>
-        </div>
-        <div class="col-xs-offset-1 col-sm-8 col-xs-11">
-          <input type="text" class="form-control" ng-model="formData.huisnummer" maxlength="10" placeholder="huisnummer" required>
-        </div>
-      </div>
-
-
-      <div class="row vertical-align">
-        <div class="hidden-xs col col-xs-3">
-          <p>categorie naam:</p>
-        </div>
-        <div class="col-xs-offset-1 col-sm-8 col-xs-11">
-          <input type="text" class="form-control" ng-model="formData.categorie_naam" maxlength="15" placeholder="senioren/junioren" required>
-        </div>
-      </div>
-
-      <div class="row vertical-align">
-        <div class="hidden-xs col col-xs-3">
-          <p>persoonid:</p>
-        </div>
-        <div class="col-xs-offset-1 col-sm-8 col-xs-11">
-          <input type="text" class="form-control" ng-model="formData.persoon_id" maxlength="50" placeholder="persoon id" required>
-        </div>
-      </div>
-
-      <div class="row vertical-align">
-        <div class="hidden-xs col col-xs-3">
-          <p>telefoonnummer:</p>
-        </div>
-        <div class="col-xs-offset-1 col-sm-8 col-xs-11">
-          <input type="text" class="form-control" ng-model="formData.telefoonnummer" maxlength="10" placeholder="telenfoonummer" required>
-        </div>
-      </div>
-
-      <div class="row vertical-align">
-        <div class="hidden-xs col col-xs-3">
-          <p>E-mail:</p>
-        </div>
-        <div class="col-xs-offset-1 col-sm-8 col-xs-11">
-          <input type="text" class="form-control" ng-model="formData.email" maxlength="100" placeholder="E-mail" required>
-        </div>
-      </div>
-
-      <div class="row col-xs-offset-1">
-    <button class="btn btn-primary pull-right"  type="submit"> Submit </button>
-  </div>
-  </div>
       <br>
-   <div class="row"></div>
-      </form>
-    </div>
+      <div class="row"></div>
+    </form>
   </div>
+</div>

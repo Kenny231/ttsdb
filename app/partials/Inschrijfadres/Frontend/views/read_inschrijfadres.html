@@ -1,1 +1,62 @@
- 
+<div ng-controller="ReadInschrijfadresController">
+  <div class="container read-toernooi-form" style="padding-top: 30px;" ng-show="main_page==1">
+    <div ng-class="toernooi_form_style">
+      <div class="col-xs-offset-1 col-xs-10">
+        <div class="row">
+          <md-toolbar class="md-table-toolbar md-default">
+            <div class="md-toolbar-tools">
+              <span>Inschrijfadressen</span>
+              <div class="col-xs-offset-1 col-xs-4">
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-search"></i>
+                  </span>
+                  <input style="height: 15px;"type="text" class="form-control" ng-model="search" placeholder="Zoeken"/>
+                </div>
+              </div>
+              <span flex></span>
+              <md-button class="md-icon-button" ng-click="onEdit()" ng-show="show_toernooi_buttons">
+                <span class="glyphicon glyphicon-edit" />
+              </md-button>
+              <md-button class="md-icon-button" ng-click="showConfirm()" ng-show="show_toernooi_buttons">
+                <span class="glyphicon glyphicon-trash" />
+              </md-button>
+            </div>
+          </md-toolbar>
+
+          <!-- exact table from live demo -->
+          <md-table-container>
+            <table md-table md-row-select ng-model="DatatableService.selected">
+              <thead md-head md-head data-md-order="order">
+                <tr md-row>
+                  <th md-column md-order-by="postcode"><span>Postcode</span></th>
+                  <th md-column><span>Huisnummer</span></th>
+                  <th md-column>Catgorie naam</th>
+                  <th md-column>Persoonid</th>
+                  <th md-column>Telefoonnummer</th>
+                  <th md-column> E-mail</th>
+                </tr>
+              </thead>
+              <tbody md-body>
+                <tr md-row md-on-select="onSelect" md-on-deselect="onDeselect" md-select="inschrijfadres" md-select-id="name" md-auto-select ng-repeat="inschrijfadres in DatatableService.data  | filter: search | orderBy: order | limitTo: DatatableService.limit : (DatatableService.data_page - 1) * DatatableService.limit">
+                  <td md-cell>{{inschrijfadres.postcode}}</td>
+                  <td md-cell>{{inschrijfadres.huisnummer}}</td>
+                  <td md-cell>{{inschrijfadres.categorie_naam}}</td>
+                  <td md-cell>{{inschrijfadres.persoon_id }}</td>
+                  <td md-cell>{{inschrijfadres.telefoonnummer}}</td>
+                  <td md-cell>{{inschrijfadres.email}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </md-table-container>
+
+          <md-table-pagination md-limit="DatatableService.limit" md-limit-options="[5, 10, 15]" md-page="DatatableService.data_page" md-total="{{(DatatableService.data|filter:search).length}}" md-page-select></md-table-pagination>
+        </div>
+      </div>
+      <div class="row"></div>
+    </div>
+  </div>
+  <div ng-show="main_page==2">
+    <div ng-include src="'app/partials/Inschrijfadres/Frontend/views/create_inschrijfadres.html'"></div>
+  </div>
+</div>
