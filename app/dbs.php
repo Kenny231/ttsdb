@@ -1,8 +1,8 @@
 <?php
 require_once 'libs/slim/vendor/autoload.php';
-require_once 'partials/Inschrijfadres/Backend/Entity/Inschrijfadres.php';
+require_once 'partials/Wedstrijd/Backend/Entity/Wedstrijd.php';
 
-use \Inschrijfadres\Backend\Entity\Inschrijfadres;
+use \Wedstrijd\Backend\Entity\Wedstrijd;
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 
@@ -16,12 +16,51 @@ $conn = array(
 );
 $em = EntityManager::create($conn, $config);
 
-$inschrijfadres = $em->GetRepository(Inschrijfadres::class);
-$test = $inschrijfadres->find(13);
-
-print_r($test);
 
 
+$wedstrijd = $em->find(Wedstrijd::class, array("wedstrijd_id" => 3 , "subtoernooi_id" => 2, "toernooi_id" => 3));
+
+echo $wedstrijd->team1;
+
+
+
+
+
+// delete
+/*
+$wedstrijd = $em->getReference(Wedstrijd::class, array("wedstrijd_id" => 2 , "subtoernooi_id" => 1, "toernooi_id" => 4));
+$em->remove($wedstrijd);
+$em->flush();
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+/*
+$wedstrijd = new Wedstrijd();
+
+
+$wedstrijd->wedstrijd_id        =  1;
+$wedstrijd->subtoernooi_id      =  2;
+$wedstrijd->toernooi_id         =  3;
+$wedstrijd->team1               =  1;
+$wedstrijd->team2               =  2;
+$wedstrijd->scheidsrechter      =  4;
+$wedstrijd->start_datum         = new \Datetime('02-02-2016');
+$wedstrijd->poulecode           = 'A';
+
+
+$em->persist($wedstrijd);
+$em->flush();
+*/
 
 
 ?>

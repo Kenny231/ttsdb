@@ -37,6 +37,7 @@ require.config({
     './partials/login/frontend/login_module',
     './partials/registratie/frontend/registratie_module',
     './partials/inschrijfadres/frontend/inschrijfadres_module',
+    './partials/wedstrijd/frontend/wedstrijd_module',
     'bootstrap'
   ],
   priority: [

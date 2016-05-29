@@ -12,7 +12,6 @@ class InschrijfadresService  extends BaseService
     $inschrijfadres = $this->createInschrijfadres($data);
     $em->persist($inschrijfadres);
     $em->flush();
-    return $inschrijfadres;
   }
 
   public function updateInschrijfadres($data) {
