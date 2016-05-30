@@ -80,14 +80,15 @@ class ToernooiController
       'toernooi_id' => $entity->toernooi_id,
       'toernooi_naam' => $entity->toernooi_naam,
       'vereniging_naam' => $entity->vereniging_naam,
-      'postcode' => $entity->postcode,
+      'postcode' => $entity->adres->id,
+      'plaatsnaam' => $entity->adres->plaatsnaam,
+      'straatnaam' => $entity->adres->straatnaam,
+      'huisnummer' => $entity->adres->huisnummer,
       'start_datum' => $entity->start_datum,
       'eind_datum' => $entity->eind_datum,
       'organisatie' => $entity->organisatie,
       'goedkeuring' => $entity->goedkeuring,
       'toernooitype' => $entity->toernooitype,
-      'geslacht' => $entity->geslacht,
-      'enkel' => $entity->enkel,
       'team' => $entity->teams
     );
   }

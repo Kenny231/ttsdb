@@ -34,10 +34,11 @@
                   <th md-column>Type</th>
                   <th md-column>Start datum</th>
                   <th md-column>Eind datum</th>
-                  <th md-column> Aanvangstijdstip </th>
-                  <th md-column>Geslacht</th>
-                  <th md-column>Enkel</th>
+                  <th md-column>Aanvangstijdstip</th>
                   <th md-column>Postcode</th>
+                  <th md-column>Plaatsnaam</th>
+                  <th md-column>Straatnaam</th>
+                  <th md-column>Huisnummer</th>
                   <th md-column>Organisatie</th>
                 </tr>
               </thead>
@@ -49,9 +50,10 @@
                   <td md-cell>{{convertDate(toernooi.start_datum.date) | date: "yyyy-MM-dd"}}</td>
                   <td md-cell>{{convertDate(toernooi.eind_datum.date) | date: "yyyy-MM-dd"}}</td>
                   <td md-cell>{{convertDate(toernooi.start_datum.date) | date: "HH:mm"}}</td>
-                  <td md-cell>{{toernooi.geslacht == 'm' ? 'Man' : toernooi.geslacht == 'v' ? 'Vrouw' : 'Beide'}}</td>
-                  <td md-cell>{{toernooi.enkel == 1 ? 'Ja' : 'Nee'}}</td>
                   <td md-cell>{{toernooi.postcode}}</td>
+                  <td md-cell>{{toernooi.plaatsnaam}}</td>
+                  <td md-cell>{{toernooi.straatnaam}}</td>
+                  <td md-cell>{{toernooi.huisnummer}}</td>
                   <td md-cell>{{toernooi.organisatie}}</td>
                 </tr>
               </tbody>

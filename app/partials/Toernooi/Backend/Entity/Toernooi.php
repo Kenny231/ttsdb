@@ -27,11 +27,6 @@ class Toernooi
   protected $vereniging_naam;
 
   /**
-  * @Column(type="string", length=6)
-  */
-  protected $postcode;
-
-  /**
   * @Column(type="datetime")
   */
   protected $start_datum;
@@ -56,20 +51,21 @@ class Toernooi
   */
   protected $toernooitype;
 
-  /**
-  * @Column(type="string", length=1)
-  */
-  protected $geslacht;
-
-  /**
-   * @Column(type="boolean")
-   */
-  protected $enkel;
-
   /*
    * @ManyToMany(targetEntity="Registratie\Backend\Entity\Team", mappedBy="toernooien")
    */
   protected $teams;
+
+  /**
+   * @Column(type="string", length=6)
+   */
+  protected $postcode;
+
+  /**
+   * @ManyToOne(targetEntity="Resources\Backend\Entity\Adres", inversedBy="toernooi_collection", cascade={"persist"})
+   * @JoinColumn(name="postcode", referencedColumnName="postcode")
+   */
+  protected $adres;
 
   function __construct()
   {

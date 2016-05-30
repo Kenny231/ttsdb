@@ -3,15 +3,18 @@
 require_once 'libs/slim/vendor/autoload.php';
 require_once 'partials/Login/Backend/Entity/Persoon.php';
 require_once 'partials/Toernooi/Backend/Entity/Toernooi.php';
+require_once 'partials/Resources/Backend/Entity/Adres.php';
 
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\DBAL\DriverManager;
+use Doctrine\Common\Collections\ArrayCollection;
 
 use Login\Backend\Entity\Persoon;
 use Toernooi\Backend\Entity\Toernooi;
+use Resources\Backend\Entity\Adres;
 
 $config = Setup::createAnnotationMetadataConfiguration(array('../partials/'), true);
 $params = array(
@@ -23,15 +26,21 @@ $params = array(
 );
 $em = EntityManager::create($params, $config);
 
-$config = new \Doctrine\DBAL\Configuration();
-//$conn = DriverManager::getConnection($params, $config);
-$conn = $em->getConnection();
-$sql = 'exec prcSpelerToevoegenAanToernooi ?, ?';
-$stmt = $conn->prepare('exec prcSpelerToevoegenAanToernooi ?, ?, ?, ?');
-$stmt->bindValue(1, 1);
-$stmt->bindValue(2, 5);
-$stmt->bindValue(3, null);
-$stmt->bindValue(4, null);
-$stmt->execute();
+$rsm = new ResultSetMapping();
+$rsm->addEntityResult(Toernooi::class, 't');
+$rsm->addFieldResult('t', 'TOERNOOI_ID', 'toernooi_id');
+$rsm->addFieldResult('t', 'TOERNOOI_NAAM', 'toernooi_naam');
+$rsm->addFieldResult('t', 'VERENIGING_NAAM', 'vereniging_naam');
+$rsm->addFieldResult('t', 'POSTCODE', 'postcode');
+$rsm->addFieldResult('t', 'START_DATUM', 'start_datum');
+$rsm->addFieldResult('t', 'EIND_DATUM', 'eind_datum');
+$rsm->addFieldResult('t', 'ORGANISATIE', 'organisatie');
+$rsm->addFieldResult('t', 'GOEDKEURING', 'goedkeuring');
+$rsm->addFieldResult('t', 'TOERNOOITYPE', 'toernooitype');
+
+$sql = 'SELECT * FROM [dbo].fnGetMogelijkeToernooien(1)';
+$query = $em->createNativeQuery($sql, $rsm);
+
+$res = $query->getResult();
 
 ?>

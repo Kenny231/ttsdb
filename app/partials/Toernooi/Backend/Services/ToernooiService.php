@@ -5,6 +5,7 @@ namespace Toernooi\Backend\Services;
 use Doctrine\ORM\Query\ResultSetMapping;
 
 use Toernooi\Backend\Entity\Toernooi;
+use Resources\Backend\Entity\Adres;
 use Resources\Backend\Service\BaseService;
 
 class ToernooiService extends BaseService
@@ -56,13 +57,17 @@ class ToernooiService extends BaseService
     $rsm->addFieldResult('t', 'ORGANISATIE', 'organisatie');
     $rsm->addFieldResult('t', 'GOEDKEURING', 'goedkeuring');
     $rsm->addFieldResult('t', 'TOERNOOITYPE', 'toernooitype');
-    $rsm->addFieldResult('t', 'GESLACHT', 'geslacht');
-    $rsm->addFieldResult('t', 'ENKEL', 'enkel');
 
     $sql = 'SELECT * FROM [dbo].fnGetMogelijkeToernooien(' . $persoon_id . ')';
     $query = $em->createNativeQuery($sql, $rsm);
 
     return $query->getResult();
+  }
+
+  private function getAdresById($id) {
+    return parent::GetEntityManager()
+      ->GetRepository(Adres::class)
+      ->find($id);
   }
 
   private function createToernooi($data, $entity = null) {
@@ -72,17 +77,27 @@ class ToernooiService extends BaseService
     else
       $toernooi = $entity;
 
+    $adres = $this->getAdresById($data['postcode']);
+    if ($adres == null) {
+      $adres = new Adres();
+      $adres->id                 = $data['postcode'];
+      $adres->plaatsnaam         = $data['plaatsnaam'];
+      $adres->straatnaam         = $data['straatnaam'];
+      $adres->huisnummer         = $data['huisnummer'];
+    }
+
     $toernooi->toernooi_naam      = $data['naam'];
     $toernooi->toernooitype       = $data['type'];
-    $toernooi->geslacht           = $data['geslacht'] != 'mv' ? $data['geslacht'] : null;
-    $toernooi->enkel              = $data['enkel'];
     $toernooi->start_datum        = new \DateTime($data['start_datum'] . ' ' . $data['tijd']);
     $toernooi->eind_datum         = new \DateTime($data['eind_datum']);
     $toernooi->organisatie        = $data['organisatie'];
     // Default waardes voor nu
-    $toernooi->postcode           = '4325KB';
     $toernooi->vereniging_naam    = 'Vereniging';
     $toernooi->goedkeuring        = 0;
+
+    // Foreign key
+    $toernooi->adres = $adres;
+    $adres->toernooi_collection->add($toernooi);
 
     return $toernooi;
   }
