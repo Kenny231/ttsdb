@@ -108,6 +108,15 @@
             </div>
           </div>
 
+          <div class="row vertical-align">
+            <div class="hidden-xs col col-xs-3">
+              <p> Maximum deelnemers:</p>
+            </div>
+            <div class="col-xs-offset-1 col-sm-8 col-xs-11">
+              <input type="text" class="form-control" ng-model="formData.max_deelnemers" placeholder="Maximum deelnemers" required>
+            </div>
+          </div>
+
           <div class="row col-xs-offset-1">
             <button class="btn btn-primary" ng-click="formData.page=1" type="button"> Vorige </button>
             <button class="btn btn-primary pull-right" ng-click="togglePage() || null" type="submit"> Submit </button>
@@ -138,6 +147,7 @@
         <p> Einddatum: {{formData.eind_datum | date: "dd-MM-yyyy"}} </p>
         <p> Organisatie: {{formData.organisatie}} </p>
         <p> Aanvangstijdstip: {{formData.aanvangstijdstip | date: "HH:mm"}} </p>
+        <p> Maximum deelnemers: {{formData.max_deelnemers}} </p>
 
       </div>
       <br>

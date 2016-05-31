@@ -2,22 +2,23 @@
 
 namespace Inschrijfadres\Backend\Entity;
 
-
-
 /**
  * @Entity @Table(name="Inschrijfadres")
  */
 class Inschrijfadres
 {
 
+  /**
+  * @Id
+  * @Column(type="integer")
+  */
+  protected $toernooi_id;
 
   /**
   * @Id
-  * @GeneratedValue
   * @Column(type="integer")
   */
-  protected $inschrijfadres_id;
-
+  protected $subtoernooi_id;
 
   /**
   * @Column(type="string", length=6)
@@ -28,11 +29,6 @@ class Inschrijfadres
   * @Column(type="string", length=10)
   */
   protected $huisnummer;
-
-  /**
-  * @Column(type="string", length=15)
-  */
-  protected $categorie_naam;
 
   /**
   * @Column(type="integer")
@@ -49,7 +45,29 @@ class Inschrijfadres
   */
   protected $email;
 
+  /**
+   * @ManyToOne(targetEntity="Resources\Backend\Entity\Adres", inversedBy="inschrijfadres_collection", cascade={"persist"})
+   * @JoinColumns({
+   *  @JoinColumn(name="postcode", referencedColumnName="postcode"),
+   *  @JoinColumn(name="huisnummer", referencedColumnName="huisnummer")
+   * })
+   */
+  protected $adres;
 
+  /**
+   * @OneToOne(targetEntity="Login\Backend\Entity\Werknemer", inversedBy="inschrijfadres")
+   * @JoinColumn(name="persoon_id", referencedColumnName="persoon_id")
+   */
+  protected $werknemer;
+
+  /**
+   * @OneToOne(targetEntity="Toernooi\Backend\Entity\SubToernooi", inversedBy="inschrijfadres")
+   * @JoinColumns({
+   *  @JoinColumn(name="toernooi_id", referencedColumnName="toernooi_id"),
+   *  @JoinColumn(name="subtoernooi_id", referencedColumnName="subtoernooi_id")
+   * })
+   */
+  protected $subtoernooi;
 
   public function __get($property) {
     return $this->$property;

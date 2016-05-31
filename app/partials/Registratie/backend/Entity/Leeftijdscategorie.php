@@ -24,7 +24,11 @@ class Leeftijdscategorie
   /**
    * @OneToMany(targetEntity="Speler", mappedBy="Leeftijdscategorie")
    */
-  protected $spelers
+  protected $spelers;
+  /**
+   * @OneToMany(targetEntity="Toernooi\Backend\Entity\SubToernooi", mappedBy="leeftijdscategorie", cascade={"persist"})
+   */
+  protected $toernooi_collection;
 }
 
 ?>

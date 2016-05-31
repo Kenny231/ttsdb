@@ -11,9 +11,14 @@ class Adres
 {
   /**
    * @Id
-   * @Column(name="postcode", type="string", length=6)
+   * @Column(type="string", length=6)
    */
-  protected $id;
+  protected $postcode;
+  /**
+  * @Id
+  * @Column(type="string", length=10)
+  */
+  protected $huisnummer;
   /**
    * @Column(type="string", length=75)
    */
@@ -22,17 +27,18 @@ class Adres
    * @Column(type="string", length=75)
    */
   protected $plaatsnaam;
-   /**
-    * @Column(type="string", length=10)
-    */
-  protected $huisnummer;
   /**
    * @OneToMany(targetEntity="Toernooi\Backend\Entity\Toernooi", mappedBy="adres", cascade={"persist"})
    */
   protected $toernooi_collection;
+  /**
+   * @OneToMany(targetEntity="Inschrijfadres\Backend\Entity\Inschrijfadres", mappedBy="adres", cascade={"persist"})
+   */
+  protected $inschrijfadres_collection;
 
   public function __construct() {
     $this->toernooi_collection = new ArrayCollection();
+    $this->inschrijfadres_collection = new ArrayCollection();
   }
 
   public function __get($property) {

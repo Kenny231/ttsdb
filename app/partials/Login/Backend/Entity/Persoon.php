@@ -13,7 +13,6 @@ class Persoon
   */
   protected $persoon_id;
 
-
   /**
   * @Column(type="string", length=6)
   */
@@ -43,6 +42,11 @@ class Persoon
   * @Column(type="datetime")
   */
   protected $geboortedatum;
+
+  /**
+   * @OneToOne(targetEntity="Login\Backend\Entity\Persoon", mappedBy="persoon")
+   */
+  protected $werknemer;
 
   public function __get($property) {
     return $this->$property;

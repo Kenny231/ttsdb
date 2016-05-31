@@ -30,7 +30,6 @@
               <thead md-head md-head data-md-order="order">
                 <tr md-row>
                   <th md-column md-order-by="toernooi_naam"><span>Toernooi</span></th>
-                  <th md-column><span>Vereniging</span></th>
                   <th md-column>Type</th>
                   <th md-column>Start datum</th>
                   <th md-column>Eind datum</th>
@@ -40,12 +39,12 @@
                   <th md-column>Straatnaam</th>
                   <th md-column>Huisnummer</th>
                   <th md-column>Organisatie</th>
+                  <th md-column>Max deelnemers</th>
                 </tr>
               </thead>
               <tbody md-body>
                 <tr md-row md-on-select="onSelect" md-on-deselect="onDeselect" md-select="toernooi" md-select-id="name" md-auto-select ng-repeat="toernooi in DatatableService.data  | filter: search | orderBy: order | limitTo: DatatableService.limit : (DatatableService.data_page - 1) * DatatableService.limit">
                   <td md-cell>{{toernooi.toernooi_naam}}</td>
-                  <td md-cell>{{toernooi.vereniging_naam}}</td>
                   <td md-cell>{{toernooi.toernooitype}}</td>
                   <td md-cell>{{convertDate(toernooi.start_datum.date) | date: "yyyy-MM-dd"}}</td>
                   <td md-cell>{{convertDate(toernooi.eind_datum.date) | date: "yyyy-MM-dd"}}</td>
@@ -55,6 +54,7 @@
                   <td md-cell>{{toernooi.straatnaam}}</td>
                   <td md-cell>{{toernooi.huisnummer}}</td>
                   <td md-cell>{{toernooi.organisatie}}</td>
+                  <td md-cell>{{toernooi.max_aantal_spelers}}</td>
                 </tr>
               </tbody>
             </table>

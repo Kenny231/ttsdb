@@ -19,7 +19,7 @@ class Toernooi
   /**
   * @Column(type="string", length=75)
   */
-  protected $toernooi_naam;
+  protected $toernooinaam;
 
   /**
   * @Column(type="string", length=75)
@@ -62,8 +62,21 @@ class Toernooi
   protected $postcode;
 
   /**
+   * @Column(type="string", length=10)
+   */
+  protected $huisnummer;
+
+  /**
+   * @Column(type="integer")
+   */
+  protected $max_aantal_spelers;
+
+  /**
    * @ManyToOne(targetEntity="Resources\Backend\Entity\Adres", inversedBy="toernooi_collection", cascade={"persist"})
-   * @JoinColumn(name="postcode", referencedColumnName="postcode")
+   * @JoinColumns({
+   *  @JoinColumn(name="postcode", referencedColumnName="postcode"),
+   *  @JoinColumn(name="huisnummer", referencedColumnName="huisnummer")
+   * })
    */
   protected $adres;
 

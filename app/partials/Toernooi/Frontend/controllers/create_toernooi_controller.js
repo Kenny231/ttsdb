@@ -10,16 +10,17 @@ define(['app'], function (app) {
      */
     $scope.submit = function() {
       var data = {
-        naam: 				$scope.formData.toernooinaam,
-        type: 				$scope.formData.toernooitype,
-        postcode:     $scope.formData.postcode,
-        plaatsnaam:   $scope.formData.plaatsnaam,
-        straatnaam:   $scope.formData.straatnaam,
-        huisnummer:   $scope.formData.huisnummer,
-        start_datum: 	$filter('date')($scope.formData.start_datum, "yyyy-MM-dd"),
-        eind_datum:   $filter('date')($scope.formData.eind_datum, "yyyy-MM-dd"),
-        organisatie: 	$scope.formData.organisatie,
-        tijd: 				$filter('date')($scope.formData.aanvangstijdstip, "HH:mm:ss")
+        naam: 				      $scope.formData.toernooinaam,
+        type: 			       	$scope.formData.toernooitype,
+        postcode:           $scope.formData.postcode,
+        plaatsnaam:         $scope.formData.plaatsnaam,
+        straatnaam:         $scope.formData.straatnaam,
+        huisnummer:         $scope.formData.huisnummer,
+        start_datum:      	$filter('date')($scope.formData.start_datum, "yyyy-MM-dd"),
+        eind_datum:         $filter('date')($scope.formData.eind_datum, "yyyy-MM-dd"),
+        organisatie: 	      $scope.formData.organisatie,
+        tijd: 				      $filter('date')($scope.formData.aanvangstijdstip, "HH:mm:ss"),
+        max_aantal_spelers: $scope.formData.max_deelnemers
       };
       toernooiService
       .create(data)

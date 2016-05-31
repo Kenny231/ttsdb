@@ -2,8 +2,14 @@
 
 require_once 'libs/slim/vendor/autoload.php';
 require_once 'partials/Login/Backend/Entity/Persoon.php';
+require_once 'partials/Login/Backend/Entity/Werknemer.php';
+require_once 'partials/Login/Backend/Entity/Functie.php';
 require_once 'partials/Toernooi/Backend/Entity/Toernooi.php';
+require_once 'partials/Toernooi/Backend/Entity/SubToernooi.php';
 require_once 'partials/Resources/Backend/Entity/Adres.php';
+require_once 'partials/Inschrijfadres/Backend/Entity/Inschrijfadres.php';
+require_once 'partials/Registratie/Backend/Entity/Leeftijdscategorie.php';
+require_once 'partials/Registratie/Backend/Entity/Speler.php';
 
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
@@ -13,8 +19,14 @@ use Doctrine\DBAL\DriverManager;
 use Doctrine\Common\Collections\ArrayCollection;
 
 use Login\Backend\Entity\Persoon;
+use Login\Backend\Entity\Werknemer;
+use Login\Backend\Entity\Functie;
 use Toernooi\Backend\Entity\Toernooi;
+use Toernooi\Backend\Entity\SubToernooi;
 use Resources\Backend\Entity\Adres;
+use Inschrijfadres\Backend\Entity\Inschrijfadres;
+use Registratie\Backend\Entity\Leeftijdscategorie;
+use Registratie\Backend\Entity\Speler;
 
 $config = Setup::createAnnotationMetadataConfiguration(array('../partials/'), true);
 $params = array(
@@ -26,21 +38,49 @@ $params = array(
 );
 $em = EntityManager::create($params, $config);
 
-$rsm = new ResultSetMapping();
-$rsm->addEntityResult(Toernooi::class, 't');
-$rsm->addFieldResult('t', 'TOERNOOI_ID', 'toernooi_id');
-$rsm->addFieldResult('t', 'TOERNOOI_NAAM', 'toernooi_naam');
-$rsm->addFieldResult('t', 'VERENIGING_NAAM', 'vereniging_naam');
-$rsm->addFieldResult('t', 'POSTCODE', 'postcode');
-$rsm->addFieldResult('t', 'START_DATUM', 'start_datum');
-$rsm->addFieldResult('t', 'EIND_DATUM', 'eind_datum');
-$rsm->addFieldResult('t', 'ORGANISATIE', 'organisatie');
-$rsm->addFieldResult('t', 'GOEDKEURING', 'goedkeuring');
-$rsm->addFieldResult('t', 'TOERNOOITYPE', 'toernooitype');
+/*$adres = new Adres();
+$adres->postcode = '3214DS';
+$adres->huisnummer = '6';
+$adres->plaatsnaam = 'Plaats';
+$adres->straatnaam = 'Straat';
 
-$sql = 'SELECT * FROM [dbo].fnGetMogelijkeToernooien(1)';
-$query = $em->createNativeQuery($sql, $rsm);
+$toernooi = new Toernooi();
+$toernooi->toernooinaam = 'toernooi';
+$toernooi->vereniging_naam = 'Vereniging';
+$toernooi->start_datum = new \DateTime("2010-05-05");
+$toernooi->eind_datum = new \DateTime("2010-06-06");
+$toernooi->organisatie = "Organisatie";
+$toernooi->goedkeuring = '0';
+$toernooi->toernooitype = 'Ladder';
+$toernooi->max_aantal_spelers = '5';
 
-$res = $query->getResult();
+$toernooi->adres = $adres;
+$adres->toernooi_collection->add($toernooi);
+
+$em->persist($toernooi);
+$em->flush();*/
+
+/*$adres = new Adres();
+$adres->postcode = '3214DS';
+$adres->huisnummer = '6';
+$adres->plaatsnaam = 'Plaats';
+$adres->straatnaam = 'Straat';
+
+$inschrijfadres = new Inschrijfadres();
+$inschrijfadres->telefoonnummer     = '4358475648';
+$inschrijfadres->email          	  = 'dnjdas@cnadsa.com';
+
+$werknemer = $em->GetRepository(Werknemer::class)->find('1');
+$werknemer->inschrijfadres = $inschrijfadres;
+$inschrijfadres->werknemer = $werknemer;
+
+$inschrijfadres->adres = $adres;
+$adres->inschrijfadres_collection->add($inschrijfadres);
+
+$em->persist($inschrijfadres);
+$em->flush();*/
+
+$list = $em->GetRepository(Inschrijfadres::class)->findAll();
+print_r($list);
 
 ?>

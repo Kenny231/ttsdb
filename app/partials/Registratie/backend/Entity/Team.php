@@ -29,14 +29,12 @@ class Team
 
    /**
    * @ManyToMany(targetEntity="Toernooi\Backend\Entity\Toernooi", inversedBy="teams")
-   * @JoinTable(name="TeamInToernooi",
-   *   joinColumns={@JoinColumn(name="team_naam", referencedColumnName="team_naam")},
+   * @JoinTable(name="TeamInSubToernooi",
+   *   joinColumns={@JoinColumn(name="team_id", referencedColumnName="team_id")},
    *   inverseJoinColumns={@JoinColumn(name="toernooi_id", referencedColumnName="toernooi_id")}
    * )
    */
    protected $toernooien;
-
-
 }
 
 ?>

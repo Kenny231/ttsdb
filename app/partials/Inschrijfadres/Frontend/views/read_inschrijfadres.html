@@ -29,19 +29,21 @@
             <table md-table md-row-select ng-model="DatatableService.selected">
               <thead md-head md-head data-md-order="order">
                 <tr md-row>
-                  <th md-column md-order-by="postcode"><span>Postcode</span></th>
+                  <th md-column md-order-by="postcode"><span>Toernooi Id</span></th>
+                  <th md-column><span>Subtoernooi Id</span></th>
+                  <th md-column><span>Postcode</span></th>
                   <th md-column><span>Huisnummer</span></th>
-                  <th md-column>Catgorie naam</th>
-                  <th md-column>Persoonid</th>
+                  <th md-column>Werknemer</th>
                   <th md-column>Telefoonnummer</th>
                   <th md-column> E-mail</th>
                 </tr>
               </thead>
               <tbody md-body>
                 <tr md-row md-on-select="onSelect" md-on-deselect="onDeselect" md-select="inschrijfadres" md-select-id="name" md-auto-select ng-repeat="inschrijfadres in DatatableService.data  | filter: search | orderBy: order | limitTo: DatatableService.limit : (DatatableService.data_page - 1) * DatatableService.limit">
+                  <td md-cell>{{inschrijfadres.toernooi_id}}</td>
+                  <td md-cell>{{inschrijfadres.subtoernooi_id}}</td>
                   <td md-cell>{{inschrijfadres.postcode}}</td>
                   <td md-cell>{{inschrijfadres.huisnummer}}</td>
-                  <td md-cell>{{inschrijfadres.categorie_naam}}</td>
                   <td md-cell>{{inschrijfadres.persoon_id }}</td>
                   <td md-cell>{{inschrijfadres.telefoonnummer}}</td>
                   <td md-cell>{{inschrijfadres.email}}</td>

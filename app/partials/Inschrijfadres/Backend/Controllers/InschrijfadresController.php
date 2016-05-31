@@ -66,18 +66,15 @@ class InschrijfadresController
 
   private function entityToArray($entity) {
     return array(
-      'inschrijfadres_id' => $entity->inschrijfadres_id,
-      'postcode' => $entity->postcode,
-      'huisnummer' => $entity->huisnummer,
-      'categorie_naam' => $entity->categorie_naam,
-      'persoon_id' => $entity->persoon_id,
+      'toernooi_id' => $entity->subtoernooi->toernooi_id,
+      'subtoernooi_id' => $entity->subtoernooi->subtoernooi_id,
+      'postcode' => $entity->adres->postcode,
+      'huisnummer' => $entity->adres->huisnummer,
+      'persoon_id' => $entity->werknemer->persoon_id,
       'telefoonnummer' => $entity->telefoonnummer,
       'email' => $entity->email
     );
   }
-
-
-
 }
 
 ?>

@@ -129,6 +129,7 @@ define(['app'], function (app) {
       $scope.formData.eind_datum = $scope.convertDate(item.eind_datum.date);
       $scope.formData.aanvangstijdstip = $scope.convertDate(item.start_datum.date);
       $scope.formData.organisatie = item.organisatie;
+      $scope.formData.max_deelnemers = item.max_aantal_spelers;
     }
     /*
      * Wordt aangeroepen, als er op de edit knop gedrukt wordt.
@@ -146,17 +147,18 @@ define(['app'], function (app) {
     $scope.submit = function() {
       $scope.main_page = 1;
       var data = {
-        id:						DatatableService.getSelection().toernooi_id,
-        naam: 				$scope.formData.toernooinaam,
-        type: 				$scope.formData.toernooitype,
-        postcode:     $scope.formData.postcode,
-        plaatsnaam:   $scope.formData.plaatsnaam,
-        straatnaam:   $scope.formData.straatnaam,
-        huisnummer:   $scope.formData.huisnummer,
-        start_datum: 	$filter('date')($scope.formData.start_datum, "yyyy-MM-dd"),
-        eind_datum:   $filter('date')($scope.formData.eind_datum, "yyyy-MM-dd"),
-        organisatie: 	$scope.formData.organisatie,
-        tijd: 				$filter('date')($scope.formData.aanvangstijdstip, "HH:mm:ss")
+        id:						      DatatableService.getSelection().toernooi_id,
+        naam: 				      $scope.formData.toernooinaam,
+        type: 				      $scope.formData.toernooitype,
+        postcode:           $scope.formData.postcode,
+        plaatsnaam:         $scope.formData.plaatsnaam,
+        straatnaam:         $scope.formData.straatnaam,
+        huisnummer:         $scope.formData.huisnummer,
+        start_datum: 	      $filter('date')($scope.formData.start_datum, "yyyy-MM-dd"),
+        eind_datum:         $filter('date')($scope.formData.eind_datum, "yyyy-MM-dd"),
+        organisatie: 	      $scope.formData.organisatie,
+        tijd: 				      $filter('date')($scope.formData.aanvangstijdstip, "HH:mm:ss"),
+        max_aantal_spelers: $scope.formData.max_deelnemers
       };
       toernooiService
       .update(data)

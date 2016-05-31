@@ -12,7 +12,8 @@ define(['app'], function (app) {
 			var data = {
 				postcode: 	   	$scope.formData.postcode,
 				huisnummer: 	  $scope.formData.huisnummer,
-				categorie_naam: $scope.formData.categorie_naam,
+				plaatsnaam:     $scope.formData.plaatsnaam,
+				straatnaam: 		$scope.formData.straatnaam,
 				persoon_id: 		$scope.formData.persoon_id,
 				telefoonnummer: $scope.formData.telefoonnummer,
 				email:          $scope.formData.email

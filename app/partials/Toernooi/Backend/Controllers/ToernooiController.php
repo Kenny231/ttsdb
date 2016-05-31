@@ -78,9 +78,9 @@ class ToernooiController
   private function entityToArray($entity) {
     return array(
       'toernooi_id' => $entity->toernooi_id,
-      'toernooi_naam' => $entity->toernooi_naam,
+      'toernooi_naam' => $entity->toernooinaam,
       'vereniging_naam' => $entity->vereniging_naam,
-      'postcode' => $entity->adres->id,
+      'postcode' => $entity->adres->postcode,
       'plaatsnaam' => $entity->adres->plaatsnaam,
       'straatnaam' => $entity->adres->straatnaam,
       'huisnummer' => $entity->adres->huisnummer,
@@ -89,6 +89,7 @@ class ToernooiController
       'organisatie' => $entity->organisatie,
       'goedkeuring' => $entity->goedkeuring,
       'toernooitype' => $entity->toernooitype,
+      'max_aantal_spelers' => $entity->max_aantal_spelers,
       'team' => $entity->teams
     );
   }

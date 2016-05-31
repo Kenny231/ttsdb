@@ -49,7 +49,7 @@ class ToernooiService extends BaseService
     $rsm = new ResultSetMapping();
     $rsm->addEntityResult(Toernooi::class, 't');
     $rsm->addFieldResult('t', 'TOERNOOI_ID', 'toernooi_id');
-    $rsm->addFieldResult('t', 'TOERNOOI_NAAM', 'toernooi_naam');
+    $rsm->addFieldResult('t', 'TOERNOOINAAM', 'toernooi_naam');
     $rsm->addFieldResult('t', 'VERENIGING_NAAM', 'vereniging_naam');
     $rsm->addFieldResult('t', 'POSTCODE', 'postcode');
     $rsm->addFieldResult('t', 'START_DATUM', 'start_datum');
@@ -77,16 +77,16 @@ class ToernooiService extends BaseService
     else
       $toernooi = $entity;
 
-    $adres = $this->getAdresById($data['postcode']);
+    $adres = $this->getAdresById(array('postcode' => $data['postcode'], 'huisnummer' => $data['huisnummer']));
     if ($adres == null) {
       $adres = new Adres();
-      $adres->id                 = $data['postcode'];
+      $adres->postcode           = $data['postcode'];
       $adres->plaatsnaam         = $data['plaatsnaam'];
       $adres->straatnaam         = $data['straatnaam'];
       $adres->huisnummer         = $data['huisnummer'];
     }
 
-    $toernooi->toernooi_naam      = $data['naam'];
+    $toernooi->toernooinaam      = $data['naam'];
     $toernooi->toernooitype       = $data['type'];
     $toernooi->start_datum        = new \DateTime($data['start_datum'] . ' ' . $data['tijd']);
     $toernooi->eind_datum         = new \DateTime($data['eind_datum']);
@@ -94,6 +94,8 @@ class ToernooiService extends BaseService
     // Default waardes voor nu
     $toernooi->vereniging_naam    = 'Vereniging';
     $toernooi->goedkeuring        = 0;
+    $toernooi->max_aantal_spelers = $data['max_aantal_spelers'];
+    //$toernooi->max_aantal_spelers = '5';
 
     // Foreign key
     $toernooi->adres = $adres;

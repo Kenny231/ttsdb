@@ -2,8 +2,11 @@
 
 namespace Inschrijfadres\Backend\Services;
 
-use Inschrijfadres\Backend\Entity\Inschrijfadres;
 use Resources\Backend\Service\BaseService;
+
+use Resources\Backend\Entity\Adres;
+use Login\Backend\Entity\Werknemer;
+use Login\Backend\Entity\Inschrijfadres;
 
 class InschrijfadresService  extends BaseService
 {
@@ -40,6 +43,17 @@ class InschrijfadresService  extends BaseService
       ->find($id);
   }
 
+  private function getAdresById($id) {
+    return parent::GetEntityManager()
+      ->GetRepository(Adres::class)
+      ->find($id);
+  }
+
+  private function getWerknemerById($id) {
+    return parent::GetEntityManager()
+      ->GetRepository(Werknemer::class)
+      ->find($id);
+  }
 
   private function createInschrijfadres($data, $entity = null) {
     $inschrijfadres = null;
@@ -48,12 +62,24 @@ class InschrijfadresService  extends BaseService
     else
       $inschrijfadres = $entity;
 
-    $inschrijfadres->postcode           = $data['postcode'];
-    $inschrijfadres->huisnummer         = $data['huisnummer'];
-    $inschrijfadres->categorie_naam     = $data['categorie_naam'];
-    $inschrijfadres->persoon_id         = $data['persoon_id'];
+    $adres = $this->getAdresById(array('postcode' => $data['postcode'], 'huisnummer' => $data['huisnummer']));
+    if ($adres == null) {
+      $adres = new Adres();
+      $adres->postcode           = $data['postcode'];
+      $adres->plaatsnaam         = $data['plaatsnaam'];
+      $adres->straatnaam         = $data['straatnaam'];
+      $adres->huisnummer         = $data['huisnummer'];
+    }
+
+    $werknemer = $this->getWerknemerById($data['persoon_id']);
+    $werknemer->inschrijfadres = $inschrijfadres;
+    $inschrijfadres->werknemer = $werknemer;
+
     $inschrijfadres->telefoonnummer     = $data['telefoonnummer'];
     $inschrijfadres->email          	  = $data['email'];
+
+    $inschrijfadres->adres = $adres;
+    $adres->inschrijfadres_collection->add($inschrijfadres);
 
     return $inschrijfadres;
   }
