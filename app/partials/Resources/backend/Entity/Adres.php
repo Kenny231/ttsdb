@@ -35,6 +35,10 @@ class Adres
    * @OneToMany(targetEntity="Inschrijfadres\Backend\Entity\Inschrijfadres", mappedBy="adres", cascade={"persist"})
    */
   protected $inschrijfadres_collection;
+  /**
+   * @OneToMany(targetEntity="Login\Backend\Entity\Persoon", mappedBy="adres", cascade={"persist"})
+   */
+  protected $persoon_collection;
 
   public function __construct() {
     $this->toernooi_collection = new ArrayCollection();

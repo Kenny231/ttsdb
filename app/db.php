@@ -80,7 +80,7 @@ $adres->inschrijfadres_collection->add($inschrijfadres);
 $em->persist($inschrijfadres);
 $em->flush();*/
 
-$list = $em->GetRepository(Inschrijfadres::class)->findAll();
+$list = $em->GetRepository(Persoon::class)->findAll();
 print_r($list);
 
 ?>

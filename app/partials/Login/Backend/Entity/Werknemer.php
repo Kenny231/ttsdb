@@ -19,7 +19,7 @@ class Werknemer
   protected $functie_naam;
 
   /**
-   * @ManyToOne(targetEntity="Login\Backend\Entity\Persoon", inversedBy="werknemer")
+   * @OneToOne(targetEntity="Login\Backend\Entity\Persoon", inversedBy="werknemer")
    * @JoinColumn(name="persoon_id", referencedColumnName="persoon_id")
    */
   protected $persoon;

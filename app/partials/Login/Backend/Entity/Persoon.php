@@ -19,6 +19,11 @@ class Persoon
   protected $postcode;
 
   /**
+   * @Column(type="string", length=10)
+   */
+  protected $huisnummer;
+
+  /**
   * @Column(type="string")
   */
   protected $vereniging_naam;
@@ -44,9 +49,18 @@ class Persoon
   protected $geboortedatum;
 
   /**
-   * @OneToOne(targetEntity="Login\Backend\Entity\Persoon", mappedBy="persoon")
+   * @OneToOne(targetEntity="Login\Backend\Entity\Werknemer", mappedBy="persoon")
    */
   protected $werknemer;
+
+  /**
+   * @ManyToOne(targetEntity="Resources\Backend\Entity\Adres", inversedBy="persoon_collection", cascade={"persist"})
+   * @JoinColumns({
+   *  @JoinColumn(name="postcode", referencedColumnName="postcode"),
+   *  @JoinColumn(name="huisnummer", referencedColumnName="huisnummer")
+   * })
+   */
+  protected $adres;
 
   public function __get($property) {
     return $this->$property;
