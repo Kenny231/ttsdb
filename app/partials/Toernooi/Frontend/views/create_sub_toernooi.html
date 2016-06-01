@@ -1,0 +1,42 @@
+<div class="container" style="padding-top: 30px;">
+  <div class= "thumbnail form-style">
+    <form name="SubToernooiForm" class="form-horizontal" ng-submit="SubToernooiForm.$valid && submit()">
+
+      <div class="row">
+        <center><h2> Sub Toernooi aanmaken </h2></center>
+      </div>
+
+      <div class="col-sm-8 col-xs-11">
+        <div class="row vertical-align">
+          <div class="hidden-xs col col-xs-3">
+            <p>Categorienaam:</p>
+          </div>
+          <div class="col-xs-offset-1 col-sm-8 col-xs-11">
+            <input type="text" class="form-control" ng-model="formData.categorie_naam" maxlength="75" placeholder="Categorie naam" required>
+          </div>
+        </div>
+
+        <div class="row vertical-align">
+          <div class="hidden-xs col col-xs-3">
+            <p>Geslacht:</p>
+          </div>
+          <div class="col-xs-offset-1 col-sm-8 col-xs-11">
+            <input type="text" class="form-control" ng-model="formData.geslacht" maxlength="75" placeholder="Geslacht" required>
+          </div>
+        </div>
+
+        <div class="row vertical-align">
+          <div class="hidden-xs col col-xs-3">
+            <p>Enkel:</p>
+          </div>
+          <div class="col-xs-offset-1 col-sm-8 col-xs-11">
+            <input type="text" class="form-control" ng-model="formData.enkel" maxlength="75" placeholder="Enkel" required>
+          </div>
+        </div>
+      </div>
+
+      <div class="row"></div>
+
+    </form>
+  </div>
+</div>

@@ -49,16 +49,35 @@ class ToernooiService extends BaseService
     $rsm = new ResultSetMapping();
     $rsm->addEntityResult(Toernooi::class, 't');
     $rsm->addFieldResult('t', 'TOERNOOI_ID', 'toernooi_id');
-    $rsm->addFieldResult('t', 'TOERNOOINAAM', 'toernooi_naam');
+    $rsm->addFieldResult('t', 'TOERNOOINAAM', 'toernooinaam');
     $rsm->addFieldResult('t', 'VERENIGING_NAAM', 'vereniging_naam');
     $rsm->addFieldResult('t', 'POSTCODE', 'postcode');
+    $rsm->addFieldResult('t', 'HUISNUMMER', 'huisnummer');
     $rsm->addFieldResult('t', 'START_DATUM', 'start_datum');
     $rsm->addFieldResult('t', 'EIND_DATUM', 'eind_datum');
     $rsm->addFieldResult('t', 'ORGANISATIE', 'organisatie');
     $rsm->addFieldResult('t', 'GOEDKEURING', 'goedkeuring');
     $rsm->addFieldResult('t', 'TOERNOOITYPE', 'toernooitype');
+    $rsm->addFieldResult('t', 'MAX_AANTAL_SPELERS', 'max_aantal_spelers');
 
     $sql = 'SELECT * FROM [dbo].fnGetMogelijkeToernooien(' . $persoon_id . ')';
+    $query = $em->createNativeQuery($sql, $rsm);
+
+    return $query->getResult();
+  }
+
+  public function findAvailableSub($persoon_id, $wedstrijd_id) {
+    $em = parent::GetEntityManager();
+
+    $rsm = new ResultSetMapping();
+    $rsm->addEntityResult(Toernooi::class, 't');
+    $rsm->addFieldResult('t', 'TOERNOOI_ID', 'toernooi_id');
+    $rsm->addFieldResult('t', 'SUBTOERNOOI_ID', 'subtoernooi_id');
+    $rsm->addFieldResult('t', 'CATEGORIE_NAAM', 'categorie_naam');
+    $rsm->addFieldResult('t', 'GESLACHT', 'geslacht');
+    $rsm->addFieldResult('t', 'ENKEL', 'enkel');
+
+    $sql = 'SELECT * FROM [dbo].fnGetMogelijkeSubToernooien(' . $persoon_id . ') WHERE toernooi_id = ' . $wedstrijd_id;
     $query = $em->createNativeQuery($sql, $rsm);
 
     return $query->getResult();
@@ -86,7 +105,7 @@ class ToernooiService extends BaseService
       $adres->huisnummer         = $data['huisnummer'];
     } else {
       $adres->plaatsnaam         = $data['plaatsnaam'];
-      $adres->straatnaam         = $data['straatnaam']; 
+      $adres->straatnaam         = $data['straatnaam'];
     }
 
     $toernooi->toernooinaam      = $data['naam'];

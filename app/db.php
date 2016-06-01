@@ -82,24 +82,25 @@ $adres->inschrijfadres_collection->add($inschrijfadres);
 $em->persist($inschrijfadres);
 $em->flush();*/
 
-$wedstrijd = new Wedstrijd();
-$wedstrijd->wedstrijd_id = 1;
-$wedstrijd->toernooi_id = 1;
-$wedstrijd->subtoernooi_id = 1;
-$wedstrijd->team1 = 1;
-$wedstrijd->team2 = 2;
-$wedstrijd->start_datum = new \DateTime('10-05-2010 00:00:00.000');
-$wedstrijd->poulecode = 'A';
 
-$subtoernooi = $em->GetRepository(SubToernooi::class)->find(array('toernooi_id' => 1, 'subtoernooi_id' => 1));
-$wedstrijd->subtoernooi = $subtoernooi;
-$subtoernooi->wedstrijd_collection->add($wedstrijd);
+$result = $em
+  ->createQueryBuilder()
+  ->select('toernooi_id')
+  ->from('subtoernooi', 't')
+  ->where('toernooi_id = 1');
 
-$werknemer = $em->GetRepository(Werknemer::class)->find(1);
-$werknemer->wedstrijd = $wedstrijd;
-$wedstrijd->werknemer = $werknemer;
+  $rsm = new ResultSetMapping();
+  $rsm->addEntityResult(SubToernooi::class, 't');
+  $rsm->addFieldResult('t', 'TOERNOOI_ID', 'toernooi_id');
+  $rsm->addFieldResult('t', 'SUBTOERNOOI_ID', 'subtoernooi_id');
+  $rsm->addFieldResult('t', 'CATEGORIE_NAAM', 'categorie_naam');
+  $rsm->addFieldResult('t', 'GESLACHT', 'geslacht');
+  $rsm->addFieldResult('t', 'ENKEL', 'enkel');
 
-$em->persist($wedstrijd);
-$em->flush();
+  $sql = 'SELECT * FROM SUBTOERNOOI WHERE toernooi_id = 1';
+  $query = $em->createNativeQuery($sql, $rsm);
+
+  print_r($query->getResult());
+
 
 ?>

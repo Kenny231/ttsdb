@@ -1,0 +1,56 @@
+<div ng-controller="ReadToernooiController">
+  <div class="container read-toernooi-form" style="padding-top: 30px;" ng-show="main_page==1">
+    <div ng-class="toernooi_form_style">
+      <div class="col-xs-offset-1 col-xs-10">
+        <div class="row">
+          <md-toolbar class="md-table-toolbar md-default">
+            <div class="md-toolbar-tools">
+              <span>Toernooien</span>
+              <div class="col-xs-offset-1 col-xs-4">
+                <div class="input-group">
+                  <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-search"></i>
+                  </span>
+                  <input style="height: 15px;"type="text" class="form-control" ng-model="search" placeholder="Zoeken"/>
+                </div>
+              </div>
+              <span flex></span>
+              <md-button class="md-icon-button" ng-click="onEdit()" ng-show="show_toernooi_buttons" aria-label="editToernooi">
+                <span class="glyphicon glyphicon-edit" />
+              </md-button>
+              <md-button class="md-icon-button" ng-click="showConfirm()" ng-show="show_toernooi_buttons" aria-label="deleteToernooi">
+                <span class="glyphicon glyphicon-trash" />
+              </md-button>
+            </div>
+          </md-toolbar>
+
+          <!-- exact table from live demo -->
+          <md-table-container>
+            <table md-table md-row-select ng-model="DatatableService.selected">
+              <thead md-head md-head data-md-order="order">
+                <tr md-row>
+                  <th md-column md-order-by="categorie_naam"><span>Categorie naam</span></th>
+                  <th md-column>Geslacht</th>
+                  <th md-column>Enkel</th>
+                </tr>
+              </thead>
+              <tbody md-body>
+                <tr md-row md-on-select="onSelect" md-on-deselect="onDeselect" md-select="toernooi" md-select-id="name" md-auto-select ng-repeat="toernooi in DatatableService.data  | filter: search | orderBy: order | limitTo: DatatableService.limit : (DatatableService.data_page - 1) * DatatableService.limit">
+                  <td md-cell>{{toernooi.categorie_naam}}</td>
+                  <td md-cell>{{toernooi.geslacht}}</td>
+                  <td md-cell>{{toernooi.enkel}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </md-table-container>
+
+          <md-table-pagination md-limit="DatatableService.limit" md-limit-options="[5, 10, 15]" md-page="DatatableService.data_page" md-total="{{(DatatableService.data|filter:search).length}}" md-page-select></md-table-pagination>
+        </div>
+      </div>
+      <div class="row"></div>
+    </div>
+  </div>
+  <div ng-show="main_page==2">
+    <div ng-include src="'app/partials/Toernooi/Frontend/views/create_sub_toernooi.html'"></div>
+  </div>
+</div>
