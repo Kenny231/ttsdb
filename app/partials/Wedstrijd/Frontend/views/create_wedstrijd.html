@@ -5,6 +5,13 @@
       <div class="row">
         <center><h2> Wedstrijd aanmaken </h2></center>
       </div>
+      <div class="col-xs-offset-1 col-xs-10">
+        <span class="error-msg" ng-show="error">
+          <div class="alert alert-danger">
+            <span class="glyphicon glyphicon-exclamation-sign"></span> {{error}}
+          </div>
+        </span>
+      </div>
       <div class="col-xs-11">
         <div class="row vertical-align">
           <div class="hidden-xs col col-xs-3">

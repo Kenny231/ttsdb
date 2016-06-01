@@ -24,7 +24,10 @@ class WedstrijdController
       if (!isset($data[$key]) || $data[$key] == "")
       return $response->withJson($this->construct_error("Data mag niet null zijn."));
     }
-    $this->wedstrijdService->addWedstrijd($data);
+
+    $error = $this->wedstrijdService->addWedstrijd($data);
+    if ($error != null)
+      return $response->withJson($this->construct_error($error));
   }
 
   public function update($request, $response, $args) {
@@ -35,8 +38,9 @@ class WedstrijdController
       return $response->withJson($this->construct_error("Data mag niet null zijn."));
     }
 
-    $this->wedstrijdService->updateWedstrijd($data);
-    return $response->withJson("Wedstrijd id: " . $data['wedstrijd_id']);
+    $error = $this->wedstrijdService->updateWedstrijd($data);
+    if ($error != null)
+      return $response->withJson($this->construct_error($error));
   }
 
   public function delete($request, $response, $args) {

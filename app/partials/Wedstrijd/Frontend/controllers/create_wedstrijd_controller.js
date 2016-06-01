@@ -23,9 +23,10 @@ define(['app'], function (app) {
 			.create(data)
 			.success(function(response) {
 				if (!response.error)
-				$location.path('/');
-
-				console.log(response);
+					$location.path('/');
+				else {
+					$scope.error = response.error;
+				}
 			});
 		}
 	}]);

@@ -18,17 +18,9 @@ define(['app'], function (app) {
 
 		// Form data
 		$scope.formData = {};
-		// pagina
-		$scope.formData.page = 1;
 
 		// Sorteer volgorde
 		$scope.order = 'wedstrijd_id';
-		/*
-		* Update pagina
-		*/
-		$scope.togglePage = function() {
-			$scope.formData.page = 1;
-		}
 
 		$scope.main_page = 1;
 
@@ -109,7 +101,6 @@ define(['app'], function (app) {
 		*/
 		$scope.onEdit = function() {
 			if (DatatableService.hasSelection()) {
-				$scope.page = 1;
 				$scope.main_page = 2;
 				$scope.populateFields();
 			}
@@ -139,7 +130,6 @@ define(['app'], function (app) {
 		* gesubmit wordt.
 		*/
 		$scope.submit = function() {
-			$scope.main_page = 1;
 			var data = {
 				wedstrijd_id: 	DatatableService.getSelection().wedstrijd_id,
 				subtoernooi_id: DatatableService.getSelection().subtoernooi_id,
@@ -153,19 +143,24 @@ define(['app'], function (app) {
 			wedstrijdService
 			.update(data)
 			.success(function(response) {
-				var ids = {
-					wedstrijd_id: DatatableService.getSelection().wedstrijd_id,
-					subtoernooi_id: DatatableService.getSelection().subtoernooi_id,
-					toernooi_id: DatatableService.getSelection().toernooi_id
-				}
-				var index = $scope.getIndexById(ids);
+				if (response.error)
+					$scope.error = response.error;
+				else {
+					var ids = {
+						wedstrijd_id: DatatableService.getSelection().wedstrijd_id,
+						subtoernooi_id: DatatableService.getSelection().subtoernooi_id,
+						toernooi_id: DatatableService.getSelection().toernooi_id
+					}
+					var index = $scope.getIndexById(ids);
 
-				wedstrijdService
-				.find(data)
-				.success(function(response) {
-					DatatableService.data[index] = response;
-					DatatableService.eraseSelection();
-				});
+					wedstrijdService
+					.find(data)
+					.success(function(response) {
+						DatatableService.data[index] = response;
+						DatatableService.eraseSelection();
+					});
+					$scope.main_page = 1;
+				}
 			});
 		}
 

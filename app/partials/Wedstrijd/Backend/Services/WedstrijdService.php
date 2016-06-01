@@ -12,6 +12,10 @@ class WedstrijdService  extends BaseService
   public function addWedstrijd($data) {
     $em = parent::GetEntityManager();
     $wedstrijd = $this->createWedstrijd($data);
+
+    if (is_string($wedstrijd))
+      return $wedstrijd;
+
     $em->persist($wedstrijd);
     $em->flush();
   }
@@ -19,6 +23,10 @@ class WedstrijdService  extends BaseService
   public function updateWedstrijd($data) {
     $em = parent::GetEntityManager($data);
     $wedstrijd = $this->createWedstrijd($data, $this->getById($data['wedstrijd_id'],$data['subtoernooi_id'],$data['toernooi_id']));
+
+    if (is_string($wedstrijd))
+      return $wedstrijd;
+
     $em->persist($wedstrijd);
     $em->flush();
   }
@@ -74,6 +82,10 @@ class WedstrijdService  extends BaseService
     $subtoernooi->wedstrijd_collection->add($wedstrijd);
 
     $werknemer = $this->getWerknemerById($data['scheidsrechter']);
+
+    if ($werknemer == null)
+      return 'Scheidsrechter bestaat niet';
+
     $werknemer->wedstrijd = $wedstrijd;
     $wedstrijd->werknemer = $werknemer;
 
