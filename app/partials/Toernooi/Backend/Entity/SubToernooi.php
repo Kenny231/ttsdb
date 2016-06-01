@@ -52,6 +52,14 @@ class SubToernooi
    */
   protected $toernooi;
 
+  /**
+   * @OneToMany(targetEntity="Wedstrijd\Backend\Entity\Wedstrijd", mappedBy="subtoernooi", cascade={"persist"})
+   */
+  protected $wedstrijd_collection;
+
+  public function __construct() {
+    $this->wedstrijd_collection = new ArrayCollection();
+  }
 
   public function __get($property) {
     return $this->$property;

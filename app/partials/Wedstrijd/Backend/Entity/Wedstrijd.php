@@ -51,6 +51,21 @@ class Wedstrijd
   */
   protected $poulecode;
 
+  /**
+   * @ManyToOne(targetEntity="Toernooi\Backend\Entity\SubToernooi", inversedBy="wedstrijd_collection", cascade={"persist"})
+   * @JoinColumns({
+   *  @JoinColumn(name="toernooi_id", referencedColumnName="toernooi_id"),
+   *  @JoinColumn(name="subtoernooi_id", referencedColumnName="subtoernooi_id")
+   * })
+   */
+  protected $subtoernooi;
+
+  /**
+   * @OneToOne(targetEntity="Login\Backend\Entity\Werknemer", inversedBy="wedstrijd")
+   * @JoinColumn(name="scheidsrechter", referencedColumnName="persoon_id")
+   */
+  protected $werknemer;
+
 
   public function __get($property) {
     return $this->$property;

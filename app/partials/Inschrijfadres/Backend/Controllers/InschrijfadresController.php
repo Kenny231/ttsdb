@@ -36,7 +36,6 @@ class InschrijfadresController
     }
 
     $this->inschrijfadresService->updateInschrijfadres($data);
-    return $response->withJson("Inschrijfadres id: " . $data['toernooi_id']);
   }
 
   public function delete($request, $response, $args) {

@@ -42,7 +42,6 @@ define(['app'], function (app) {
       inschrijfadresService
       .list()
       .success(function(response) {
-				console.log(response);
         DatatableService.data = response;
       });
     }

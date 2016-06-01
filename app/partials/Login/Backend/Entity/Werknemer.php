@@ -35,6 +35,11 @@ class Werknemer
    */
   protected $inschrijfadres;
 
+  /**
+   * @OneToOne(targetEntity="Wedstrijd\Backend\Entity\Wedstrijd", mappedBy="werknemer")
+   */
+  protected $wedstrijd;
+
   public function __get($property) {
     return $this->$property;
   }
