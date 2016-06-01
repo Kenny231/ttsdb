@@ -3,15 +3,15 @@ define(['app'], function (app) {
 
   $scope.DatatableService = DatatableService;
 
-  /* SETUP */
-	function construct() {
-		// Zitten we op een subform?
-		if ($scope.subFormData == null) {
-			list(); // Set datatable data.
-			$scope.show_toernooi_buttons = true;
-			$scope.toernooi_form_style = "thumbnail form-style";
+	  /* SETUP */
+		function construct() {
+			// Zitten we op een subform?
+			if ($scope.subFormData == null) {
+				list(); // Set datatable data.
+				$scope.show_toernooi_buttons = true;
+				$scope.toernooi_form_style = "thumbnail form-style";
+			}
 		}
-	}
 
 		// roep de constructor aan.
 		construct();
@@ -42,6 +42,7 @@ define(['app'], function (app) {
       inschrijfadresService
       .list()
       .success(function(response) {
+				console.log(response);
         DatatableService.data = response;
       });
     }
@@ -109,8 +110,12 @@ define(['app'], function (app) {
 			var item = DatatableService.getSelection();
 
 			// Waardes invullen
+			$scope.formData.toernooi_id = item.toernooi_id;
+			$scope.formData.subtoernooi_id = item.subtoernooi_id;
 			$scope.formData.postcode = item.postcode;
 			$scope.formData.huisnummer = item.huisnummer;
+			$scope.formData.plaatsnaam = item.plaatsnaam;
+			$scope.formData.straatnaam = item.straatnaam;
 			$scope.formData.categorie_naam = item.categorie_naam;
 			$scope.formData.persoon_id = item.persoon_id;
 			$scope.formData.telefoonnummer = item.telefoonnummer;
@@ -125,9 +130,12 @@ define(['app'], function (app) {
 		$scope.submit = function() {
 			$scope.main_page = 1;
 			var data = {
-				id:							DatatableService.getSelection().inschrijfadres_id,
+				toernooi_id:    $scope.formData.toernooi_id,
+				subtoernooi_id: $scope.formData.subtoernooi_id,
 				postcode: 	   	$scope.formData.postcode,
 				huisnummer: 	  $scope.formData.huisnummer,
+				plaatsnaam:			$scope.formData.plaatsnaam,
+				straatnaam:			$scope.formData.straatnaam,
 				categorie_naam: $scope.formData.categorie_naam,
 				persoon_id: 		$scope.formData.persoon_id,
 				telefoonnummer: $scope.formData.telefoonnummer,
@@ -136,11 +144,10 @@ define(['app'], function (app) {
 			inschrijfadresService
 			.update(data)
 			.success(function(response) {
-				var id = DatatableService.getSelection().inschrijfadres_id;
-				var index = $scope.getIndexById(id);
+				var index = $scope.getIndexById($scope.formData.toernooi_id, $scope.formData.subtoernooi_id);
 
 				inschrijfadresService
-				.find(id)
+				.find($scope.formData.toernooi_id, $scope.formData.subtoernooi_id)
 				.success(function(response) {
 					DatatableService.data[index] = response;
 					DatatableService.eraseSelection();
@@ -158,9 +165,10 @@ define(['app'], function (app) {
 		 *
 		 * @return De bijbehornde index in de datatable.
 		 */
-		$scope.getIndexById = function(id) {
+		$scope.getIndexById = function(toernooi_id, subtoernooi_id) {
 			for(var i = 0; i < DatatableService.data.length; i++) {
-				if (DatatableService.data[i].inschrijfadres_id == id)
+				if (DatatableService.data[i].toernooi_id == toernooi_id
+					&& DatatableService.data[i].subtoernooi_id == subtoernooi_id)
 					return i;
 			}
 		}

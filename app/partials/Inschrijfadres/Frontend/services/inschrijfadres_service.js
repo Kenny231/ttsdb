@@ -24,10 +24,11 @@ define(['app'], function(app) {
 					url: url
 				});
 			},
-			find: function(id) {
+			find: function(toernooi_id, subtoernooi_id) {
         var url = 'app/api/inschrijfadres/find';
         var data = {
-          id: id
+          toernooi_id: toernooi_id,
+					subtoernooi_id: subtoernooi_id
         };
         return $http({
           method: 'POST',

@@ -46,6 +46,11 @@ class SubToernooi
    * @OneToOne(targetEntity="Inschrijfadres\Backend\Entity\Inschrijfadres", mappedBy="subtoernooi")
    */
   protected $inschrijfadres;
+  /**
+   * @ManyToOne(targetEntity="Toernooi\Backend\Entity\Toernooi", inversedBy="subtoernooi_collection", cascade={"persist"})
+   * @JoinColumn(name="toernooi_id", referencedColumnName="toernooi_id"),
+   */
+  protected $toernooi;
 
 
   public function __get($property) {

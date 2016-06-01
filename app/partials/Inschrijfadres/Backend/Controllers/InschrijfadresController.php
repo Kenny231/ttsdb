@@ -36,7 +36,7 @@ class InschrijfadresController
     }
 
     $this->inschrijfadresService->updateInschrijfadres($data);
-    return $response->withJson("Inschrijfadres id: " . $data['id']);
+    return $response->withJson("Inschrijfadres id: " . $data['toernooi_id']);
   }
 
   public function delete($request, $response, $args) {
@@ -60,7 +60,7 @@ class InschrijfadresController
 
   public function find($request, $response, $args) {
     $data = $request->getParsedBody();
-    $inschrijfadres = $this->inschrijfadresService->getById($data['id']);
+    $inschrijfadres = $this->inschrijfadresService->getById(array('toernooi_id' => $data['toernooi_id'], 'subtoernooi_id' => $data['subtoernooi_id']));
     return $response->withJson($this->entityToArray($inschrijfadres));
   }
 
@@ -70,6 +70,8 @@ class InschrijfadresController
       'subtoernooi_id' => $entity->subtoernooi->subtoernooi_id,
       'postcode' => $entity->adres->postcode,
       'huisnummer' => $entity->adres->huisnummer,
+      'plaatsnaam' => $entity->adres->plaatsnaam,
+      'straatnaam' => $entity->adres->straatnaam,
       'persoon_id' => $entity->werknemer->persoon_id,
       'telefoonnummer' => $entity->telefoonnummer,
       'email' => $entity->email

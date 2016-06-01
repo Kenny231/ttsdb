@@ -6,9 +6,10 @@ use Resources\Backend\Service\BaseService;
 
 use Resources\Backend\Entity\Adres;
 use Login\Backend\Entity\Werknemer;
-use Login\Backend\Entity\Inschrijfadres;
+use Inschrijfadres\Backend\Entity\Inschrijfadres;
+use Toernooi\Backend\Entity\SubToernooi;
 
-class InschrijfadresService  extends BaseService
+class InschrijfadresService extends BaseService
 {
   public function addInschrijfadres($data) {
     $em = parent::GetEntityManager();
@@ -19,7 +20,7 @@ class InschrijfadresService  extends BaseService
 
   public function updateInschrijfadres($data) {
     $em = parent::GetEntityManager($data);
-    $inschrijfadres = $this->createInschrijfadres($data, $this->getById($data['id']));
+    $inschrijfadres = $this->createInschrijfadres($data, $this->getById(array('toernooi_id' => $data['toernooi_id'], 'subtoernooi_id' => $data['subtoernooi_id'])));
     $em->persist($inschrijfadres);
     $em->flush();
   }
@@ -55,6 +56,12 @@ class InschrijfadresService  extends BaseService
       ->find($id);
   }
 
+  private function getSubtoernooiById($id) {
+    return parent::GetEntityManager()
+      ->GetRepository(SubToernooi::class)
+      ->find($id);
+  }
+
   private function createInschrijfadres($data, $entity = null) {
     $inschrijfadres = null;
     if ($entity == null)
@@ -69,14 +76,23 @@ class InschrijfadresService  extends BaseService
       $adres->plaatsnaam         = $data['plaatsnaam'];
       $adres->straatnaam         = $data['straatnaam'];
       $adres->huisnummer         = $data['huisnummer'];
+    } else {
+      $adres->plaatsnaam         = $data['plaatsnaam'];
+      $adres->straatnaam         = $data['straatnaam'];
     }
+
+    $inschrijfadres->toernooi_id        = $data['toernooi_id'];
+    $inschrijfadres->subtoernooi_id     = $data['subtoernooi_id'];
+    $inschrijfadres->telefoonnummer     = $data['telefoonnummer'];
+    $inschrijfadres->email          	  = $data['email'];
 
     $werknemer = $this->getWerknemerById($data['persoon_id']);
     $werknemer->inschrijfadres = $inschrijfadres;
     $inschrijfadres->werknemer = $werknemer;
 
-    $inschrijfadres->telefoonnummer     = $data['telefoonnummer'];
-    $inschrijfadres->email          	  = $data['email'];
+    $subtoernooi = $this->getSubtoernooiById(array('toernooi_id' => $data['toernooi_id'], 'subtoernooi_id' => $data['subtoernooi_id']));
+    $subtoernooi->inschrijfadres = $inschrijfadres;
+    $inschrijfadres->subtoernooi = $subtoernooi;
 
     $inschrijfadres->adres = $adres;
     $adres->inschrijfadres_collection->add($inschrijfadres);

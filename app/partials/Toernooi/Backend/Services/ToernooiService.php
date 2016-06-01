@@ -84,6 +84,9 @@ class ToernooiService extends BaseService
       $adres->plaatsnaam         = $data['plaatsnaam'];
       $adres->straatnaam         = $data['straatnaam'];
       $adres->huisnummer         = $data['huisnummer'];
+    } else {
+      $adres->plaatsnaam         = $data['plaatsnaam'];
+      $adres->straatnaam         = $data['straatnaam']; 
     }
 
     $toernooi->toernooinaam      = $data['naam'];
@@ -91,11 +94,9 @@ class ToernooiService extends BaseService
     $toernooi->start_datum        = new \DateTime($data['start_datum'] . ' ' . $data['tijd']);
     $toernooi->eind_datum         = new \DateTime($data['eind_datum']);
     $toernooi->organisatie        = $data['organisatie'];
-    // Default waardes voor nu
     $toernooi->vereniging_naam    = 'Vereniging';
     $toernooi->goedkeuring        = 0;
     $toernooi->max_aantal_spelers = $data['max_aantal_spelers'];
-    //$toernooi->max_aantal_spelers = '5';
 
     // Foreign key
     $toernooi->adres = $adres;

@@ -80,7 +80,68 @@ $adres->inschrijfadres_collection->add($inschrijfadres);
 $em->persist($inschrijfadres);
 $em->flush();*/
 
-$list = $em->GetRepository(Persoon::class)->findAll();
-print_r($list);
+function getAdresById($id) {
+  return $em->GetRepository(Adres::class)->find($id);
+}
+
+function createToernooi($data, $entity = null) {
+  $toernooi = null;
+  if ($entity == null)
+    $toernooi = new Toernooi();
+  else
+    $toernooi = $entity;
+
+  $adres = $this->getAdresById(array('postcode' => $data['postcode'], 'huisnummer' => $data['huisnummer']));
+  if ($adres == null) {
+    $adres = new Adres();
+    $adres->postcode           = $data['postcode'];
+    $adres->plaatsnaam         = $data['plaatsnaam'];
+    $adres->straatnaam         = $data['straatnaam'];
+    $adres->huisnummer         = $data['huisnummer'];
+  } else {
+    $adres->plaatsnaam         = $data['plaatsnaam'];
+    $adres->straatnaam         = $data['straatnaam'];
+  }
+
+  $toernooi->toernooinaam      = $data['naam'];
+  $toernooi->toernooitype       = $data['type'];
+  $toernooi->start_datum        = new \DateTime($data['start_datum'] . ' ' . $data['tijd']);
+  $toernooi->eind_datum         = new \DateTime($data['eind_datum']);
+  $toernooi->organisatie        = $data['organisatie'];
+  $toernooi->vereniging_naam    = 'Vereniging';
+  $toernooi->goedkeuring        = 0;
+  $toernooi->max_aantal_spelers = $data['max_aantal_spelers'];
+
+  // Foreign key
+  $toernooi->adres = $adres;
+  $adres->toernooi_collection->add($toernooi);
+
+  return $toernooi;
+}
+
+
+$toernooi = $em->GetRepository(Inschrijfadres::class)->find(array('toernooi_id' => 1, 'subtoernooi_id' => 1));
+$adres = $em->GetRepository(Adres::class)->find(array('postcode' => $toernooi->adres->postcode, 'huisnummer' => $toernooi->adres->huisnummer));
+$werknemer = $em->GetRepository(Werknemer::class)->find(1);
+$subtoernooi = $em->GetRepository(Subtoernooi::class)->find(array('toernooi_id' => 1, 'subtoernooi_id' => 1));
+
+$toernooi->email = 'blabla@bla.com';
+
+$toernooi->adres = $adres;
+$adres->inschrijfadres_collection->add($toernooi);
+
+$werknemer->inschrijfadres = $toernooi;
+$toernooi->werknemer = $werknemer;
+
+$em->persist($toernooi);
+$em->flush();
+
+/*public function updateToernooi($data) {
+  $em = parent::GetEntityManager($data);
+  $toernooi = $this->createToernooi($data, $this->getById($data['id']));
+  $em->persist($toernooi);
+  $em->flush();
+}*/
+
 
 ?>

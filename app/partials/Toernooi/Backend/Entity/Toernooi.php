@@ -80,9 +80,15 @@ class Toernooi
    */
   protected $adres;
 
+  /**
+   * @OneToMany(targetEntity="Toernooi\Backend\Entity\SubToernooi", mappedBy="toernooi", cascade={"persist"})
+   */
+  protected $subtoernooi_collection;
+
   function __construct()
   {
     $this->teams = new ArrayCollection();
+    $this->subtoernooi_collection = new ArrayCollection();
   }
 
   public function __get($property) {

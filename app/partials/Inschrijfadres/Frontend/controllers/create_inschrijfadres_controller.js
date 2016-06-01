@@ -10,6 +10,8 @@ define(['app'], function (app) {
 		 */
 		$scope.submit = function() {
 			var data = {
+				toernooi_id:		$scope.formData.toernooi_id,
+				subtoernooi_id: $scope.formData.subtoernooi_id,
 				postcode: 	   	$scope.formData.postcode,
 				huisnummer: 	  $scope.formData.huisnummer,
 				plaatsnaam:     $scope.formData.plaatsnaam,
@@ -23,8 +25,6 @@ define(['app'], function (app) {
 			.success(function(response) {
 				if (!response.error)
 					$location.path('/');
-
-				console.log(response);
 			});
 		}
 	}]);
