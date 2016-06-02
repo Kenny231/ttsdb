@@ -34,9 +34,7 @@ class ClassLoader
     new Toernooi\Backend\DependencyInjection\ToernooiDI($this->app);
     new Toernooi\Backend\DependencyInjection\SubToernooiDI($this->app);
     new Resources\Backend\DependencyInjection\ResourceDI($this->app);
-    new Login\Backend\DependencyInjection\LoginDI($this->app);
-    new Inschrijfadres\Backend\DependencyInjection\InschrijfadresDI($this->app);
-    new wedstrijd\Backend\DependencyInjection\WedstrijdDI($this->app);
+    new Resources\Backend\DependencyInjection\BaseServiceDI($this->app);
     new Registratie\Backend\DependencyInjection\RegistratieDI($this->app);
 
   }

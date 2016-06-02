@@ -44,6 +44,7 @@ define(['app'], function (app) {
 			wedstrijdService
 			.list()
 			.success(function(response) {
+				console.log(response);
 				DatatableService.data = response;
 			});
 		}

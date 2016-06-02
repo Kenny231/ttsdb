@@ -57,9 +57,9 @@ define(['app'], function (app) {
 		 */
 		$scope.onDelete = function() {
 			if (DatatableService.hasSelection()) {
-				var item = DatatableService.getSelection().inschrijfadres_id;
+				var item = DatatableService.getSelection();
 				inschrijfadresService
-				.delete(item)
+				.delete(item.toernooi_id, item.subtoernooi_id)
 				.success(function(response) {
 					if (!response.error) {
 						DatatableService.data.splice($scope.getIndexById(item), 1);

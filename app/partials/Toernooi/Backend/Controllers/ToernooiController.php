@@ -2,10 +2,14 @@
 
 namespace Toernooi\Backend\Controllers;
 
-use Toernooi\Backend\Services\ToernooiService;
+use Toernooi\Backend\Entity\Toernooi;
+use Resources\Backend\Entity\Adres;
 
 class ToernooiController
 {
+  const ADRES = 'Resources\Backend\Entity\Adres';
+  const TOERNOOI = 'Toernooi\Backend\Entity\Toernooi';
+
   private $toernooiService;
   public function __construct($container) {
     $this->toernooiService = $container->ToernooiService;
@@ -25,7 +29,7 @@ class ToernooiController
         return $response->withJson($this->construct_error("Data mag niet null zijn."));
     }
 
-    $this->toernooiService->addToernooi($data);
+    $this->toernooiService->persist($this->createToernooi($data));
   }
 
   public function update($request, $response, $args) {
@@ -36,9 +40,8 @@ class ToernooiController
         return $response->withJson($this->construct_error("Data mag niet null zijn."));
     }
 
-    $this->toernooiService->updateToernooi($data);
-
-    return $response->withJson("Toernooi id: " . $data['id']);
+    $toernooi = $this->toernooiService->find(self::TOERNOOI, $data['id']);
+    $this->toernooiService->persist($this->createToernooi($data, $toernooi));
   }
 
   public function delete($request, $response, $args) {
@@ -48,12 +51,12 @@ class ToernooiController
     if (!isset($toernooi_id))
       return $response->withJson($this->construct_error("Data mag niet null zijn."));
 
-    $this->toernooiService->deleteToernooi($toernooi_id);
+    $this->toernooiService->delete(self::TOERNOOI, $data['id']);
   }
 
   public function getList($request, $response, $args) {
     $ret_data = array();
-    $data = $this->toernooiService->getList();
+    $data = $this->toernooiService->getList(self::TOERNOOI);
     for ($i=0; $i<count($data);$i++) {
       array_push($ret_data, $this->entityToArray($data[$i]));
     }
@@ -62,7 +65,7 @@ class ToernooiController
 
   public function find($request, $response, $args) {
     $data = $request->getParsedBody();
-    $toernooi = $this->toernooiService->getById($data['id']);
+    $toernooi = $this->toernooiService->find(self::TOERNOOI, $data['id']);
     return $response->withJson($this->entityToArray($toernooi));
   }
 
@@ -92,6 +95,42 @@ class ToernooiController
       'max_aantal_spelers' => $entity->max_aantal_spelers,
       'team' => $entity->teams
     );
+  }
+
+  private function createToernooi($data, $entity = null) {
+    $toernooi = $entity == null ? new Toernooi() : $entity;
+
+    $adres = $this->toernooiService
+      ->find(self::ADRES, array(
+        'postcode' => $data['postcode'],
+        'huisnummer' => $data['huisnummer']
+      ));
+
+    if ($adres == null) {
+      $adres = new Adres();
+      $adres->postcode           = $data['postcode'];
+      $adres->plaatsnaam         = $data['plaatsnaam'];
+      $adres->straatnaam         = $data['straatnaam'];
+      $adres->huisnummer         = $data['huisnummer'];
+    } else {
+      $adres->plaatsnaam         = $data['plaatsnaam'];
+      $adres->straatnaam         = $data['straatnaam'];
+    }
+
+    $toernooi->toernooinaam       = $data['naam'];
+    $toernooi->toernooitype       = $data['type'];
+    $toernooi->start_datum        = new \DateTime($data['start_datum'] . ' ' . $data['tijd']);
+    $toernooi->eind_datum         = new \DateTime($data['eind_datum']);
+    $toernooi->organisatie        = $data['organisatie'];
+    $toernooi->vereniging_naam    = 'Vereniging';
+    $toernooi->goedkeuring        = 0;
+    $toernooi->max_aantal_spelers = $data['max_aantal_spelers'];
+
+    // Foreign key
+    $toernooi->adres = $adres;
+    $adres->toernooi_collection->add($toernooi);
+
+    return $toernooi;
   }
 }
 

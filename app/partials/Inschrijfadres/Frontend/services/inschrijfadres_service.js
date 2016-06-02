@@ -36,10 +36,11 @@ define(['app'], function(app) {
           data: data
         })
       },
-			delete: function(id) {
+			delete: function(toernooi_id, subtoernooi_id) {
 				var url = 'app/api/inschrijfadres/delete';
 				var data = {
-					id: id
+					toernooi_id: toernooi_id,
+					subtoernooi_id: subtoernooi_id					
 				};
 				return $http({
 					method: 'POST',
