@@ -9,6 +9,36 @@ use Resources\Backend\Service\BaseService;
 
 class WedstrijdService extends BaseService
 {
+  const TOERNOOI = 'Toernooi\Backend\Entity\Toernooi';
+
+  public function createWedstrijd($data) {
+    $toernooitype = parent::find(self::TOERNOOI, $data['toernooi_id']);
+    switch ($toernooitype)
+    {
+      case 'Prestatie':
+        $this->createPrestatieWedstrijd($data);
+        break;
+      case 'Ladder':
+        $this->createLadderWedstrijd($data);
+        break;
+      case 'Familie':
+        $this->createFamilieWedstrijd($data);
+        break;
+      default:
+        break;
+    }
+  }
+
+  private function createPrestatieWedstrijd($data) {
+    $conn = parent::GetEntityManager()->getConnection();
+  }
+  private function createLadderWedstrijd($data) {
+    $conn = parent::GetEntityManager()->getConnection();
+  }
+  private function createFamilieWedstrijd($data) {
+    $conn = parent::GetEntityManager()->getConnection();
+  }
+
   private function getResultSetMap() {
     $rsm = new ResultSetMapping();
     $rsm->addEntityResult(Wedstrijd::class, 'w');

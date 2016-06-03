@@ -52,6 +52,7 @@ define(['app'], function (app) {
 			wedstrijdService
 			.list($routeParams.toernooiId, $routeParams.subToernooiId)
 			.success(function(response) {
+				console.log(response);
 				DatatableService.data = response;
 			});
 		}
