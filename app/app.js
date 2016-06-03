@@ -2,6 +2,7 @@ define([
   'angular',
   'angular.aria',
   'angular.route',
+  'angular.select',
   'angular.storage',
   'angular.animate',
   'angular.material',
@@ -15,6 +16,7 @@ define([
     'ngStorage',
     'ngAnimate',
     'ngMaterial',
+    'ui.select',
     'ui.bootstrap',
     'md.data.table'
   ]);

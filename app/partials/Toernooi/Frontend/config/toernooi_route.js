@@ -10,6 +10,14 @@ define(['app'], function (app) {
       .when('/toernooi/read', {
         templateUrl: '/ttsdb/app/partials/toernooi/frontend/views/read_toernooi.html',
         //controller: 'ReadToernooiController' -- Gedefinieerd in view.
+      })
+      .when('/subtoernooi/create/:toernooiId', {
+        templateUrl: '/ttsdb/app/partials/toernooi/frontend/views/create_sub_toernooi.html',
+        controller: 'CreateSubToernooiController' 
+      })
+      .when('/subtoernooi/read/:toernooiId', {
+        templateUrl: '/ttsdb/app/partials/toernooi/frontend/views/read_sub_toernooi.html',
+        //controller: 'ReadSubToernooiController' -- Gedefinieerd in view.
       });
   }]);
 });

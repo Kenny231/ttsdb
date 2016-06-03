@@ -1,4 +1,4 @@
-<div ng-controller="ReadToernooiController">
+<div ng-controller="ReadSubToernooiController">
   <div class="container read-toernooi-form" style="padding-top: 30px;" ng-show="main_page==1">
     <div ng-class="toernooi_form_style">
       <div class="col-xs-offset-1 col-xs-10">
@@ -45,6 +45,9 @@
           </md-table-container>
 
           <md-table-pagination md-limit="DatatableService.limit" md-limit-options="[5, 10, 15]" md-page="DatatableService.data_page" md-total="{{(DatatableService.data|filter:search).length}}" md-page-select></md-table-pagination>
+        </div>
+        <div class="row">
+          <button class="btn btn-primary pull-right" ng-click="createForm()"> Create </button>
         </div>
       </div>
       <div class="row"></div>

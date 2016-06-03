@@ -4,6 +4,7 @@ require.config({
     'angular': 'libs/angular/angular.min',
     'angular.aria': 'libs/angular/angular-aria.min',
     'angular.route': 'libs/angular/angular-route.min',
+    'angular.select': 'libs/angular/angular-select.min',
     'angular.storage': 'libs/angular/angular-storage.min',
     'angular.animate': 'libs/angular/angular-animate.min',
     'angular.material': 'libs/angular/angular-material.min',
@@ -14,6 +15,7 @@ require.config({
   shim: {
     'angular.aria': ['angular'],
     'angular.route': ['angular'],
+    'angular.select': ['angular'],
     'angular.storage': ['angular'],
     'angular.animate': ['angular'],
     'angular.material': ['angular', 'angular.aria', 'angular.animate'],

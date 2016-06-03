@@ -13,7 +13,6 @@ class ClassLoader
    */
   public function RegisterRouters() {
     new Toernooi\Backend\Config\ToernooiRoute($this->app);
-    new Toernooi\Backend\Config\SubToernooiRoute($this->app);
     new Login\Backend\Config\LoginRouter($this->app);
     new Inschrijfadres\Backend\Config\InschrijfadresRoute($this->app);
     new Wedstrijd\Backend\Config\WedstrijdRoute($this->app);
@@ -32,11 +31,9 @@ class ClassLoader
    */
   public function RegisterDependencyInjection() {
     new Toernooi\Backend\DependencyInjection\ToernooiDI($this->app);
-    new Toernooi\Backend\DependencyInjection\SubToernooiDI($this->app);
     new Resources\Backend\DependencyInjection\ResourceDI($this->app);
     new Resources\Backend\DependencyInjection\BaseServiceDI($this->app);
     new Registratie\Backend\DependencyInjection\RegistratieDI($this->app);
-
   }
 }
 

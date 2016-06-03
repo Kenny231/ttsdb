@@ -1,13 +1,14 @@
 define(['app'], function (app) {
-  app.controller('ReadToernooiController', [
+  app.controller('ReadSubToernooiController', [
     '$scope',
     '$http',
     '$filter',
     '$mdDialog',
+    '$routeParams',
     '$location',
-    'toernooiService',
+    'subToernooiService',
     'DatatableService',
-  function ($scope, $http, $filter, $mdDialog, $location, toernooiService, DatatableService) {
+  function ($scope, $http, $filter, $mdDialog, $routeParams, $location, toernooiService, DatatableService) {
     $scope.DatatableService = DatatableService;
     function construct() {
       // Zitten we op een subform?
@@ -22,15 +23,16 @@ define(['app'], function (app) {
      * Datatable
      */
     // Sorteer volgorde
-    $scope.order = 'toernooi_naam';
+    $scope.order = 'categorie_naam';
     /*
      * Methode om alle toernooien op te halen.
      * Deze worden vervolgens ingeladen in de datatable.
      */
     function list() {
       toernooiService
-      .list()
+      .list($routeParams.toernooiId)
       .success(function(response) {
+        console.log(response);
         DatatableService.data = response;
       });
     }
@@ -42,9 +44,9 @@ define(['app'], function (app) {
      */
     $scope.onDelete = function() {
       if (DatatableService.hasSelection()) {
-        var item = DatatableService.getSelection().toernooi_id;
+        var item = DatatableService.getSelection();
         toernooiService
-        .delete(item)
+        .delete(item.toernooi_id, item.subtoernooi_id)
         .success(function(response) {
           if (!response.error) {
             DatatableService.data.splice($scope.getIndexById(item), 1);
@@ -64,7 +66,7 @@ define(['app'], function (app) {
      */
     $scope.getIndexById = function(id) {
       for(var i = 0; i < DatatableService.data.length; i++) {
-        if (DatatableService.data[i].toernooi_id == id)
+        if (DatatableService.data[i].subtoernooi_id == id)
           return i;
       }
     }
@@ -102,21 +104,11 @@ define(['app'], function (app) {
     // Update (detail) pagina page
     $scope.formData.page = 1;
     /*
-     *Select data
-    */
-    $scope.select_toernooi = [
-      'Ladder',
-      'Familie',
-      'Prestatie'
-    ];
-    $scope.formData.toernooitype = $scope.select_toernooi[0];
-    /*
      * Update pagina
      */
     $scope.togglePage = function() {
       $scope.formData.page = 1;
     }
-
     $scope.main_page = 1;
     /*
      * Methode om het update formulier met de juiste
@@ -124,27 +116,17 @@ define(['app'], function (app) {
      */
     $scope.populateFields = function() {
       var item = DatatableService.getSelection();
-      // Select id's
-      var toernooitype_id = item.toernooitype == 'Ladder' ? 0 : item.toernooitype == 'Familie' ? 1 : 2;
       // Waardes invullen
-      $scope.formData.toernooinaam = item.toernooi_naam;
-      $scope.formData.toernooitype = $scope.select_toernooi[toernooitype_id];
-      $scope.formData.postcode = item.postcode;
-      $scope.formData.plaatsnaam = item.plaatsnaam;
-      $scope.formData.straatnaam = item.straatnaam;
-      $scope.formData.huisnummer = item.huisnummer;
-      $scope.formData.start_datum = $scope.convertDate(item.start_datum.date);
-      $scope.formData.eind_datum = $scope.convertDate(item.eind_datum.date);
-      $scope.formData.aanvangstijdstip = $scope.convertDate(item.start_datum.date);
-      $scope.formData.organisatie = item.organisatie;
-      $scope.formData.max_deelnemers = item.max_aantal_spelers;
+      $scope.formData.categorie_naam = item.categorie_naam;
+      $scope.formData.geslacht = item.geslacht;
+      $scope.formData.enkel = item.enkel;
     }
     /*
      * Wordt aangeroepen, als er op de edit knop gedrukt wordt.
      */
     $scope.onEdit = function() {
       if (DatatableService.hasSelection()) {
-        $scope.page = 1;
+        $scope.formData.page = 1;
         $scope.main_page = 2;
         $scope.populateFields();
       }
@@ -155,40 +137,30 @@ define(['app'], function (app) {
     $scope.submit = function() {
       $scope.main_page = 1;
       var data = {
-        id:						      DatatableService.getSelection().toernooi_id,
-        naam: 				      $scope.formData.toernooinaam,
-        type: 				      $scope.formData.toernooitype,
-        postcode:           $scope.formData.postcode,
-        plaatsnaam:         $scope.formData.plaatsnaam,
-        straatnaam:         $scope.formData.straatnaam,
-        huisnummer:         $scope.formData.huisnummer,
-        start_datum: 	      $filter('date')($scope.formData.start_datum, "yyyy-MM-dd"),
-        eind_datum:         $filter('date')($scope.formData.eind_datum, "yyyy-MM-dd"),
-        organisatie: 	      $scope.formData.organisatie,
-        tijd: 				      $filter('date')($scope.formData.aanvangstijdstip, "HH:mm:ss"),
-        max_aantal_spelers: $scope.formData.max_deelnemers
+        toernooi_id:		  $routeParams.toernooi_id,
+        subtoernooi_id:   DatatableService.getSelection().subtoernooi_id,
+        categorie_naam:   $scope.formData.categorie_naam,
+        geslacht:         $scope.formData.geslacht,
+        enkel:            $scope.formData.enkel,
       };
       toernooiService
       .update(data)
       .success(function(response) {
-        var id = DatatableService.getSelection().toernooi_id;
-        var index = $scope.getIndexById(id);
+        var item = DatatableService.getSelection();
+        var index = $scope.getIndexById(item.subtoernooi_id);
         // Reload row.
         toernooiService
-        .find(id)
+        .find(item.toernooi_id, item.subtoernooi_id)
         .success(function(resp) {
           DatatableService.data[index] = resp;
           DatatableService.eraseSelection();
         });
       });
-    }
+     }
 
-    $scope.relocate = function() {
-      if (DatatableService.hasSelection()) {
-        var path = '/subtoernooi/read/';
-        var selection = DatatableService.getSelection().toernooi_id;
-        $location.path(path.concat(selection));
-      }
-    }
+     $scope.createForm = function() {
+       var path = '/subtoernooi/create/';
+       $location.path(path.concat($routeParams.toernooiId));
+     }
   }]);
 });

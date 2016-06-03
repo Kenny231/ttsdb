@@ -9,25 +9,22 @@ use Resources\Backend\Service\BaseService;
 
 class SubToernooiService extends BaseService
 {
-  public function addToernooi($data) {
-    // Stored procedure
-  }
+  public function createSubToernooi($data) {
+    $conn = parent::GetEntityManager()->getConnection();
 
-  public function updateToernooi($data) {
-    // Stored procedure
-  }
+    $licenties = '';
+    foreach($data['licenties'] as $value) {
+      $licenties = $licenties . $value . ',';
+    }
+    $licenties = substr($licenties, 0, -1);
 
-  public function deleteToernooi($id) {
-    $em = parent::GetEntityManager();
-    $toernooi = $em->getReference(SubToernooi::class, $id);
-    $em->remove($toernooi);
-    $em->flush();
-  }
-
-  public function getById($id) {
-    return parent::GetEntityManager()
-      ->GetRepository(SubToernooi::class)
-      ->find($id);
+    $stmt = $conn->prepare('exec prcPlaatsSubtoernooi ?, ?, ?, ?, ?');
+    $stmt->bindValue(1, $data['toernooi_id']);
+    $stmt->bindValue(2, $data['categorie_naam']);
+    $stmt->bindValue(3, $data['geslacht']);
+    $stmt->bindValue(4, $data['enkel']);
+    $stmt->bindValue(5, $licenties);
+    $stmt->execute();
   }
 
   private function getResultSetMap() {
@@ -42,11 +39,11 @@ class SubToernooiService extends BaseService
     return $rsm;
   }
 
-  public function getList($toernooi_id) {
+  public function getSubToernooiList($toernooi_id) {
     $em = parent::GetEntityManager();
 
     $rsm = $this->getResultSetMap();
-    $sql = 'SELECT * FROM SUBTOERNOOI WHERE toernooi_id = 1';
+    $sql = 'SELECT * FROM SUBTOERNOOI WHERE toernooi_id = ' . $toernooi_id;
     $query = $em->createNativeQuery($sql, $rsm);
 
     return $query->getResult();
@@ -60,10 +57,6 @@ class SubToernooiService extends BaseService
     $query = $em->createNativeQuery($sql, $rsm);
 
     return $query->getResult();
-  }
-
-  private function createToernooi($data, $entity = null) {
-    // Stored procedure.
   }
 }
 

@@ -1,12 +1,13 @@
 /*==============================================================*/
-/* Database name:  TTSDB                                        */
-/* DBMS name:      Microsoft SQL Server 2012                    */
-/* Created on:     22-4-2016 11:50:09                           */
+/* DBMS name:      Microsoft SQL Server 2008                    */
+/* Created on:     5/25/2016 1:19:37 PM                         */
 /*==============================================================*/
-
-
-drop database TTSDB
+use master
 go
+
+IF DB_ID('TTSDB') IS NOT NULL
+	DROP DATABASE TTSDB
+GO
 
 /*==============================================================*/
 /* Database: TTSDB                                              */
@@ -31,6 +32,10 @@ go
 
 create rule R_D_TOERNOOITYPE as
       @column in ('Prestatie','Familie','Ladder')
+go
+
+create rule R_D_EMAILADRES as
+	  @column LIKE ('%_@__%.__%')
 go
 
 /*==============================================================*/
@@ -179,32 +184,32 @@ execute sp_bindrule R_D_TOERNOOITYPE, D_TOERNOOITYPE
 go
 
 /*==============================================================*/
+/* Table: AANMELDINGENLADDER                                    */
+/*==============================================================*/
+create table AANMELDINGENLADDER (
+   PERSOON_ID           D_ID                 not null,
+   TOERNOOI_ID          D_ID                 not null,
+   constraint PK_AANMELDINGENLADDER primary key (PERSOON_ID, TOERNOOI_ID)
+)
+go
+
+/*==============================================================*/
+/* Index: AANMELDINGENLADDER2_FK                                */
+/*==============================================================*/
+create index AANMELDINGENLADDER2_FK on AANMELDINGENLADDER (
+TOERNOOI_ID ASC
+)
+go
+
+/*==============================================================*/
 /* Table: ADRES                                                 */
 /*==============================================================*/
 create table ADRES (
    POSTCODE             D_POSTCODE           not null,
+   HUISNUMMER           D_HUISNUMMER         not null,
    STRAATNAAM           D_NAAM               not null,
    PLAATSNAAM           D_NAAM               not null,
-   HUISNUMMER           D_HUISNUMMER         not null,
-   constraint PK_ADRES primary key nonclustered (POSTCODE)
-)
-go
-
-/*==============================================================*/
-/* Table: FORMAT                                                */
-/*==============================================================*/
-create table FORMAT (
-   FORMAT_KLASSE        D_NUMMER             not null,
-   TOERNOOI_ID          D_ID                 not null,
-   constraint PK_FORMAT primary key nonclustered (FORMAT_KLASSE)
-)
-go
-
-/*==============================================================*/
-/* Index: FK_TOERNOOI_FORMAT_FK                                 */
-/*==============================================================*/
-create index FK_TOERNOOI_FORMAT_FK on FORMAT (
-TOERNOOI_ID ASC
+   constraint PK_ADRES primary key nonclustered (POSTCODE, HUISNUMMER)
 )
 go
 
@@ -223,44 +228,32 @@ go
 /*==============================================================*/
 create table INSCHRIJFADRES (
    TOERNOOI_ID          D_ID                 not null,
-   INSCHRIJF_ID         D_ID                 not null,
+   SUBTOERNOOI_ID       D_ID                 not null,
    POSTCODE             D_POSTCODE           not null,
-   CATEGORIE_NAAM       D_CATNAME            null,
+   HUISNUMMER           D_HUISNUMMER         not null,
    PERSOON_ID           D_ID                 not null,
    TELEFOONNUMMER       D_TELNUMMER          not null,
    EMAIL                D_EMAIL              not null,
-   constraint PK_INSCHRIJFADRES primary key nonclustered (TOERNOOI_ID, INSCHRIJF_ID)
+   constraint PK_INSCHRIJFADRES primary key nonclustered (TOERNOOI_ID, SUBTOERNOOI_ID)
+)
+go
+
+execute sp_bindrule R_D_EMAILADRES, D_EMAIL
+go
+
+/*==============================================================*/
+/* Index: R_ADRES_VAN_INSCHRIJFADRES_FK                         */
+/*==============================================================*/
+create index R_ADRES_VAN_INSCHRIJFADRES_FK on INSCHRIJFADRES (
+POSTCODE ASC,
+HUISNUMMER ASC
 )
 go
 
 /*==============================================================*/
-/* Index: FK_TOERNOOI_INSCHRIJFADRES_FK                         */
+/* Index: R_CONTACTPERSOON_VAN_INSCHRIJFADRES_FK                */
 /*==============================================================*/
-create index FK_TOERNOOI_INSCHRIJFADRES_FK on INSCHRIJFADRES (
-TOERNOOI_ID ASC
-)
-go
-
-/*==============================================================*/
-/* Index: FK_INSCHRIJFADRES_LEEFTIJDSCATEGORIE_FK               */
-/*==============================================================*/
-create index FK_INSCHRIJFADRES_LEEFTIJDSCATEGORIE_FK on INSCHRIJFADRES (
-CATEGORIE_NAAM ASC
-)
-go
-
-/*==============================================================*/
-/* Index: FK_ADRES_INSCHRIJFADRES_FK                            */
-/*==============================================================*/
-create index FK_ADRES_INSCHRIJFADRES_FK on INSCHRIJFADRES (
-POSTCODE ASC
-)
-go
-
-/*==============================================================*/
-/* Index: FK_WERKNEMER_INSCHRIJFADRES_FK                        */
-/*==============================================================*/
-create index FK_WERKNEMER_INSCHRIJFADRES_FK on INSCHRIJFADRES (
+create index R_CONTACTPERSOON_VAN_INSCHRIJFADRES_FK on INSCHRIJFADRES (
 PERSOON_ID ASC
 )
 go
@@ -271,15 +264,14 @@ go
 create table LADDER (
    TOERNOOI_ID          D_ID                 not null,
    JAARTAL              D_NUMMER             not null,
-   RANG                 D_NUMMER             not null,
-   constraint PK_LADDER primary key nonclustered (TOERNOOI_ID, JAARTAL, RANG)
+   constraint PK_LADDER primary key nonclustered (TOERNOOI_ID, JAARTAL)
 )
 go
 
 /*==============================================================*/
-/* Index: FK_TOERNOOI_LADDER_FK                                 */
+/* Index: R_LADDER_VAN_TOERNOOI_FK                              */
 /*==============================================================*/
-create index FK_TOERNOOI_LADDER_FK on LADDER (
+create index R_LADDER_VAN_TOERNOOI_FK on LADDER (
 TOERNOOI_ID ASC
 )
 go
@@ -295,33 +287,55 @@ create table LEEFTIJDSCATEGORIE (
 go
 
 /*==============================================================*/
+/* Table: LICENTIE                                              */
+/*==============================================================*/
+create table LICENTIE (
+   LICENTIE             D_LICENTIE           not null,
+   TOERNOOI_ID          D_ID                 not null,
+   SUBTOERNOOI_ID       D_ID                 not null,
+   constraint PK_LICENTIE primary key nonclustered (LICENTIE, TOERNOOI_ID, SUBTOERNOOI_ID)
+)
+go
+
+/*==============================================================*/
+/* Index: R_FORMAT_VAN_SUBTOERNOOI_FK                           */
+/*==============================================================*/
+create index R_FORMAT_VAN_SUBTOERNOOI_FK on LICENTIE (
+TOERNOOI_ID ASC,
+SUBTOERNOOI_ID ASC
+)
+go
+
+/*==============================================================*/
 /* Table: PERSOON                                               */
 /*==============================================================*/
 create table PERSOON (
    PERSOON_ID           D_ID                 not null,
    POSTCODE             D_POSTCODE           not null,
+   HUISNUMMER           D_HUISNUMMER         not null,
    VERENIGING_NAAM      D_NAAM               null,
    VOORNAAM             D_NAAM               not null,
    ACHTERNAAM           D_NAAM               not null,
    GESLACHT             D_GESLACHT           not null,
-   GEBOORTDEDATUM       D_GEBDATUM           null,
+   GEBOORTEDATUM        D_GEBDATUM           not null,
    constraint PK_PERSOON primary key nonclustered (PERSOON_ID)
 )
 go
 
 /*==============================================================*/
-/* Index: FK_TOERNOOI_PERSOON_FK                                */
+/* Index: R_CONTACTPERSOON_VAN_VERENIGING_FK                    */
 /*==============================================================*/
-create index FK_TOERNOOI_PERSOON_FK on PERSOON (
+create index R_CONTACTPERSOON_VAN_VERENIGING_FK on PERSOON (
 VERENIGING_NAAM ASC
 )
 go
 
 /*==============================================================*/
-/* Index: FK_ADRES_PERSOON_FK                                   */
+/* Index: R_PERSOON_ADRES_FK                                    */
 /*==============================================================*/
-create index FK_ADRES_PERSOON_FK on PERSOON (
-POSTCODE ASC
+create index R_PERSOON_ADRES_FK on PERSOON (
+POSTCODE ASC,
+HUISNUMMER ASC
 )
 go
 
@@ -330,50 +344,63 @@ go
 /*==============================================================*/
 create table SCORE (
    TOERNOOI_ID          D_ID                 not null,
+   SUBTOERNOOI_ID       D_ID                 not null,
    WEDSTRIJD_ID         D_ID                 not null,
    "SET"                D_SET                not null,
-   TEAM_NAAM            D_NAAM               not null,
+   TEAM_ID              D_ID                 not null,
    PUNTEN               D_NUMMER             null,
-   constraint PK_SCORE primary key nonclustered (TOERNOOI_ID, WEDSTRIJD_ID, "SET")
+   constraint PK_SCORE primary key nonclustered (TOERNOOI_ID, SUBTOERNOOI_ID, WEDSTRIJD_ID, "SET", TEAM_ID)
 )
 go
 
 /*==============================================================*/
-/* Index: FK_WEDSTRIJD_SCORE_FK                                 */
+/* Index: R_SCORE_VAN_WEDSTRIJD_FK                              */
 /*==============================================================*/
-create index FK_WEDSTRIJD_SCORE_FK on SCORE (
+create index R_SCORE_VAN_WEDSTRIJD_FK on SCORE (
 TOERNOOI_ID ASC,
+SUBTOERNOOI_ID ASC,
 WEDSTRIJD_ID ASC
 )
 go
 
 /*==============================================================*/
-/* Index: FK_TEAM_SCORE_FK                                      */
+/* Index: R_SCORE_VAN_TEAM_FK                                   */
 /*==============================================================*/
-create index FK_TEAM_SCORE_FK on SCORE (
-TEAM_NAAM ASC
+create index R_SCORE_VAN_TEAM_FK on SCORE (
+TEAM_ID ASC
 )
 go
 
+CREATE FUNCTION fnGetLeeftijdscategorie (@persoon_id INT)
+RETURNS VARCHAR(30)
+	AS
+  	  BEGIN
+  		  DECLARE @leeftijd INT, @categorie VARCHAR(30)
+  			  SELECT @leeftijd = DATEDIFF(HOUR,GEBOORTEDATUM, GETDATE())/8766
+  			  FROM PERSOON
+  			  WHERE PERSOON_ID = @persoon_id
+
+
+  			  SELECT TOP 1 @categorie = CATEGORIE_NAAM
+  			   FROM LEEFTIJDSCATEGORIE
+  			   WHERE ABS( LEEFTIJD  ) <= @leeftijd
+
+  		  RETURN @categorie
+  	  END
+GO
+
+
 /*==============================================================*/
-/* Table: SPELER                                                */
+/* Table: SPELER                                            	*/
 /*==============================================================*/
 create table SPELER (
-   PERSOON_ID           D_ID                 not null,
-   CATEGORIE_NAAM       D_CATNAME            not null,
-   KLASSE               D_NUMMER             null,
-   BONDSNUMMER          D_NUMMER             null,
-   LICENTIE             D_LICENTIE           null,
-   RANKING              D_NUMMER             null,
-   constraint PK_SPELER primary key (PERSOON_ID)
-)
-go
-
-/*==============================================================*/
-/* Index: FK_LEEFTIJDSCATEGORIE_SPELER_FK                       */
-/*==============================================================*/
-create index FK_LEEFTIJDSCATEGORIE_SPELER_FK on SPELER (
-CATEGORIE_NAAM ASC
+   PERSOON_ID       	D_ID             	not null,
+   CATEGORIE_NAAM AS (dbo.fnGetLeeftijdscategorie(PERSOON_ID)),
+   BONDSNUMMER      	D_NUMMER         	null,
+   LICENTIE         	D_LICENTIE       	null,
+   RANKING          	D_NUMMER         	null,
+   constraint PK_SPELER primary key (PERSOON_ID),
+   constraint CK_GeregistreerdLid check ((LICENTIE IS NOT NULL AND BONDSNUMMER IS NOT NULL AND RANKING IS NOT NULL) OR (LICENTIE IS NULL AND BONDSNUMMER IS NULL AND RANKING IS NULL))
 )
 go
 
@@ -385,22 +412,23 @@ create table SPELERINLADDER (
    TOERNOOI_ID          D_ID                 not null,
    JAARTAL              D_NUMMER             not null,
    RANG                 D_NUMMER             not null,
-   constraint PK_SPELERINLADDER primary key (PERSOON_ID, TOERNOOI_ID, JAARTAL, RANG)
+   constraint PK_SPELERINLADDER primary key (PERSOON_ID, TOERNOOI_ID),
+   constraint AK_SPELERINLADDER unique (TOERNOOI_ID, RANG)
 )
 go
 
 /*==============================================================*/
-/* Index: SPELERINLADDER_FK                                     */
+/* Index: R_SPELER_IN_LADDER_FK                                 */
 /*==============================================================*/
-create index SPELERINLADDER_FK on SPELERINLADDER (
+create index R_SPELER_IN_LADDER_FK on SPELERINLADDER (
 PERSOON_ID ASC
 )
 go
 
 /*==============================================================*/
-/* Index: SPELERINLADDER2_FK                                    */
+/* Index: R_SPELER_IN_LADDER2_FK                                */
 /*==============================================================*/
-create index SPELERINLADDER2_FK on SPELERINLADDER (
+create index R_SPELER_IN_LADDER2_FK on SPELERINLADDER (
 TOERNOOI_ID ASC,
 JAARTAL ASC,
 RANG ASC
@@ -411,25 +439,54 @@ go
 /* Table: SPELERINTEAM                                          */
 /*==============================================================*/
 create table SPELERINTEAM (
-   TEAM_NAAM            D_NAAM               not null,
+   TEAM_ID              D_ID                 not null,
    PERSOON_ID           D_ID                 not null,
-   constraint PK_SPELERINTEAM primary key (TEAM_NAAM, PERSOON_ID)
+   constraint PK_SPELERINTEAM primary key (TEAM_ID, PERSOON_ID)
 )
 go
 
 /*==============================================================*/
-/* Index: SPELERINTEAM_FK                                       */
+/* Index: R_SPELER_IN_TEAM_FK                                   */
 /*==============================================================*/
-create index SPELERINTEAM_FK on SPELERINTEAM (
-TEAM_NAAM ASC
+create index R_SPELER_IN_TEAM_FK on SPELERINTEAM (
+TEAM_ID ASC
 )
 go
 
 /*==============================================================*/
-/* Index: SPELERINTEAM2_FK                                      */
+/* Index: R_SPELER_IN_TEAM2_FK                                  */
 /*==============================================================*/
-create index SPELERINTEAM2_FK on SPELERINTEAM (
+create index R_SPELER_IN_TEAM2_FK on SPELERINTEAM (
 PERSOON_ID ASC
+)
+go
+
+/*==============================================================*/
+/* Table: SUBTOERNOOI                                           */
+/*==============================================================*/
+create table SUBTOERNOOI (
+   TOERNOOI_ID          D_ID                 not null,
+   SUBTOERNOOI_ID       D_ID                 not null,
+   CATEGORIE_NAAM       D_CATNAME            null,
+   GESLACHT             D_GESLACHT           null,
+   ENKEL                D_BOOLEAN            not null,
+   constraint PK_SUBTOERNOOI primary key nonclustered (TOERNOOI_ID, SUBTOERNOOI_ID)
+)
+go
+
+/*==============================================================*/
+/* Index: SUBTOERNOOI_VAN_TOERNOOI_FK                           */
+/*==============================================================*/
+create index SUBTOERNOOI_VAN_TOERNOOI_FK on SUBTOERNOOI (
+TOERNOOI_ID ASC
+)
+go
+
+/*==============================================================*/
+/* Index: R_LEEFTIJDSCATEGORIE_VAN_SUBTOERNOOI_FK               */
+/*==============================================================*/
+create index R_LEEFTIJDSCATEGORIE_VAN_SUBTOERNOOI_FK on SUBTOERNOOI (
+CATEGORIE_NAAM ASC
 )
 go
 
@@ -437,43 +494,17 @@ go
 /* Table: TAFEL                                                 */
 /*==============================================================*/
 create table TAFEL (
-   TAFEL_ID             D_ID                 not null,
    VERENIGING_NAAM      D_NAAM               not null,
-   constraint PK_TAFEL primary key nonclustered (TAFEL_ID)
-)
-go
-
-/*==============================================================*/
-/* Index: FK_VERENIGING_TAFEL_FK                                */
-/*==============================================================*/
-create index FK_VERENIGING_TAFEL_FK on TAFEL (
-VERENIGING_NAAM ASC
-)
-go
-
-/*==============================================================*/
-/* Table: TAFELINTOERNOOI                                       */
-/*==============================================================*/
-create table TAFELINTOERNOOI (
-   TOERNOOI_ID          D_ID                 not null,
    TAFEL_ID             D_ID                 not null,
-   constraint PK_TAFELINTOERNOOI primary key (TOERNOOI_ID, TAFEL_ID)
+   constraint PK_TAFEL primary key nonclustered (VERENIGING_NAAM, TAFEL_ID)
 )
 go
 
 /*==============================================================*/
-/* Index: TAFELINTOERNOOI_FK                                    */
+/* Index: R_TAFEL_VAN_VERENIGING_FK                             */
 /*==============================================================*/
-create index TAFELINTOERNOOI_FK on TAFELINTOERNOOI (
-TOERNOOI_ID ASC
-)
-go
-
-/*==============================================================*/
-/* Index: TAFELINTOERNOOI2_FK                                   */
-/*==============================================================*/
-create index TAFELINTOERNOOI2_FK on TAFELINTOERNOOI (
-TAFEL_ID ASC
+create index R_TAFEL_VAN_VERENIGING_FK on TAFEL (
+VERENIGING_NAAM ASC
 )
 go
 
@@ -481,34 +512,37 @@ go
 /* Table: TEAM                                                  */
 /*==============================================================*/
 create table TEAM (
+   TEAM_ID              INT IDENTITY         not null,
    TEAM_NAAM            D_NAAM               not null,
-   constraint PK_TEAM primary key nonclustered (TEAM_NAAM)
+   constraint PK_TEAM primary key nonclustered (TEAM_ID)
 )
 go
 
 /*==============================================================*/
-/* Table: TEAMINTOERNOOI                                        */
+/* Table: TEAMINSUBTOERNOOI                                     */
 /*==============================================================*/
-create table TEAMINTOERNOOI (
-   TEAM_NAAM            D_NAAM               not null,
+create table TEAMINSUBTOERNOOI (
+   TEAM_ID              D_ID                 not null,
    TOERNOOI_ID          D_ID                 not null,
-   constraint PK_TEAMINTOERNOOI primary key (TEAM_NAAM, TOERNOOI_ID)
+   SUBTOERNOOI_ID       D_ID                 not null,
+   constraint PK_TEAMINSUBTOERNOOI primary key (TEAM_ID, TOERNOOI_ID, SUBTOERNOOI_ID)
 )
 go
 
 /*==============================================================*/
-/* Index: TEAMINTOERNOOI_FK                                     */
+/* Index: R_TEAM_IN_SUBTOERNOOI_FK                              */
 /*==============================================================*/
-create index TEAMINTOERNOOI_FK on TEAMINTOERNOOI (
-TEAM_NAAM ASC
+create index R_TEAM_IN_SUBTOERNOOI_FK on TEAMINSUBTOERNOOI (
+TEAM_ID ASC
 )
 go
 
 /*==============================================================*/
-/* Index: TEAMINTOERNOOI2_FK                                    */
+/* Index: R_TEAM_IN_SUBTOERNOOI2_FK                             */
 /*==============================================================*/
-create index TEAMINTOERNOOI2_FK on TEAMINTOERNOOI (
-TOERNOOI_ID ASC
+create index R_TEAM_IN_SUBTOERNOOI2_FK on TEAMINSUBTOERNOOI (
+TOERNOOI_ID ASC,
+SUBTOERNOOI_ID ASC
 )
 go
 
@@ -516,34 +550,35 @@ go
 /* Table: TOERNOOI                                              */
 /*==============================================================*/
 create table TOERNOOI (
-   TOERNOOI_ID          D_ID                 not null,
+   TOERNOOI_ID          D_ID                 not null identity(1, 1),
+   TOERNOOINAAM         D_NAAM               not null,
    VERENIGING_NAAM      D_NAAM               not null,
    POSTCODE             D_POSTCODE           not null,
+   HUISNUMMER           D_HUISNUMMER         not null,
    START_DATUM          D_DATE               not null,
    EIND_DATUM           D_DATE               null,
    ORGANISATIE          D_NAAM               not null,
    GOEDKEURING          D_BOOLEAN            not null,
-   AANVANGSTIJDSTIP     D_TIME               not null,
    TOERNOOITYPE         D_TOERNOOITYPE       not null,
-   GESLACHT             D_GESLACHT           null,
-   ENKEL                D_BOOLEAN            not null,
+   MAX_AANTAL_SPELERS   D_NUMMER             not null,
    constraint PK_TOERNOOI primary key nonclustered (TOERNOOI_ID)
 )
 go
 
 /*==============================================================*/
-/* Index: FK_VERENIGING_TOERNOOI_FK                             */
+/* Index: R_TOERNOOI_BIJ_VERENIGING_FK                          */
 /*==============================================================*/
-create index FK_VERENIGING_TOERNOOI_FK on TOERNOOI (
+create index R_TOERNOOI_BIJ_VERENIGING_FK on TOERNOOI (
 VERENIGING_NAAM ASC
 )
 go
 
 /*==============================================================*/
-/* Index: FK_ADRES_TOERNOOI_FK                                  */
+/* Index: R_ADRES_VAN_TOERNOOI_FK                               */
 /*==============================================================*/
-create index FK_ADRES_TOERNOOI_FK on TOERNOOI (
-POSTCODE ASC
+create index R_ADRES_VAN_TOERNOOI_FK on TOERNOOI (
+POSTCODE ASC,
+HUISNUMMER ASC
 )
 go
 
@@ -553,17 +588,22 @@ go
 create table VERENIGING (
    VERENIGING_NAAM      D_NAAM               not null,
    POSTCODE             D_POSTCODE           not null,
+   HUISNUMMER           D_HUISNUMMER         not null,
    TELEFOONNUMMER       D_TELNUMMER          not null,
    EMAIL                D_EMAIL              not null,
    constraint PK_VERENIGING primary key nonclustered (VERENIGING_NAAM)
 )
 go
 
+execute sp_bindrule R_D_EMAILADRES, D_EMAIL
+go
+
 /*==============================================================*/
-/* Index: FK_ADRES_VERENIGING_FK                                */
+/* Index: R_ADRES_VAN_VERENIGING_FK                             */
 /*==============================================================*/
-create index FK_ADRES_VERENIGING_FK on VERENIGING (
-POSTCODE ASC
+create index R_ADRES_VAN_VERENIGING_FK on VERENIGING (
+POSTCODE ASC,
+HUISNUMMER ASC
 )
 go
 
@@ -572,54 +612,47 @@ go
 /*==============================================================*/
 create table WEDSTRIJD (
    TOERNOOI_ID          D_ID                 not null,
+   SUBTOERNOOI_ID       D_ID                 not null,
    WEDSTRIJD_ID         D_ID                 not null,
-   TEAM_NAAM            D_NAAM               not null,
-   TAFEL_ID             D_ID                 not null,
-   TEA_TEAM_NAAM        D_NAAM               not null,
-   PERSOON_ID           D_ID                 not null,
+   TEAM1                D_ID                 not null,
+   TEAM2                D_ID                 not null,
+   SCHEIDSRECHTER       D_ID                 null,
    START_DATUM          D_DATE               not null,
    POULECODE            D_POULE              null,
-   constraint PK_WEDSTRIJD primary key nonclustered (TOERNOOI_ID, WEDSTRIJD_ID)
+   constraint PK_WEDSTRIJD primary key nonclustered (TOERNOOI_ID, SUBTOERNOOI_ID, WEDSTRIJD_ID)
 )
 go
 
 /*==============================================================*/
-/* Index: FK_TOERNOOI_WEDSTRIJD_FK                              */
+/* Index: R_WEDSTRIJD_VAN_SUBTOERNOOI_FK                        */
 /*==============================================================*/
-create index FK_TOERNOOI_WEDSTRIJD_FK on WEDSTRIJD (
-TOERNOOI_ID ASC
+create index R_WEDSTRIJD_VAN_SUBTOERNOOI_FK on WEDSTRIJD (
+TOERNOOI_ID ASC,
+SUBTOERNOOI_ID ASC
 )
 go
 
 /*==============================================================*/
-/* Index: FK_WEDSTRIJD_TAFEL_FK                                 */
+/* Index: R_SCHEIDSRECHTER_VAN_WEDSTRIJD_FK                     */
 /*==============================================================*/
-create index FK_WEDSTRIJD_TAFEL_FK on WEDSTRIJD (
-TAFEL_ID ASC
+create index R_SCHEIDSRECHTER_VAN_WEDSTRIJD_FK on WEDSTRIJD (
+SCHEIDSRECHTER ASC
 )
 go
 
 /*==============================================================*/
-/* Index: FK_WERKNEMER_WEDSTRIJD_FK                             */
+/* Index: R_TEAM1_VAN_WEDSTRIJD_FK                              */
 /*==============================================================*/
-create index FK_WERKNEMER_WEDSTRIJD_FK on WEDSTRIJD (
-PERSOON_ID ASC
+create index R_TEAM1_VAN_WEDSTRIJD_FK on WEDSTRIJD (
+TEAM1 ASC
 )
 go
 
 /*==============================================================*/
-/* Index: FK_TEAM_WEDSTRIJD_FK                                  */
+/* Index: R_TEAM2_VAN_WEDSTRIJD_FK                              */
 /*==============================================================*/
-create index FK_TEAM_WEDSTRIJD_FK on WEDSTRIJD (
-TEAM_NAAM ASC
-)
-go
-
-/*==============================================================*/
-/* Index: FK_TEAM_WEDSTRIJD_B_FK                                */
-/*==============================================================*/
-create index FK_TEAM_WEDSTRIJD_B_FK on WEDSTRIJD (
-TEA_TEAM_NAAM ASC
+create index R_TEAM2_VAN_WEDSTRIJD_FK on WEDSTRIJD (
+TEAM2 ASC
 )
 go
 
@@ -634,66 +667,66 @@ create table WERKNEMER (
 go
 
 /*==============================================================*/
-/* Index: FK_WERKNEMER_FUNCTIE_FK                               */
+/* Index: R_FUNCTIE_VAN_WERKNEMER_FK                            */
 /*==============================================================*/
-create index FK_WERKNEMER_FUNCTIE_FK on WERKNEMER (
+create index R_FUNCTIE_VAN_WERKNEMER_FK on WERKNEMER (
 FUNCTIE_NAAM ASC
 )
 go
 
-alter table FORMAT
-   add constraint FK_FORMAT_FK_TOERNO_TOERNOOI foreign key (TOERNOOI_ID)
+alter table AANMELDINGENLADDER
+   add constraint FK_AANMELDI_AANMELDIN_SPELER foreign key (PERSOON_ID)
+      references SPELER (PERSOON_ID)
+go
+
+alter table AANMELDINGENLADDER
+   add constraint FK_AANMELDI_AANMELDIN_TOERNOOI foreign key (TOERNOOI_ID)
       references TOERNOOI (TOERNOOI_ID)
 go
 
 alter table INSCHRIJFADRES
-   add constraint FK_INSCHRIJ_FK_ADRES__ADRES foreign key (POSTCODE)
-      references ADRES (POSTCODE)
+   add constraint FK_INSCHRIJ_R_ADRES_V_ADRES foreign key (POSTCODE, HUISNUMMER)
+      references ADRES (POSTCODE, HUISNUMMER)
 go
 
 alter table INSCHRIJFADRES
-   add constraint FK_INSCHRIJ_FK_INSCHR_LEEFTIJD foreign key (CATEGORIE_NAAM)
-      references LEEFTIJDSCATEGORIE (CATEGORIE_NAAM)
-go
-
-alter table INSCHRIJFADRES
-   add constraint FK_INSCHRIJ_FK_TOERNO_TOERNOOI foreign key (TOERNOOI_ID)
-      references TOERNOOI (TOERNOOI_ID)
-go
-
-alter table INSCHRIJFADRES
-   add constraint FK_INSCHRIJ_FK_WERKNE_WERKNEME foreign key (PERSOON_ID)
+   add constraint FK_INSCHRIJ_R_CONTACT_WERKNEME foreign key (PERSOON_ID)
       references WERKNEMER (PERSOON_ID)
 go
 
+alter table INSCHRIJFADRES
+   add constraint FK_INSCHRIJ_R_TOERNOO_SUBTOERN foreign key (TOERNOOI_ID, SUBTOERNOOI_ID)
+      references SUBTOERNOOI (TOERNOOI_ID, SUBTOERNOOI_ID)
+go
+
 alter table LADDER
-   add constraint FK_LADDER_FK_TOERNO_TOERNOOI foreign key (TOERNOOI_ID)
+   add constraint FK_LADDER_R_LADDER__TOERNOOI foreign key (TOERNOOI_ID)
       references TOERNOOI (TOERNOOI_ID)
 go
 
-alter table PERSOON
-   add constraint FK_PERSOON_FK_ADRES__ADRES foreign key (POSTCODE)
-      references ADRES (POSTCODE)
+alter table LICENTIE
+   add constraint FK_LICENTIE_R_FORMAT__SUBTOERN foreign key (TOERNOOI_ID, SUBTOERNOOI_ID)
+      references SUBTOERNOOI (TOERNOOI_ID, SUBTOERNOOI_ID)
 go
 
 alter table PERSOON
-   add constraint FK_PERSOON_FK_TOERNO_VERENIGI foreign key (VERENIGING_NAAM)
+   add constraint FK_PERSOON_R_CONTACT_VERENIGI foreign key (VERENIGING_NAAM)
       references VERENIGING (VERENIGING_NAAM)
 go
 
-alter table SCORE
-   add constraint FK_SCORE_FK_TEAM_S_TEAM foreign key (TEAM_NAAM)
-      references TEAM (TEAM_NAAM)
+alter table PERSOON
+   add constraint FK_PERSOON_R_PERSOON_ADRES foreign key (POSTCODE, HUISNUMMER)
+      references ADRES (POSTCODE, HUISNUMMER)
 go
 
 alter table SCORE
-   add constraint FK_SCORE_FK_WEDSTR_WEDSTRIJ foreign key (TOERNOOI_ID, WEDSTRIJD_ID)
-      references WEDSTRIJD (TOERNOOI_ID, WEDSTRIJD_ID)
+   add constraint FK_SCORE_R_SCORE_V_TEAM foreign key (TEAM_ID)
+      references TEAM (TEAM_ID)
 go
 
-alter table SPELER
-   add constraint FK_SPELER_FK_LEEFTI_LEEFTIJD foreign key (CATEGORIE_NAAM)
-      references LEEFTIJDSCATEGORIE (CATEGORIE_NAAM)
+alter table SCORE
+   add constraint FK_SCORE_R_SCORE_V_WEDSTRIJ foreign key (TOERNOOI_ID, SUBTOERNOOI_ID, WEDSTRIJD_ID)
+      references WEDSTRIJD (TOERNOOI_ID, SUBTOERNOOI_ID, WEDSTRIJD_ID)
 go
 
 alter table SPELER
@@ -707,13 +740,13 @@ alter table SPELERINLADDER
 go
 
 alter table SPELERINLADDER
-   add constraint FK_SPELERIN_SPELERINL_LADDER foreign key (TOERNOOI_ID, JAARTAL, RANG)
-      references LADDER (TOERNOOI_ID, JAARTAL, RANG)
+   add constraint FK_SPELERIN_SPELERINL_LADDER foreign key (TOERNOOI_ID, JAARTAL)
+      references LADDER (TOERNOOI_ID, JAARTAL)
 go
 
 alter table SPELERINTEAM
-   add constraint FK_SPELERIN_SPELERINT_TEAM foreign key (TEAM_NAAM)
-      references TEAM (TEAM_NAAM)
+   add constraint FK_SPELERIN_SPELERINT_TEAM foreign key (TEAM_ID)
+      references TEAM (TEAM_ID)
 go
 
 alter table SPELERINTEAM
@@ -721,74 +754,68 @@ alter table SPELERINTEAM
       references SPELER (PERSOON_ID)
 go
 
+alter table SUBTOERNOOI
+   add constraint FK_SUBTOERN_R_LEEFTIJ_LEEFTIJD foreign key (CATEGORIE_NAAM)
+      references LEEFTIJDSCATEGORIE (CATEGORIE_NAAM)
+go
+
+alter table SUBTOERNOOI
+   add constraint FK_SUBTOERN_SUBTOERNO_TOERNOOI foreign key (TOERNOOI_ID)
+      references TOERNOOI (TOERNOOI_ID)
+go
+
 alter table TAFEL
-   add constraint FK_TAFEL_FK_VERENI_VERENIGI foreign key (VERENIGING_NAAM)
+   add constraint FK_TAFEL_R_TAFEL_V_VERENIGI foreign key (VERENIGING_NAAM)
       references VERENIGING (VERENIGING_NAAM)
 go
 
-alter table TAFELINTOERNOOI
-   add constraint FK_TAFELINT_TAFELINTO_TOERNOOI foreign key (TOERNOOI_ID)
-      references TOERNOOI (TOERNOOI_ID)
+alter table TEAMINSUBTOERNOOI
+   add constraint FK_TEAMINSU_TEAMINSUB_TEAM foreign key (TEAM_ID)
+      references TEAM (TEAM_ID)
 go
 
-alter table TAFELINTOERNOOI
-   add constraint FK_TAFELINT_TAFELINTO_TAFEL foreign key (TAFEL_ID)
-      references TAFEL (TAFEL_ID)
-go
-
-alter table TEAMINTOERNOOI
-   add constraint FK_TEAMINTO_TEAMINTOE_TEAM foreign key (TEAM_NAAM)
-      references TEAM (TEAM_NAAM)
-go
-
-alter table TEAMINTOERNOOI
-   add constraint FK_TEAMINTO_TEAMINTOE_TOERNOOI foreign key (TOERNOOI_ID)
-      references TOERNOOI (TOERNOOI_ID)
+alter table TEAMINSUBTOERNOOI
+   add constraint FK_TEAMINSU_TEAMINSUB_SUBTOERN foreign key (TOERNOOI_ID, SUBTOERNOOI_ID)
+      references SUBTOERNOOI (TOERNOOI_ID, SUBTOERNOOI_ID)
 go
 
 alter table TOERNOOI
-   add constraint FK_TOERNOOI_FK_ADRES__ADRES foreign key (POSTCODE)
-      references ADRES (POSTCODE)
+   add constraint FK_TOERNOOI_R_ADRES_V_ADRES foreign key (POSTCODE, HUISNUMMER)
+      references ADRES (POSTCODE, HUISNUMMER)
 go
 
 alter table TOERNOOI
-   add constraint FK_TOERNOOI_FK_VERENI_VERENIGI foreign key (VERENIGING_NAAM)
+   add constraint FK_TOERNOOI_R_TOERNOO_VERENIGI foreign key (VERENIGING_NAAM)
       references VERENIGING (VERENIGING_NAAM)
 go
 
 alter table VERENIGING
-   add constraint FK_VERENIGI_FK_ADRES__ADRES foreign key (POSTCODE)
-      references ADRES (POSTCODE)
+   add constraint FK_VERENIGI_R_ADRES_V_ADRES foreign key (POSTCODE, HUISNUMMER)
+      references ADRES (POSTCODE, HUISNUMMER)
 go
 
 alter table WEDSTRIJD
-   add constraint FK_WEDSTRIJ_FK_TEAM_A_TEAM foreign key (TEAM_NAAM)
-      references TEAM (TEAM_NAAM)
-go
-
-alter table WEDSTRIJD
-   add constraint FK_WEDSTRIJ_FK_TEAM_B_TEAM foreign key (TEA_TEAM_NAAM)
-      references TEAM (TEAM_NAAM)
-go
-
-alter table WEDSTRIJD
-   add constraint FK_WEDSTRIJ_FK_TOERNO_TOERNOOI foreign key (TOERNOOI_ID)
-      references TOERNOOI (TOERNOOI_ID)
-go
-
-alter table WEDSTRIJD
-   add constraint FK_WEDSTRIJ_FK_WEDSTR_TAFEL foreign key (TAFEL_ID)
-      references TAFEL (TAFEL_ID)
-go
-
-alter table WEDSTRIJD
-   add constraint FK_WEDSTRIJ_FK_WERKNE_WERKNEME foreign key (PERSOON_ID)
+   add constraint FK_WEDSTRIJ_R_SCHEIDS_WERKNEME foreign key (SCHEIDSRECHTER)
       references WERKNEMER (PERSOON_ID)
 go
 
-alter table WERKNEMER
-   add constraint FK_WERKNEME_FK_WERKNE_FUNCTIE foreign key (FUNCTIE_NAAM)
-      references FUNCTIE (FUNCTIE_NAAM)
+alter table WEDSTRIJD
+   add constraint FK_WEDSTRIJ_R_TEAM1_V_TEAM foreign key (TEAM1)
+      references TEAM (TEAM_ID)
+go
+
+alter table WEDSTRIJD
+   add constraint FK_WEDSTRIJ_R_TEAM2_V_TEAM foreign key (TEAM2)
+      references TEAM (TEAM_ID)
+go
+
+alter table WEDSTRIJD
+   add constraint FK_WEDSTRIJ_R_WEDSTRI_SUBTOERN foreign key (TOERNOOI_ID, SUBTOERNOOI_ID)
+      references SUBTOERNOOI (TOERNOOI_ID, SUBTOERNOOI_ID)
+go
+
+alter table WEDSTRIJD
+   add constraint CK_WEDSTRIJD_TEAMS CHECK (Team1 <> Team2)
 go
 
 alter table WERKNEMER
@@ -796,3 +823,146 @@ alter table WERKNEMER
       references PERSOON (PERSOON_ID)
 go
 
+alter table WERKNEMER
+   add constraint FK_WERKNEME_R_FUNCTIE_FUNCTIE foreign key (FUNCTIE_NAAM)
+      references FUNCTIE (FUNCTIE_NAAM)
+go
+-- Programmability
+create PROC prcPlaatsSubtoernooi
+			@TOERNOOI_ID D_ID,
+			@CATEGORIE_NAAM D_CATNAME,
+			@GESLACHT D_GESLACHT,
+			@ENKEL D_BOOLEAN,
+			@LICENTIES VARCHAR(30) = NULL
+AS
+BEGIN
+	BEGIN TRY
+	SET NOCOUNT ON
+	DECLARE @t int = 0
+		IF  @@trancount=0
+			BEGIN
+				BEGIN TRAN
+				set @t =1
+			END
+		ELSE
+			BEGIN
+				SAVE TRANSACTION ProcedureSave;
+			END
+		IF @t =1
+		 BEGIN
+				--================= Code block ===================---
+		DECLARE @SUBTOERNOOI_ID D_ID
+			IF NOT EXISTS	( SELECT * FROM SUBTOERNOOI WHERE TOERNOOI_ID = @TOERNOOI_ID)
+				BEGIN
+					SET @SUBTOERNOOI_ID = 1
+				END
+			ELSE
+				BEGIN
+					SELECT @SUBTOERNOOI_ID = MAX(SUBTOERNOOI_ID) +1
+					FROM SUBTOERNOOI
+					WHERE TOERNOOI_ID = @TOERNOOI_ID
+				END
+
+			--LADDER TOERNOOI MOET ALTIJD
+						-- VOOR BEIDE GESLACHTEN ZIJN;
+						-- ENKELVORMIG
+						-- GEEN KLASSE RESTRICTIES
+			BEGIN TRY
+			IF EXISTS (	SELECT *
+						FROM TOERNOOI
+						WHERE TOERNOOI_ID = @TOERNOOI_ID	AND
+							  TOERNOOITYPE IN ('Ladder')
+						)
+					BEGIN
+						IF(@SUBTOERNOOI_ID > 1)
+							BEGIN
+								RAISERROR ('Laddertoernooi mag maar één subtoernooi hebben',16,1)
+							END
+						IF NOT (@GESLACHT IS NULL)
+							BEGIN
+								RAISERROR ('Laddertoernooi mag geen geslachtsrestricties hebben.',16,1)
+							END
+						IF (@ENKEL = 0)
+							BEGIN
+								RAISERROR('Laddertoernooi is alleen voor enkel-vormige teams.',16,1)
+							END
+
+					END
+
+			-- PRESTATIETOERNOOI MOET ALTJD
+						-- MINIMAAL 1 LICENTIE HEBBEN
+			IF NOT EXISTS (	SELECT *
+						FROM TOERNOOI
+						WHERE TOERNOOI_ID = @TOERNOOI_ID	AND
+							  TOERNOOITYPE = 'Prestatie'
+						)
+				BEGIN
+						IF (@LICENTIES IS NOT NULL)
+							BEGIN
+								RAISERROR('Alleen een prestatietoernooi mag een licentierestricties hebben.',16,1)
+							END
+				END
+			ELSE
+				BEGIN
+					IF(@LICENTIES IS NULL)
+						BEGIN
+							RAISERROR('Prestatietoernooi moet minimaal 1 licentierestrictie hebben.',16,1)
+						END
+				END
+
+
+			INSERT INTO SUBTOERNOOI
+			VALUES
+			(@TOERNOOI_ID,@SUBTOERNOOI_ID,@CATEGORIE_NAAM,@GESLACHT, @ENKEL)
+
+			-- LICENTIES
+
+		IF (RIGHT(@LICENTIES,1) != ',')
+			BEGIN
+				SET @LICENTIES = @LICENTIES + ','
+			END
+
+		DECLARE @pos INT
+		DECLARE @len INT
+		DECLARE @value varchar(8000)
+
+
+		SET @pos = 0
+		SET @len = 0
+
+			WHILE CHARINDEX(',', @LICENTIES, @pos+1)>0
+				BEGIN
+					SET @len	= CHARINDEX(',', @LICENTIES, @pos+1) - @pos
+					SET @value	= SUBSTRING(@LICENTIES, @pos, @len)
+
+					INSERT INTO LICENTIE
+					VALUES
+					(UPPER(@value), @TOERNOOI_ID,@SUBTOERNOOI_ID)
+
+
+					SET @pos = CHARINDEX(',', @LICENTIES, @pos+@len) +1
+				END
+
+			END TRY
+			BEGIN CATCH
+				THROW
+			END CATCH
+				--================================================---
+
+			COMMIT TRAN
+		 END
+	END TRY
+	BEGIN CATCH
+		IF @t=0
+			BEGIN
+				ROLLBACK TRAN ProcedureSave
+
+			END
+		ELSE
+			BEGIN
+				ROLLBACK TRAN
+			END;
+	THROW
+	END CATCH
+END
+GO

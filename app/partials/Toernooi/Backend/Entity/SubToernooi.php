@@ -37,7 +37,7 @@ class SubToernooi
   protected $enkel;
 
   /**
-   * @ManyToOne(targetEntity="Registratie\Backend\Entity\Leeftijdscategorie", inversedBy="toernooi_collection", cascade={"persist"})
+   * @OneToOne(targetEntity="Registratie\Backend\Entity\Leeftijdscategorie", inversedBy="subtoernooi", cascade={"persist"})
    * @JoinColumn(name="categorie_naam", referencedColumnName="categorie_naam"),
    */
   protected $leeftijdscategorie;
@@ -57,8 +57,14 @@ class SubToernooi
    */
   protected $wedstrijd_collection;
 
+  /**
+   * @OneToMany(targetEntity="Toernooi\Backend\Entity\Licentie", mappedBy="subtoernooi", cascade={"persist"})
+   */
+  protected $licentie_collection;
+
   public function __construct() {
     $this->wedstrijd_collection = new ArrayCollection();
+    $this->licentie_collection = new ArrayCollection();
   }
 
   public function __get($property) {

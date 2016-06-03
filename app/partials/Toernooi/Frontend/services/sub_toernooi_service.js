@@ -1,10 +1,26 @@
 define(['app'], function(app) {
   app.service('subToernooiService', ['$http', function ($http) {
     return {
+      create: function (data) {
+        var url = 'app/api/subtoernooi/add';
+        return $http({
+          method: 'POST',
+          url: url,
+          data: data
+        });
+      },
+      update: function(data) {
+        var url = 'app/api/subtoernooi/update';
+        return $http({
+          method: 'POST',
+          url: url,
+          data: data
+        })
+      },
       list: function(id) {
         var url = 'app/api/subtoernooi/list';
         var data = {
-          id: id
+          toernooi_id: id
         };
         return $http({
           method: 'POST',
@@ -12,10 +28,11 @@ define(['app'], function(app) {
           data: data
         });
       },
-      find: function(id) {
+      find: function(toernooi_id, subtoernooi_id) {
         var url = 'app/api/subtoernooi/find';
         var data = {
-          id: id
+          toernooi_id: toernooi_id,
+          subtoernooi_id: subtoernooi_id
         };
         return $http({
           method: 'POST',
@@ -23,10 +40,11 @@ define(['app'], function(app) {
           data: data
         })
       },
-      delete: function(id) {
+      delete: function(toernooi_id, subtoernooi_id) {
         var url = 'app/api/subtoernooi/delete';
         var data = {
-          id: id
+          toernooi_id: toernooi_id,
+          subtoernooi_id: subtoernooi_id
         };
         return $http({
           method: 'POST',

@@ -33,6 +33,26 @@
             <input type="text" class="form-control" ng-model="formData.enkel" maxlength="75" placeholder="Enkel" required>
           </div>
         </div>
+
+        <div class="row vertical-align">
+          <div class="hidden-xs col-xs-3">
+            <p> Licenties: </p>
+          </div>
+
+          <div class="col-xs-offset-1 col-sm-8 col-xs-11">
+            <ui-select multiple ng-model="formData.licenties" theme="bootstrap" sortable="false" close-on-select="false">
+              <ui-select-match placeholder="Selecteer licenties">{{$item}}</ui-select-match>
+              <ui-select-choices repeat="licentie in select_licenties">
+                <div>{{licentie}}</div>
+              </ui-select-choices>
+            </ui-select>
+          </div>
+          
+        </div>
+
+        <div class="row">
+          <button class="btn btn-primary pull-right" ng-click="togglePage() || null" type="submit"> Submit </button>
+        </div>
       </div>
 
       <div class="row"></div>

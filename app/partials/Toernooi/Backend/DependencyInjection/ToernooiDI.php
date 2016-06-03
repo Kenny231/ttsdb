@@ -3,6 +3,7 @@
 namespace Toernooi\Backend\DependencyInjection;
 
 use Toernooi\Backend\Services\ToernooiService;
+use Toernooi\Backend\Services\SubToernooiService;
 
 class ToernooiDI
 {
@@ -15,6 +16,9 @@ class ToernooiDI
 
     $container['ToernooiService'] = function($container) {
       return new ToernooiService($container);
+    };
+    $container['SubToernooiService'] = function($container) {
+      return new SubToernooiService($container);
     };
   }
 }
