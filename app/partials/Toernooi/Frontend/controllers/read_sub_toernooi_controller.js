@@ -159,7 +159,6 @@ define(['app'], function (app) {
       toernooiService
       .update(data)
       .success(function(response) {
-        console.log(response);
         var item = DatatableService.getSelection();
         var index = $scope.getIndexById(item.subtoernooi_id);
         // Reload row.
@@ -175,6 +174,14 @@ define(['app'], function (app) {
      $scope.createForm = function() {
        var path = '/subtoernooi/create/';
        $location.path(path.concat($routeParams.toernooiId));
+     }
+
+     $scope.relocate = function() {
+       if (DatatableService.hasSelection()) {
+         var selection = DatatableService.getSelection();
+         var path = '/wedstrijd/read/' + selection.toernooi_id + '/' + selection.subtoernooi_id;
+         $location.path(path);
+       }
      }
   }]);
 });

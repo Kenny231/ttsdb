@@ -10,9 +10,9 @@ class WedstrijdController
   const WEDSTRIJD = 'Wedstrijd\Backend\Entity\Wedstrijd';
   const SUBTOERNOOI = 'Toernooi\Backend\Entity\SubToernooi';
 
-  private $baseService;
+  private $wedstrijdService;
   public function __construct($container) {
-    $this->baseService = $container->BaseService;
+    $this->wedstrijdService = $container->WedstrijdService;
   }
 
   private function construct_error($error_msg) {
@@ -29,7 +29,7 @@ class WedstrijdController
       return $response->withJson($this->construct_error("Data mag niet null zijn."));
     }
 
-    $this->baseService->persist($this->createWedstrijd($data));
+    $this->wedstrijdService->persist($this->createWedstrijd($data));
   }
 
   public function update($request, $response, $args) {
@@ -40,18 +40,18 @@ class WedstrijdController
       return $response->withJson($this->construct_error("Data mag niet null zijn."));
     }
 
-    $wedstrijd = $this->baseService->find(self::WEDSTRIJD, array(
+    $wedstrijd = $this->wedstrijdService->find(self::WEDSTRIJD, array(
       'wedstrijd_id' => $data['wedstrijd_id'],
       'subtoernooi_id' => $data['subtoernooi_id'],
       'toernooi_id' => $data['toernooi_id']
     ));
-    $this->baseService->persist($this->createWedstrijd($data, $wedstrijd));
+    $this->wedstrijdService->persist($this->createWedstrijd($data, $wedstrijd));
   }
 
   public function delete($request, $response, $args) {
     $data = $request->getParsedBody();
 
-    $this->baseService->delete(self::WEDSTRIJD, array(
+    $this->wedstrijdService->delete(self::WEDSTRIJD, array(
       'toernooi_id' => $data['toernooi_id'],
       'subtoernooi_id' => $data['subtoernooi_id'],
       'wedstrijd_id' => $data['wedstrijd_id']
@@ -60,7 +60,11 @@ class WedstrijdController
 
   public function getList($request, $response, $args) {
     $ret_data = array();
-    $data = $this->baseService->getList(self::WEDSTRIJD);
+    $req_data = $request->getParsedBody();
+    $data = $this->wedstrijdService->getWedstrijdList(
+      $req_data['toernooi_id'],
+      $req_data['subtoernooi_id']
+    );
     for ($i=0; $i<count($data);$i++) {
       array_push($ret_data, $this->entityToArray($data[$i]));
     }
@@ -69,7 +73,7 @@ class WedstrijdController
 
   public function find($request, $response, $args) {
     $data = $request->getParsedBody();
-    $wedstrijd = $this->baseService->find(self::WEDSTRIJD, array(
+    $wedstrijd = $this->wedstrijdService->find(self::WEDSTRIJD, array(
       'toernooi_id' => $data['toernooi_id'],
       'subtoernooi_id' => $data['subtoernooi_id'],
       'wedstrijd_id' => $data['wedstrijd_id']
@@ -101,14 +105,14 @@ class WedstrijdController
     $wedstrijd->start_datum         = new \DateTime($data['start_datum']);
     $wedstrijd->poulecode           = $data['poulecode'];
 
-    $subtoernooi = $this->baseService->find(self::SUBTOERNOOI, array(
+    $subtoernooi = $this->wedstrijdService->find(self::SUBTOERNOOI, array(
       'toernooi_id' => $data['toernooi_id'],
       'subtoernooi_id' => $data['subtoernooi_id']
     ));
     $wedstrijd->subtoernooi = $subtoernooi;
     $subtoernooi->wedstrijd_collection->add($wedstrijd);
 
-    $werknemer = $this->baseService->find(self::WERKNEMER, $data['scheidsrechter']);
+    $werknemer = $this->wedstrijdService->find(self::WERKNEMER, $data['scheidsrechter']);
     $werknemer->wedstrijd = $wedstrijd;
     $wedstrijd->werknemer = $werknemer;
 

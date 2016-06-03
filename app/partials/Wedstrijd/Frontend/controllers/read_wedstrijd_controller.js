@@ -1,6 +1,14 @@
 define(['app'], function (app) {
-	app.controller('ReadWedstrijdController', ['$scope', '$http', '$filter', '$mdDialog', 'WedstrijdService','DatatableService', function ($scope, $http, $filter, $mdDialog, wedstrijdService, DatatableService) {
-
+	app.controller('ReadWedstrijdController', [
+		'$scope',
+		'$http',
+		'$filter',
+		'$mdDialog',
+		'$routeParams',
+		'$location',
+		'WedstrijdService',
+		'DatatableService',
+	function ($scope, $http, $filter, $mdDialog, $routeParams, $location, wedstrijdService, DatatableService) {
 		$scope.DatatableService = DatatableService;
 
 		/* SETUP */
@@ -42,9 +50,8 @@ define(['app'], function (app) {
 		*/
 		function list() {
 			wedstrijdService
-			.list()
+			.list($routeParams.toernooiId, $routeParams.subToernooiId)
 			.success(function(response) {
-				console.log(response);
 				DatatableService.data = response;
 			});
 		}
@@ -62,8 +69,8 @@ define(['app'], function (app) {
 			if (DatatableService.hasSelection()) {
 				var data = {
 					wedstrijd_id: DatatableService.getSelection().wedstrijd_id,
-					subtoernooi_id: DatatableService.getSelection().subtoernooi_id,
-					toernooi_id: DatatableService.getSelection().toernooi_id
+					subtoernooi_id: $routeParams.subToernooiId,
+					toernooi_id: $routeParams.toernooiId
 				}
 				wedstrijdService
 				.delete(data)
@@ -116,8 +123,6 @@ define(['app'], function (app) {
 
 			// Waardes invullen
 			$scope.formData.wedstrijd_id= item.wedstrijd_id;
-			$scope.formData.subtoernooi_id = item.subtoernooi_id;
-			$scope.formData.toernooi_id = item.toernooi_id;
 			$scope.formData.team1 = item.team1;
 			$scope.formData.team2 = item.team2;
 			$scope.formData.scheidsrechter = item.scheidsrechter;
@@ -133,8 +138,8 @@ define(['app'], function (app) {
 		$scope.submit = function() {
 			var data = {
 				wedstrijd_id: 	DatatableService.getSelection().wedstrijd_id,
-				subtoernooi_id: DatatableService.getSelection().subtoernooi_id,
-				toernooi_id:    DatatableService.getSelection().toernooi_id,
+				subtoernooi_id: $routeParams.subToernooiId,
+				toernooi_id:    $routeParams.toernooiId,
 				team1:       		$scope.formData.team1,
 				team2:          $scope.formData.team2,
 				scheidsrechter: $scope.formData.scheidsrechter,
@@ -149,8 +154,8 @@ define(['app'], function (app) {
 				else {
 					var ids = {
 						wedstrijd_id: DatatableService.getSelection().wedstrijd_id,
-						subtoernooi_id: DatatableService.getSelection().subtoernooi_id,
-						toernooi_id: DatatableService.getSelection().toernooi_id
+						subtoernooi_id: $routeParams.toernooiId,
+						toernooi_id: $routeParams.subToernooiId
 					}
 					var index = $scope.getIndexById(ids);
 
@@ -182,6 +187,11 @@ define(['app'], function (app) {
 				DatatableService.data[i].toernooi_id == data['toernooi_id'])
 				return i;
 			}
+		}
+
+		$scope.createForm = function() {
+			var path = '/wedstrijd/create/' + $routeParams.toernooiId + '/' + $routeParams.subToernooiId;
+			$location.path(path);
 		}
 	}]);
 });

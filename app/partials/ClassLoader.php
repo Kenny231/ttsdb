@@ -34,6 +34,7 @@ class ClassLoader
     new Resources\Backend\DependencyInjection\ResourceDI($this->app);
     new Resources\Backend\DependencyInjection\BaseServiceDI($this->app);
     new Registratie\Backend\DependencyInjection\RegistratieDI($this->app);
+    new Wedstrijd\Backend\DependencyInjection\WedstrijdDI($this->app);
   }
 }
 

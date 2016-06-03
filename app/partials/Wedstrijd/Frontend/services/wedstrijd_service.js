@@ -17,11 +17,16 @@ define(['app'], function(app) {
 					data: data
 				});
 			},
-			list: function() {
+			list: function(toernooi_id, subtoernooi_id) {
 				var url = 'app/api/wedstrijd/list';
+				var data = {
+					toernooi_id: toernooi_id,
+					subtoernooi_id: subtoernooi_id
+				};
 				return $http({
-					method: 'GET',
-					url: url
+					method: 'POST',
+					url: url,
+					data: data
 				});
 			},
 			find: function(data) {

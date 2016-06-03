@@ -1,5 +1,12 @@
 define(['app'], function (app) {
-	app.controller('CreateWedstrijdController', ['$scope', '$http', '$filter', '$location', 'WedstrijdService', function ($scope, $http, $filter, $location, wedstrijdService) {
+	app.controller('CreateWedstrijdController', [
+		'$scope',
+		'$http',
+		'$filter',
+		'$location',
+		'$routeParams',
+		'WedstrijdService',
+	function ($scope, $http, $filter, $location, $routeParams, wedstrijdService) {
 		// Form data
 		$scope.formData = {};
 		// pagina
@@ -11,8 +18,8 @@ define(['app'], function (app) {
 		$scope.submit = function() {
 			var data = {
 				wedstrijd_id: 	$scope.formData.wedstrijd_id,
-				subtoernooi_id: $scope.formData.subtoernooi_id,
-				toernooi_id:    $scope.formData.toernooi_id,
+				toernooi_id:		$routeParams.toernooiId,
+				subtoernooi_id:	$routeParams.subToernooiId,
 				team1:       		$scope.formData.team1,
 				team2:          $scope.formData.team2,
 				scheidsrechter: $scope.formData.scheidsrechter,
@@ -22,8 +29,10 @@ define(['app'], function (app) {
 			wedstrijdService
 			.create(data)
 			.success(function(response) {
-				if (!response.error)
-					$location.path('/');
+				if (!response.error) {
+					var path = '/wedstrijd/read/' + $routeParams.toernooiId + '/' + $routeParams.subToernooiId;
+					$location.path(path);
+				}
 				else {
 					$scope.error = response.error;
 				}
