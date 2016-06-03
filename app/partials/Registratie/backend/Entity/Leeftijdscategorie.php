@@ -29,6 +29,14 @@ class Leeftijdscategorie
    * @OneToOne(targetEntity="Toernooi\Backend\Entity\SubToernooi", mappedBy="leeftijdscategorie", cascade={"persist"})
    */
   protected $subtoernooi;
+
+  public function __get($property) {
+    return $this->$property;
+  }
+
+  public function __set($property, $value) {
+      $this->$property = $value;
+  }
 }
 
 ?>

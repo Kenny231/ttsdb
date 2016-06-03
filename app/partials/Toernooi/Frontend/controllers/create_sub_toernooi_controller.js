@@ -37,8 +37,10 @@ define(['app'], function (app) {
       toernooiService
       .create(data)
       .success(function(response) {
-        if (!response.error)
-          $location.path('/');
+        if (!response.error) {
+          var path = '/subtoernooi/read/';
+          $location.path(path.concat($routeParams.toernooiId));
+        }
       });
     }
   }]);

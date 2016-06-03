@@ -11,6 +11,8 @@ require_once 'partials/Inschrijfadres/Backend/Entity/Inschrijfadres.php';
 require_once 'partials/Registratie/Backend/Entity/Leeftijdscategorie.php';
 require_once 'partials/Registratie/Backend/Entity/Speler.php';
 require_once 'partials/Wedstrijd/Backend/Entity/Wedstrijd.php';
+require_once 'partials/Toernooi/Backend/Entity/Licentie.php';
+require_once 'partials/Registratie/Backend/Entity/Team.php';
 
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
@@ -19,6 +21,8 @@ use Doctrine\ORM\Query\ResultSetMappingBuilder;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\Common\Collections\ArrayCollection;
 
+use Registratie\Backend\Entity\Team;
+use Toernooi\Backend\Entity\Licentie;
 use Login\Backend\Entity\Persoon;
 use Login\Backend\Entity\Werknemer;
 use Login\Backend\Entity\Functie;
@@ -83,24 +87,33 @@ $em->persist($inschrijfadres);
 $em->flush();*/
 
 
-$result = $em
-  ->createQueryBuilder()
-  ->select('toernooi_id')
-  ->from('subtoernooi', 't')
-  ->where('toernooi_id = 1');
 
-  $rsm = new ResultSetMapping();
-  $rsm->addEntityResult(SubToernooi::class, 't');
-  $rsm->addFieldResult('t', 'TOERNOOI_ID', 'toernooi_id');
-  $rsm->addFieldResult('t', 'SUBTOERNOOI_ID', 'subtoernooi_id');
-  $rsm->addFieldResult('t', 'CATEGORIE_NAAM', 'categorie_naam');
-  $rsm->addFieldResult('t', 'GESLACHT', 'geslacht');
-  $rsm->addFieldResult('t', 'ENKEL', 'enkel');
+$subtoernooi = $em->GetRepository(SubToernooi::class)->find(array(
+  'toernooi_id' => 1,
+  'subtoernooi_id' => 2
+));
 
-  $sql = 'SELECT * FROM SUBTOERNOOI WHERE toernooi_id = 1';
-  $query = $em->createNativeQuery($sql, $rsm);
+$subtoernooi->toernooi_id = 1;
+$subtoernooi->subtoernooi_id = 2;
+$subtoernooi->geslacht = 'v';
+$subtoernooi->enkel = 1;
 
-  print_r($query->getResult());
+$leeftijdscategorie = $em->GetRepository(Leeftijdscategorie::class)->find('Welp');
+$subtoernooi->leeftijdscategorie = $leeftijdscategorie;
+$leeftijdscategorie->subtoernooi = $subtoernooi;
 
+$licenties = array('A', 'B', 'C');
+foreach ($licenties as $key => $val) {
+  $licentie = new Licentie();
+  $licentie->toernooi_id = 1;
+  $licentie->subtoernooi_id = 2;
+  $licentie->licentie = $val;
+
+  $subtoernooi->licentie_collection->add($licentie);
+  $licentie->subtoernooi = $subtoernooi;
+}
+
+$em->persist($subtoernooi);
+$em->flush();
 
 ?>

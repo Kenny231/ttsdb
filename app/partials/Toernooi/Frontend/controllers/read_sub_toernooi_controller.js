@@ -32,7 +32,6 @@ define(['app'], function (app) {
       toernooiService
       .list($routeParams.toernooiId)
       .success(function(response) {
-        console.log(response);
         DatatableService.data = response;
       });
     }
@@ -106,6 +105,16 @@ define(['app'], function (app) {
     /*
      * Update pagina
      */
+    // Licenties
+    $scope.formData.licenties = [];
+    $scope.select_licenties = [
+      'A',
+      'B',
+      'C',
+      'D',
+      'E'
+    ];
+
     $scope.togglePage = function() {
       $scope.formData.page = 1;
     }
@@ -120,6 +129,9 @@ define(['app'], function (app) {
       $scope.formData.categorie_naam = item.categorie_naam;
       $scope.formData.geslacht = item.geslacht;
       $scope.formData.enkel = item.enkel;
+
+      for (var i=0; i<item.licenties.length; i++)
+        $scope.formData.licenties[i] = item.licenties[i];
     }
     /*
      * Wordt aangeroepen, als er op de edit knop gedrukt wordt.
@@ -137,15 +149,17 @@ define(['app'], function (app) {
     $scope.submit = function() {
       $scope.main_page = 1;
       var data = {
-        toernooi_id:		  $routeParams.toernooi_id,
+        toernooi_id:		  $routeParams.toernooiId,
         subtoernooi_id:   DatatableService.getSelection().subtoernooi_id,
         categorie_naam:   $scope.formData.categorie_naam,
         geslacht:         $scope.formData.geslacht,
-        enkel:            $scope.formData.enkel,
+        enkel:            $scope.formData.enkel.toString(),
+        licenties:        $scope.formData.licenties
       };
       toernooiService
       .update(data)
       .success(function(response) {
+        console.log(response);
         var item = DatatableService.getSelection();
         var index = $scope.getIndexById(item.subtoernooi_id);
         // Reload row.
