@@ -1,0 +1,36 @@
+<md-dialog aria-label="score">
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Score: {{team_a}} - {{team_b}}</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <i class="glyphicon glyphicon-remove"></i>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content style="margin: 10px 10px 0px 10px;">
+      <md-content>
+        <p>Set: {{set}}</p>
+        <md-input-container style="float:clear">
+          <label>{{team_a}}</label>
+          <input type="number" min="0" ng-model="formData.score_a">
+        </md-input-container>
+        <md-input-container>
+          <label>{{team_b}}</label>
+          <input type="number" min="0" ng-model="formData.score_b">
+        </md-input-container>
+      </md-content>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+      <md-button ng-click="cancel()" >
+        Annuleer
+      </md-button>
+      <md-button
+        ng-if="formData.score_a && formData.score_b"
+        ng-click="answer({score_a : formData.score_a, score_b : formData.score_b})" style="margin-right:20px;" >
+        Verzend
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

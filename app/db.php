@@ -86,9 +86,14 @@ $adres->inschrijfadres_collection->add($inschrijfadres);
 $em->persist($inschrijfadres);
 $em->flush();*/
 
+$var = $em->GetRepository(Wedstrijd::class)->find(array(
+  'toernooi_id' => '1',
+  'subtoernooi_id' => '2',
+  'wedstrijd_id' => '1'
+));
+print_r($var);
 
-
-$subtoernooi = $em->GetRepository(SubToernooi::class)->find(array(
+/*$subtoernooi = $em->GetRepository(SubToernooi::class)->find(array(
   'toernooi_id' => 1,
   'subtoernooi_id' => 2
 ));
@@ -114,6 +119,6 @@ foreach ($licenties as $key => $val) {
 }
 
 $em->persist($subtoernooi);
-$em->flush();
+$em->flush(); */
 
 ?>

@@ -51,11 +51,6 @@ class Toernooi
   */
   protected $toernooitype;
 
-  /*
-   * @ManyToMany(targetEntity="Registratie\Backend\Entity\Team", mappedBy="toernooien")
-   */
-  protected $teams;
-
   /**
    * @Column(type="string", length=6)
    */
@@ -87,7 +82,6 @@ class Toernooi
 
   function __construct()
   {
-    $this->teams = new ArrayCollection();
     $this->subtoernooi_collection = new ArrayCollection();
   }
 

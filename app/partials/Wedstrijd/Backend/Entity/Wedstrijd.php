@@ -66,6 +66,17 @@ class Wedstrijd
    */
   protected $werknemer;
 
+  /**
+   * @ManyToOne(targetEntity="Registratie\Backend\Entity\Team", inversedBy="wedstrijd_a_collection", cascade={"persist"})
+   * @JoinColumn(name="team1", referencedColumnName="team_id")
+   */
+  protected $team_a;
+
+  /**
+   * @ManyToOne(targetEntity="Registratie\Backend\Entity\Team", inversedBy="wedstrijd_b_collection", cascade={"persist"})
+   * @JoinColumn(name="team2", referencedColumnName="team_id")
+   */
+  protected $team_b;
 
   public function __get($property) {
     return $this->$property;
@@ -74,7 +85,6 @@ class Wedstrijd
   public function __set($property, $value) {
       $this->$property = $value;
   }
-
 }
 
  ?>

@@ -193,5 +193,51 @@ define(['app'], function (app) {
 			var path = '/wedstrijd/create/' + $routeParams.toernooiId + '/' + $routeParams.subToernooiId;
 			$location.path(path);
 		}
+
+		/*
+		 * SCORE SECTIE
+		 */
+		function DialogController($scope, $mdDialog, set, team_a, team_b) {
+			$scope.set = set;
+			$scope.team_a = team_a;
+			$scope.team_b = team_b;
+		  $scope.hide = function() {
+		    $mdDialog.hide();
+		  };
+		  $scope.cancel = function() {
+		    $mdDialog.cancel();
+		  };
+		  $scope.answer = function(answer) {
+		    $mdDialog.hide(answer);
+		  };
+		}
+
+		$scope.scoreForm = function() {
+			if (DatatableService.hasSelection()) {
+				var toernooi_id = $routeParams.toernooi_id;
+				var subtoernooi_id = $routeParams.subtoernooi_id;
+				var wedstrijd_id = DatatableService.getSelection().wedstrijd_id;
+				$scope.scoreDialogForm();
+			}
+		}
+
+	  $scope.scoreDialogForm = function() {
+			var wedstrijd = DatatableService.getSelection();
+			$mdDialog.show({
+				locals: {set: 1, team_a: wedstrijd.team_naam1, team_b: wedstrijd.team_naam2},
+				templateUrl: 'app/partials/Wedstrijd/Frontend/Views/score.html',
+				controller: DialogController,
+				parent: angular.element(document.body),
+				clickOutsideToClose: true
+			})
+			.then(function(answer) {
+				var score_a = answer.score_a;
+				var score_b = answer.score_b;
+				if (typeof score_a === "undefined" || typeof score_b === "undefined")
+					return;
+
+			  console.log(score_a + ' - ' + score_b);
+			});
+		};
 	}]);
 });

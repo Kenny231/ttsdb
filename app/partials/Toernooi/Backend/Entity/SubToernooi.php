@@ -57,6 +57,11 @@ class SubToernooi
    */
   protected $wedstrijd_collection;
 
+  /*
+   * @ManyToMany(targetEntity="Registratie\Backend\Entity\Team", mappedBy="toernooien")
+   */
+  protected $teams;
+
   /**
    * @OneToMany(targetEntity="Toernooi\Backend\Entity\Licentie", mappedBy="subtoernooi", cascade={"persist"})
    */

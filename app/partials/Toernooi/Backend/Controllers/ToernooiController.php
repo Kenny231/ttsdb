@@ -92,8 +92,7 @@ class ToernooiController
       'organisatie' => $entity->organisatie,
       'goedkeuring' => $entity->goedkeuring,
       'toernooitype' => $entity->toernooitype,
-      'max_aantal_spelers' => $entity->max_aantal_spelers,
-      'team' => $entity->teams
+      'max_aantal_spelers' => $entity->max_aantal_spelers
     );
   }
 

@@ -6,6 +6,7 @@ use Wedstrijd\Backend\Entity\Wedstrijd;
 
 class WedstrijdController
 {
+  const TEAM = 'Registratie\Backend\Entity\Team';
   const WERKNEMER = 'Login\Backend\Entity\Werknemer';
   const WEDSTRIJD = 'Wedstrijd\Backend\Entity\Wedstrijd';
   const SUBTOERNOOI = 'Toernooi\Backend\Entity\SubToernooi';
@@ -86,9 +87,11 @@ class WedstrijdController
       'wedstrijd_id' => $entity->wedstrijd_id,
       'subtoernooi_id' => $entity->subtoernooi_id,
       'toernooi_id' => $entity->toernooi_id,
-      'team1' => $entity->team1,
-      'team2' => $entity->team2,
-      'scheidsrechter' => $entity->scheidsrechter,
+      'team1' => $entity->team_a->team_id,
+      'team2' => $entity->team_b->team_id,
+      'team_naam1' => $entity->team_a->team_naam,
+      'team_naam2' => $entity->team_b->team_naam,
+      'scheidsrechter' => $entity->werknemer->persoon_id,
       'start_datum' => $entity->start_datum,
       'poulecode' => $entity->poulecode
     );
@@ -100,8 +103,6 @@ class WedstrijdController
     $wedstrijd->wedstrijd_id        = $data['wedstrijd_id'];
     $wedstrijd->toernooi_id         = $data['toernooi_id'];
     $wedstrijd->subtoernooi_id      = $data['subtoernooi_id'];
-    $wedstrijd->team1               = $data['team1'];
-    $wedstrijd->team2               = $data['team2'];
     $wedstrijd->start_datum         = new \DateTime($data['start_datum']);
     $wedstrijd->poulecode           = $data['poulecode'];
 
@@ -115,6 +116,14 @@ class WedstrijdController
     $werknemer = $this->wedstrijdService->find(self::WERKNEMER, $data['scheidsrechter']);
     $werknemer->wedstrijd = $wedstrijd;
     $wedstrijd->werknemer = $werknemer;
+
+    $team_a = $this->wedstrijdService->find(self::TEAM, $data['team1']);
+    $team_a->wedstrijd_a_collection->add($wedstrijd);
+    $wedstrijd->team_a = $team_a;
+
+    $team_b = $this->wedstrijdService->find(self::TEAM, $data['team2']);
+    $team_b->wedstrijd_b_collection->add($wedstrijd);
+    $wedstrijd->team_b = $team_b;
 
     return $wedstrijd;
   }

@@ -40,8 +40,8 @@
               <tbody md-body>
                 <tr md-row md-on-select="onSelect" md-on-deselect="onDeselect" md-select="wedstrijd" md-select-id="name" md-auto-select ng-repeat="wedstrijd in DatatableService.data  | filter: search | orderBy: order | limitTo: DatatableService.limit : (DatatableService.data_page - 1) * DatatableService.limit">
                   <td md-cell>{{wedstrijd.wedstrijd_id}}</td>
-                  <td md-cell>{{wedstrijd.team1}}</td>
-                  <td md-cell>{{wedstrijd.team2}}</td>
+                  <td md-cell>{{wedstrijd.team_naam1}}</td>
+                  <td md-cell>{{wedstrijd.team_naam2}}</td>
                   <td md-cell>{{wedstrijd.scheidsrechter}}</td>
                   <td md-cell>{{convertDate(wedstrijd.start_datum.date) | date: "yyyy-MM-dd"}}</td>
                   <td md-cell>{{wedstrijd.poulecode}}</td>
@@ -52,8 +52,9 @@
 
           <md-table-pagination md-limit="DatatableService.limit" md-limit-options="[5, 10, 15]" md-page="DatatableService.data_page" md-total="{{(DatatableService.data|filter:search).length}}" md-page-select></md-table-pagination>
         </div>
-        <div class="row">
-          <button class="btn btn-primary pull-right" ng-click="createForm()"> Create </button>
+        <div class="row pull-right">
+          <button class="btn btn-primary" ng-click="scoreForm()"> Score </button>
+          <button class="btn btn-primary" ng-click="createForm()"> Create </button>
         </div>
       </div>
       <div class="row"></div>
