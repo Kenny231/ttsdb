@@ -4,6 +4,7 @@ namespace Toernooi\Backend\Services;
 
 use Doctrine\ORM\Query\ResultSetMapping;
 
+use Toernooi\Backend\Entity\Toernooi;
 use Resources\Backend\Service\BaseService;
 
 class ToernooiService extends BaseService

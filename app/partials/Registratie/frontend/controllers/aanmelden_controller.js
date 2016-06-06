@@ -1,5 +1,13 @@
 define(['app'], function (app) {
-	app.controller('AanmeldenController', ['$scope', '$http', '$mdDialog', 'aanmeldenService', 'DatatableService', 'LoginSession', function ($scope, $http, $mdDialog, aanmeldenService, DatatableService, LoginSession) {
+	app.controller('AanmeldenController', [
+		'$scope',
+		'$http',
+		'$mdDialog',
+		'$routeParams',
+		'aanmeldenService',
+		'DatatableService',
+		'LoginSession',
+	function ($scope, $http, $mdDialog, $routeParams, aanmeldenService, DatatableService, LoginSession) {
 		$scope.showSubForm = false;
 		$scope.subFormData = {};
 		// Geen edit / delete buttons.
@@ -20,11 +28,11 @@ define(['app'], function (app) {
 					return i;
 			}
 		}
-		
+
 		// Data
 		function findAvailable() {
 			aanmeldenService
-			.findAvailable(LoginSession.getPersoonId())
+			.findAvailableSub($routeParams.toernooiId, LoginSession.getPersoonId())
 			.success(function(response) {
 				DatatableService.data = response;
 			});

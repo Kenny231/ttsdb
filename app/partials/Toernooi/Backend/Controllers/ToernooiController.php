@@ -72,7 +72,7 @@ class ToernooiController
   public function findAvailable($request, $response, $args) {
     $ret_data = array();
     $data = $request->getParsedBody();
-    $toernooi_data = $this->toernooiService->findAvailable($data['id']);
+    $toernooi_data = $this->toernooiService->findAvailable($data['persoon_id']);
     for ($i=0; $i<count($toernooi_data); $i++)
       array_push($ret_data, $this->entityToArray($toernooi_data[$i]));
     return $response->withJson($ret_data);

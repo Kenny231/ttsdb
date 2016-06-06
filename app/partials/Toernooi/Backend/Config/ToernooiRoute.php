@@ -23,7 +23,7 @@ class ToernooiRoute
       $this->post('/list', 'Toernooi\Backend\Controllers\SubToernooiController:getList');
       $this->post('/update', 'Toernooi\Backend\Controllers\SubToernooiController:update');
       $this->post('/find', 'Toernooi\Backend\Controllers\SubToernooiController:find');
-      $this->post('/available', 'Toernooi\Backend\Controllers\SubToernooiController:findAvailableSub');
+      $this->post('/available', 'Toernooi\Backend\Controllers\SubToernooiController:findAvailable');
       $this->post('/delete', 'Toernooi\Backend\Controllers\SubToernooiController:delete');
     });
   }

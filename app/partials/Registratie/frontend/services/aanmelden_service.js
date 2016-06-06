@@ -1,10 +1,22 @@
 define(['app'], function(app) {
   app.service('aanmeldenService', ['$http', function ($http) {
     return {
-      findAvailable: function(id) {
+      findAvailable: function(persoon_id) {
         var url = 'app/api/toernooi/available';
         var data = {
-          id: id
+          persoon_id: persoon_id
+        };
+        return $http({
+          method: 'POST',
+          url: url,
+          data: data
+        });
+      },
+      findAvailableSub: function(toernooi_id, persoon_id) {
+        var url = 'app/api/subtoernooi/available';
+        var data = {
+          toernooi_id: toernooi_id,
+          persoon_id: persoon_id
         };
         return $http({
           method: 'POST',

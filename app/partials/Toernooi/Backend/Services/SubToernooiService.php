@@ -49,7 +49,7 @@ class SubToernooiService extends BaseService
     return $query->getResult();
   }
 
-  public function findAvailableSub($persoon_id, $toernooi_id) {
+  public function findAvailable($toernooi_id, $persoon_id) {
     $em = parent::GetEntityManager();
 
     $rsm = $this->getResultSetMap();

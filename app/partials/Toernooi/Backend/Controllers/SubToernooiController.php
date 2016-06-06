@@ -94,10 +94,10 @@ class SubToernooiController
     return $response->withJson($this->entityToArray($toernooi));
   }
 
-  public function findAvailableSub($request, $response, $args) {
+  public function findAvailable($request, $response, $args) {
     $ret_data = array();
     $data = $request->getParsedBody();
-    $toernooi_data = $this->toernooiService->findAvailableSub($data['toernooi_id'], $data['wedstrijd_id']);
+    $toernooi_data = $this->toernooiService->findAvailable($data['toernooi_id'], $data['persoon_id']);
     for ($i=0; $i<count($toernooi_data); $i++)
       array_push($ret_data, $this->entityToArray($toernooi_data[$i]));
     return $response->withJson($ret_data);
