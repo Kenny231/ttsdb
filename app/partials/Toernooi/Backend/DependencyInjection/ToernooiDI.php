@@ -20,6 +20,9 @@ class ToernooiDI
     $container['SubToernooiService'] = function($container) {
       return new SubToernooiService($container);
     };
+    $container['ToernooiOverzichtService'] = function($container) {
+      return new ToernooiOverzichtService($container);
+    };
   }
 }
 

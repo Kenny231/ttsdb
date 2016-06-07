@@ -47,8 +47,10 @@
           <md-table-pagination md-limit="DatatableService.limit" md-limit-options="[5, 10, 15]" md-page="DatatableService.data_page" md-total="{{(DatatableService.data|filter:search).length}}" md-page-select></md-table-pagination>
         </div>
         <div class="row pull-right" ng-show="show_toernooi_buttons">
+          <button class="btn btn-primary" ng-click="toernooiIndelen()"> Toernooi overzicht </button>
           <button class="btn btn-primary" ng-click="relocate()"> Wedstrijd </button>
           <button class="btn btn-primary" ng-click="createForm()"> Create </button>
+
         </div>
       </div>
       <div class="row"></div>

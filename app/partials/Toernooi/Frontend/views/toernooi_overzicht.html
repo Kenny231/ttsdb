@@ -1,0 +1,28 @@
+<div ng-controller="ToernooiOverzichtController">
+  <div class="container read-toernooi-form" style="padding-top: 30px;" ng-show="main_page==1">
+    <div ng-class="toernooi_form_style">
+      <div class="col-xs-offset-1 col-xs-10">
+
+        <div class="row">
+          <center><h2> Toernooi Overzicht </h2></center>
+        </div>
+
+
+
+
+
+
+        <div class="row pull-right" ng-show="show_toernooi_buttons">
+          <button class="btn btn-primary" ng-click="relocate()"> Wedstrijden </button>
+        </div>
+        </div>
+        <div class="row"></div>
+
+    </div>
+  </div>
+</div>
+<div ng-show="main_page==2">
+  <div ng-include src="'app/partials/Toernooi/Frontend/views/toernooi_indelen.html'"></div>
+</div>
+
+</div>

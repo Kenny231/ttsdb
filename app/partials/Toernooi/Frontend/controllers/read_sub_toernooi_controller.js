@@ -183,5 +183,12 @@ define(['app'], function (app) {
          $location.path(path);
        }
      }
+      $scope.toernooiIndelen = function() {
+        if (DatatableService.hasSelection()) {
+          var selection = DatatableService.getSelection();
+          var path = '/toernooi/overzicht/' + selection.toernooi_id + '/' + selection.subtoernooi_id;
+          $location.path(path);
+        }
+      }
   }]);
 });

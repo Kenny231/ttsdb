@@ -63,6 +63,11 @@ class Team
     */
    protected $score;
 
+   /**
+    * @OneToMany(targetEntity="Toernooi\Backend\Entity\ToernooiPoule", mappedBy="team", cascade={"persist"})
+    */
+   protected $poule_collection;
+
    public function __get($property) {
      return $this->$property;
    }

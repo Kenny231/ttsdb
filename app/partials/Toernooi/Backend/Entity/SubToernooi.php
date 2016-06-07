@@ -67,9 +67,17 @@ class SubToernooi
    */
   protected $licentie_collection;
 
+  /**
+   * @OneToMany(targetEntity="Toernooi\Backend\Entity\ToernooiPoule", mappedBy="subtoernooi", cascade={"persist"})
+   */
+  protected $poule_collection;
+
+
+
   public function __construct() {
     $this->wedstrijd_collection = new ArrayCollection();
     $this->licentie_collection = new ArrayCollection();
+    $this->poule_collection = new ArrayCollection();
   }
 
   public function __get($property) {

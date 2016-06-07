@@ -26,6 +26,10 @@ class ToernooiRoute
       $this->post('/available', 'Toernooi\Backend\Controllers\SubToernooiController:findAvailable');
       $this->post('/delete', 'Toernooi\Backend\Controllers\SubToernooiController:delete');
     });
+
+    $app->group('/toernooioverzicht', function() {
+      $this->post('/createpoules', 'Toernooi\Backend\Controllers\ToernooiOverzichtController:createPoules');
+    });
   }
 }
 

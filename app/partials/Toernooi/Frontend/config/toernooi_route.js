@@ -11,9 +11,13 @@ define(['app'], function (app) {
         templateUrl: '/ttsdb/app/partials/toernooi/frontend/views/read_toernooi.html',
         //controller: 'ReadToernooiController' -- Gedefinieerd in view.
       })
+      .when('/toernooi/overzicht/:toernooiId/:subToernooiId', {
+        templateUrl: '/ttsdb/app/partials/toernooi/frontend/views/toernooi_overzicht.html',
+        //controller: 'ReadToernooiController' -- Gedefinieerd in view.
+      })
       .when('/subtoernooi/create/:toernooiId', {
         templateUrl: '/ttsdb/app/partials/toernooi/frontend/views/create_sub_toernooi.html',
-        controller: 'CreateSubToernooiController' 
+        controller: 'CreateSubToernooiController'
       })
       .when('/subtoernooi/read/:toernooiId', {
         templateUrl: '/ttsdb/app/partials/toernooi/frontend/views/read_sub_toernooi.html',
