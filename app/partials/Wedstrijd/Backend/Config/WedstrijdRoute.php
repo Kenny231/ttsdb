@@ -16,6 +16,11 @@ class WedstrijdRoute
 			$this->post('/update', 'Wedstrijd\Backend\Controllers\WedstrijdController:update');
 			$this->post('/find', 'Wedstrijd\Backend\Controllers\WedstrijdController:find');
 		});
+
+		$app->group('/score', function() {
+			$this->post('/add', 'Wedstrijd\Backend\Controllers\ScoreController:create');
+			$this->post('/scores', 'Wedstrijd\Backend\Controllers\ScoreController:getAmountOfSets');
+		});
 	}
 }
 

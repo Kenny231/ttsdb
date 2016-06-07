@@ -1,6 +1,8 @@
 define(['app'], function(app) {
   app.factory('DatatableService', function ($localStorage) {
     var factory = {};
+    var o_factory = factory;
+    var factory = {};
 
     // Geselecteerde rij.
     factory.selected = [];

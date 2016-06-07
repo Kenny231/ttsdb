@@ -13,6 +13,7 @@ require_once 'partials/Registratie/Backend/Entity/Speler.php';
 require_once 'partials/Wedstrijd/Backend/Entity/Wedstrijd.php';
 require_once 'partials/Toernooi/Backend/Entity/Licentie.php';
 require_once 'partials/Registratie/Backend/Entity/Team.php';
+require_once 'partials/Wedstrijd/Backend/Entity/Score.php';
 
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
@@ -33,6 +34,7 @@ use Inschrijfadres\Backend\Entity\Inschrijfadres;
 use Registratie\Backend\Entity\Leeftijdscategorie;
 use Registratie\Backend\Entity\Speler;
 use Wedstrijd\Backend\Entity\Wedstrijd;
+use Wedstrijd\Backend\Entity\Score;
 
 $config = Setup::createAnnotationMetadataConfiguration(array('../partials/'), true);
 $params = array(
@@ -86,12 +88,18 @@ $adres->inschrijfadres_collection->add($inschrijfadres);
 $em->persist($inschrijfadres);
 $em->flush();*/
 
-$var = $em->GetRepository(Wedstrijd::class)->find(array(
-  'toernooi_id' => '1',
-  'subtoernooi_id' => '2',
-  'wedstrijd_id' => '1'
-));
-print_r($var);
+$rsm = new ResultSetMapping();
+$rsm->addEntityResult(Score::class, 's');
+$rsm->addScalarResult('SCORES', 'scores');
+
+$sql = 'select count(1) / 2 as SCORES
+        from score
+        where toernooi_id = 3 and subtoernooi_id = 1 and wedstrijd_id = 1;
+       ';
+$query = $em->createNativeQuery($sql, $rsm);
+
+print_r($query->getResult()[0]['scores']);
+
 
 /*$subtoernooi = $em->GetRepository(SubToernooi::class)->find(array(
   'toernooi_id' => 1,

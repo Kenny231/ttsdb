@@ -25,7 +25,7 @@ class Team
    /**
     * @Column(type="string")
     */
-   protected $team_naam;  
+   protected $team_naam;
 
    /**
    * @ManyToMany(targetEntity="Speler", inversedBy="teams")
@@ -57,6 +57,11 @@ class Team
     * @OneToMany(targetEntity="Wedstrijd\Backend\Entity\Wedstrijd", mappedBy="team_b", cascade={"persist"})
     */
    protected $wedstrijd_b_collection;
+
+   /**
+    * @OneToOne(targetEntity="Wedstrijd\Backend\Entity\Score", mappedBy="team", cascade={"persist"})
+    */
+   protected $score;
 
    public function __get($property) {
      return $this->$property;

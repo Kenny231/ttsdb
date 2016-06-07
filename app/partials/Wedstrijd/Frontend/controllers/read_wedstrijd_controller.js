@@ -7,8 +7,9 @@ define(['app'], function (app) {
 		'$routeParams',
 		'$location',
 		'WedstrijdService',
+		'ScoreService',
 		'DatatableService',
-	function ($scope, $http, $filter, $mdDialog, $routeParams, $location, wedstrijdService, DatatableService) {
+	function ($scope, $http, $filter, $mdDialog, $routeParams, $location, wedstrijdService, scoreService, DatatableService) {
 		$scope.DatatableService = DatatableService;
 
 		/* SETUP */
@@ -223,21 +224,55 @@ define(['app'], function (app) {
 
 	  $scope.scoreDialogForm = function() {
 			var wedstrijd = DatatableService.getSelection();
-			$mdDialog.show({
-				locals: {set: 1, team_a: wedstrijd.team_naam1, team_b: wedstrijd.team_naam2},
-				templateUrl: 'app/partials/Wedstrijd/Frontend/Views/score.html',
-				controller: DialogController,
-				parent: angular.element(document.body),
-				clickOutsideToClose: true
-			})
-			.then(function(answer) {
-				var score_a = answer.score_a;
-				var score_b = answer.score_b;
-				if (typeof score_a === "undefined" || typeof score_b === "undefined")
+			var data = {
+				toernooi_id: wedstrijd.toernooi_id,
+				subtoernooi_id: wedstrijd.subtoernooi_id,
+				wedstrijd_id: wedstrijd.wedstrijd_id
+			};
+			scoreService
+			.scores(data)
+			.success(function(response) {
+				if (parseInt(response) >= 3)
 					return;
+					
+				$mdDialog.show({
+					locals: {
+						set: response,
+						team_a: wedstrijd.team_naam1,
+						team_b: wedstrijd.team_naam2
+					},
+					templateUrl: 'app/partials/Wedstrijd/Frontend/Views/score.html',
+					controller: DialogController,
+					parent: angular.element(document.body),
+					clickOutsideToClose: true
+				})
+				.then(function(answer) {
+					var score_a = answer.score_a;
+					var score_b = answer.score_b;
+					if (typeof score_a == "undefined" || typeof score_b == "undefined")
+						return;
 
-			  console.log(score_a + ' - ' + score_b);
+					$scope.submitScore(score_a, score_b, response, wedstrijd);
+				});
 			});
-		};
+		}
+
+		$scope.submitScore = function(score_a, score_b, set, wedstrijd) {
+			var data = {
+				toernooi_id: wedstrijd.toernooi_id,
+				subtoernooi_id: wedstrijd.subtoernooi_id,
+				wedstrijd_id: wedstrijd.wedstrijd_id,
+				set: set,
+				team1: wedstrijd.team1,
+				team2: wedstrijd.team2,
+				score_a: score_a,
+				score_b: score_b
+			};
+			scoreService
+			.create(data)
+			.success(function(response) {
+				console.log(response);
+			});
+		}
 	}]);
 });

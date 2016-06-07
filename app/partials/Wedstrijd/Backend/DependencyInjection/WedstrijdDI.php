@@ -2,6 +2,7 @@
 
 namespace Wedstrijd\Backend\DependencyInjection;
 
+use Wedstrijd\Backend\Services\ScoreService;
 use Wedstrijd\Backend\Services\WedstrijdService;
 
 class WedstrijdDI
@@ -15,6 +16,9 @@ class WedstrijdDI
 
     $container['WedstrijdService'] = function($container) {
       return new WedstrijdService($container);
+    };
+    $container['ScoreService'] = function($container) {
+      return new ScoreService($container);
     };
   }
 }

@@ -2,6 +2,8 @@
 
 namespace Wedstrijd\Backend\Entity;
 
+use \Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * @Entity @Table(name="Wedstrijd")
  */
@@ -77,6 +79,15 @@ class Wedstrijd
    * @JoinColumn(name="team2", referencedColumnName="team_id")
    */
   protected $team_b;
+
+  /**
+   * @OneToMany(targetEntity="Wedstrijd\Backend\Entity\Score", mappedBy="wedstrijd", cascade={"persist"})
+   */
+  protected $score_collection;
+
+  public function __construct() {
+    $this->score_collection = new ArrayCollection();
+  }
 
   public function __get($property) {
     return $this->$property;
