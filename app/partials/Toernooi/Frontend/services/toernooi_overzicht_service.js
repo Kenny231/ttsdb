@@ -9,17 +9,17 @@ define(['app'], function(app) {
           data: data
         });
       },
-
-      find: function(id) {
-        var url = 'app/api/toernooi/find';
+     getAllPoules: function(toernooi_id, subtoernooi_id) {
+        var url = 'app/api/toernooioverzicht/getallpoules';
         var data = {
-          id: id
+          toernooi_id: toernooi_id,
+          subtoernooi_id: subtoernooi_id
         };
         return $http({
           method: 'POST',
           url: url,
           data: data
-        })
+        });
       }
     };
   }]);

@@ -4,6 +4,7 @@ namespace Toernooi\Backend\DependencyInjection;
 
 use Toernooi\Backend\Services\ToernooiService;
 use Toernooi\Backend\Services\SubToernooiService;
+use Toernooi\Backend\Services\ToernooiOverzichtService;
 
 class ToernooiDI
 {

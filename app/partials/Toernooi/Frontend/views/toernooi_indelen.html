@@ -1,5 +1,5 @@
 <div ng-controller="ToernooiOverzichtController">
-  <div class="container read-toernooi-form" style="padding-top: 30px;"  ng-show="main_page==1">
+  <div class="container read-toernooi-form" style="padding-top: 30px;">
     <div class= "thumbnail form-style">
       <form name="indelenToernooiForm" class=" form-horizontal" ng-submit="indelenToernooiForm.$valid && submit()">
       <div class="row">
@@ -14,7 +14,6 @@
             <input type="text" class="form-control" ng-model="formData.aantal_poules" placeholder="Aantal poules" required>
           </div>
         </div>
-
         <div class="row col-xs-offset-1">
           <button class="btn btn-primary pull-right"  type="submit"> Toernooi indelen </button>
         </div>

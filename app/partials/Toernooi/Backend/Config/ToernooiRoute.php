@@ -29,6 +29,7 @@ class ToernooiRoute
 
     $app->group('/toernooioverzicht', function() {
       $this->post('/createpoules', 'Toernooi\Backend\Controllers\ToernooiOverzichtController:createPoules');
+      $this->post('/getallpoules', 'Toernooi\Backend\Controllers\ToernooiOverzichtController:getAllPoules');
     });
   }
 }

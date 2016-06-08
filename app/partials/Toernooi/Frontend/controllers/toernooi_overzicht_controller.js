@@ -10,15 +10,32 @@ define(['app'], function (app) {
     'DatatableService',
   function ($scope, $http, $filter, $mdDialog,$routeParams, $location, toernooiOverzichtService, DatatableService) {
 
-    $scope.show_toernooi_buttons = true;
-    $scope.toernooi_form_style = "thumbnail form-style";
+    function construct() {
+        getList();
+        $scope.show_toernooi_buttons = true;
+        $scope.toernooi_form_style = "thumbnail form-style";
+   }
+
+    construct();
     // Form data
     $scope.formData = {};
     // Update (detail) pagina page
     $scope.formData.page = 1;
 
 
-    $scope.main_page = 1;
+    function getList(){
+      toernooiOverzichtService
+      .getAllPoules($routeParams.toernooiId,$routeParams.subToernooiId)
+      .success(function(response) {
+        console.log(response);
+          $scope.toernooipoules = response;
+          if($scope.toernooipoules.length == 0){
+            $scope.main_page = 2;
+          }else{
+            $scope.main_page = 1;
+          }
+        });
+    }
 
 
     $scope.submit = function() {
@@ -33,7 +50,7 @@ define(['app'], function (app) {
       .createPoules(data)
       .success(function(response) {
           if (!response.error)
-            $location.path('/');
+            $scope.main_page = 1;
         });
     }
 
@@ -41,7 +58,6 @@ define(['app'], function (app) {
         var path = '/wedstrijd/read/' + $routeParams.toernooiId + '/' + $routeParams.subToernooiId;
         $location.path(path);
     }
-
 
   }]);
 });

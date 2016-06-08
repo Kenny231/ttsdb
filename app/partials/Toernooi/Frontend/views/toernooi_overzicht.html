@@ -6,23 +6,29 @@
         <div class="row">
           <center><h2> Toernooi Overzicht </h2></center>
         </div>
-
-
-
-
-
+        <table class="table table-striped">
+          <tr>
+            <th>Poule </th>
+            <th>Team </th>
+            <th>Wins </th>
+            <th>Positie </th>
+          </tr>
+          <tr ng-repeat="tp in toernooipoules | orderBy: tp.poule">
+            <td>{{ tp.poule }}</td>
+            <td>{{ tp.team_id }}</td>
+            <td>{{ tp.wins }}</td>
+            <td>{{ tp.position }}</td>
+          </tr>
+        </table>
 
         <div class="row pull-right" ng-show="show_toernooi_buttons">
           <button class="btn btn-primary" ng-click="relocate()"> Wedstrijden </button>
         </div>
         </div>
         <div class="row"></div>
-
     </div>
   </div>
-</div>
 <div ng-show="main_page==2">
   <div ng-include src="'app/partials/Toernooi/Frontend/views/toernooi_indelen.html'"></div>
 </div>
-
 </div>
