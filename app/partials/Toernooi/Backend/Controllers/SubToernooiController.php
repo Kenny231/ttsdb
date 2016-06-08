@@ -24,11 +24,6 @@ class SubToernooiController
   public function create($request, $response, $args) {
     $data = $request->getParsedBody();
 
-    foreach($data as $key => $value) {
-      if (!isset($data[$key]) || $data[$key] == "")
-        return $response->withJson($this->construct_error("Data mag niet null zijn."));
-    }
-
     $this->toernooiService->createSubToernooi($data);
   }
 
@@ -44,11 +39,6 @@ class SubToernooiController
 
   public function update($request, $response, $args) {
     $data = $request->getParsedBody();
-
-    foreach($data as $key => $value) {
-      if (!isset($data[$key]) || $data[$key] == "")
-        return $response->withJson($this->construct_error("Data mag niet null zijn. " . $key));
-    }
 
     $toernooi = $this->toernooiService->find(self::SUBTOERNOOI, array(
       'toernooi_id' => $data['toernooi_id'],
@@ -114,14 +104,15 @@ class SubToernooiController
       'categorie_naam' => $entity->categorie_naam,
       'geslacht' => $entity->geslacht,
       'enkel' => $entity->enkel,
-      'licenties' => $licenties
+      'licenties' => $licenties,
+      'type' => $entity->toernooi->toernooitype
     );
   }
 
   private function createSubToernooi($data, $subtoernooi) {
     $subtoernooi->toernooi_id = $data['toernooi_id'];
     $subtoernooi->subtoernooi_id = $data['subtoernooi_id'];
-    $subtoernooi->geslacht = $data['geslacht'];
+    $subtoernooi->geslacht = $data['geslacht'] == '' ? null : $data['geslacht'];
     $subtoernooi->enkel = $data['enkel'];
 
     $leeftijdscategorie = $this->toernooiService->find(self::LEEFTIJDSCATEGORIE, $data['categorie_naam']);

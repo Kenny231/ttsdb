@@ -12,7 +12,7 @@
             <p>Categorienaam:</p>
           </div>
           <div class="col-xs-offset-1 col-sm-8 col-xs-11">
-            <input type="text" class="form-control" ng-model="formData.categorie_naam" maxlength="75" placeholder="Categorie naam" required>
+            <select class="form-control" ng-model="formData.categorie_naam" ng-options="c for c in categorie"></select>
           </div>
         </div>
 
@@ -21,7 +21,7 @@
             <p>Geslacht:</p>
           </div>
           <div class="col-xs-offset-1 col-sm-8 col-xs-11">
-            <input type="text" class="form-control" ng-model="formData.geslacht" maxlength="75" placeholder="Geslacht" required>
+            <select class="form-control" ng-model="formData.geslacht" ng-options="g.name for g in current_selection.geslacht"></select>
           </div>
         </div>
 
@@ -30,11 +30,11 @@
             <p>Enkel:</p>
           </div>
           <div class="col-xs-offset-1 col-sm-8 col-xs-11">
-            <input type="text" class="form-control" ng-model="formData.enkel" maxlength="75" placeholder="Enkel" required>
+            <select class="form-control" ng-model="formData.enkel" ng-options="g.name for g in current_selection.enkel"></select>
           </div>
         </div>
 
-        <div class="row vertical-align">
+        <div class="row vertical-align" ng-if="toernooitype=='Prestatie'">
           <div class="hidden-xs col-xs-3">
             <p> Licenties: </p>
           </div>
@@ -47,11 +47,11 @@
               </ui-select-choices>
             </ui-select>
           </div>
-          
+
         </div>
 
         <div class="row">
-          <button class="btn btn-primary pull-right" ng-click="togglePage() || null" type="submit"> Submit </button>
+          <button class="btn btn-primary pull-right" type="submit"> Submit </button>
         </div>
       </div>
 

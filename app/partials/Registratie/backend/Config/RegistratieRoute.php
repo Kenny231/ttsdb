@@ -12,6 +12,9 @@ class RegistratieRoute
     $app->group('/registratie', function() {
       $this->post('/aanmelden', 'Registratie\Backend\Controllers\AanmeldenController:addSpelerToToernooi');
     });
+    $app->group('/categorie', function() {
+      $this->get('/list', 'Registratie\Backend\Controllers\LeeftijdsController:getList');
+    });
   }
 }
 

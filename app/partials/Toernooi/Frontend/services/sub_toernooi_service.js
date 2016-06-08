@@ -51,6 +51,13 @@ define(['app'], function(app) {
           url: url,
           data: data
         });
+      },
+      categorieList: function() {
+        var url = 'app/api/categorie/list';
+        return $http({
+          method: 'GET',
+          url: url
+        });
       }
     };
   }]);

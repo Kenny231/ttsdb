@@ -100,8 +100,6 @@ define(['app'], function (app) {
     };
     // Form data
     $scope.formData = {};
-    // Update (detail) pagina page
-    $scope.formData.page = 1;
     /*
      * Update pagina
      */
@@ -114,10 +112,58 @@ define(['app'], function (app) {
       'D',
       'E'
     ];
+    $scope.select_data = [
+    {
+      "type" : "Ladder",
+      "geslacht" : [
+        {"name" : "Gemengd", "value" : ""}
+      ],
+      "enkel" : [
+        {"name" : "Ja", "value" : "1"}
+      ]
+    }, {
+      "type" : "Familie",
+      "geslacht" : [
+        {"name" : "Gemengd", "value" : ""}
+      ],
+      "enkel" : [
+        {"name" : "Nee", "value" : "0"},
+        {"name" : "Ja", "value" : "1"}
+      ]
+    }, {
+      "type" : "Prestatie",
+      "geslacht" : [
+        {"name" : "Man", "value" : "m"},
+        {"name" : "Vrouw", "value" : "v"},
+        {"name" : "Gemengd", "value" : ""}
+      ],
+      "enkel" : [
+        {"name" : "Nee", "value" : "0"},
+        {"name" : "Ja", "value" : "1"}
+      ]
+    }];
+    $scope.toernooitype;
+    $scope.current_selection;
 
-    $scope.togglePage = function() {
-      $scope.formData.page = 1;
+    $scope.categorie = [];
+
+    toernooiService
+    .categorieList()
+    .success(function(response) {
+      $scope.categorie = response;
+    });
+    /*
+     * Methode die de index van de select data teruggeeft,
+     * op basis van het toernooi type.
+     */
+    function getIndexByType(type) {
+      for (var i=0; i<$scope.select_data.length; i++) {
+        if ($scope.select_data[i].type == type)
+          return i;
+      }
+      return 0;
     }
+
     $scope.main_page = 1;
     /*
      * Methode om het update formulier met de juiste
@@ -125,10 +171,29 @@ define(['app'], function (app) {
      */
     $scope.populateFields = function() {
       var item = DatatableService.getSelection();
+      $scope.toernooitype = item.type;
       // Waardes invullen
-      $scope.formData.categorie_naam = item.categorie_naam;
-      $scope.formData.geslacht = item.geslacht;
-      $scope.formData.enkel = item.enkel;
+      for (var i=0; i<$scope.categorie.length; i++) {
+        if ($scope.categorie[i].toLowerCase() == item.categorie_naam.toLowerCase())
+          $scope.formData.categorie_naam = $scope.categorie[i];
+      }
+
+      var index = getIndexByType(item.type);
+      $scope.current_selection = $scope.select_data[index];
+
+      for (var i=0; i<$scope.current_selection.geslacht.length; i++) {
+        var geslacht = $scope.current_selection.geslacht[i];
+        if (geslacht.value == item.geslacht)
+          $scope.formData.geslacht = geslacht;
+        if (geslacht.value == '' && item.geslacht == null)
+          $scope.formData.geslacht = geslacht;
+      }
+
+      for (var i=0; i<$scope.current_selection.enkel.length; i++) {
+        var enkel = $scope.current_selection.enkel[i];
+        if (enkel.value == item.enkel)
+          $scope.formData.enkel = enkel;
+      }
 
       for (var i=0; i<item.licenties.length; i++)
         $scope.formData.licenties[i] = item.licenties[i];
@@ -138,7 +203,6 @@ define(['app'], function (app) {
      */
     $scope.onEdit = function() {
       if (DatatableService.hasSelection()) {
-        $scope.formData.page = 1;
         $scope.main_page = 2;
         $scope.populateFields();
       }
@@ -152,8 +216,8 @@ define(['app'], function (app) {
         toernooi_id:		  $routeParams.toernooiId,
         subtoernooi_id:   DatatableService.getSelection().subtoernooi_id,
         categorie_naam:   $scope.formData.categorie_naam,
-        geslacht:         $scope.formData.geslacht,
-        enkel:            $scope.formData.enkel.toString(),
+        geslacht:         $scope.formData.geslacht.value,
+        enkel:            $scope.formData.enkel.value,
         licenties:        $scope.formData.licenties
       };
       toernooiService

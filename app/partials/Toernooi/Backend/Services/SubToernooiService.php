@@ -16,12 +16,15 @@ class SubToernooiService extends BaseService
     foreach($data['licenties'] as $value) {
       $licenties = $licenties . $value . ',';
     }
-    $licenties = substr($licenties, 0, -1);
+    if ($licenties != '')
+      $licenties = substr($licenties, 0, -1);
+    else
+      $licenties = null;
 
     $stmt = $conn->prepare('exec prcPlaatsSubtoernooi ?, ?, ?, ?, ?');
     $stmt->bindValue(1, $data['toernooi_id']);
     $stmt->bindValue(2, $data['categorie_naam']);
-    $stmt->bindValue(3, $data['geslacht']);
+    $stmt->bindValue(3, $data['geslacht'] == '' ? null : $data['geslacht']);
     $stmt->bindValue(4, $data['enkel']);
     $stmt->bindValue(5, $licenties);
     $stmt->execute();
