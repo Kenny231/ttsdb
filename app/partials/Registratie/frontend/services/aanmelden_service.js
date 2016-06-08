@@ -24,11 +24,12 @@ define(['app'], function(app) {
           data: data
         });
       },
-      addSpelerToToernooi: function(persoon_id, toernooi_id, team_naam, partner_id) {
+      addSpelerToToernooi: function(persoon_id, toernooi_id, subtoernooi_id, team_naam, partner_id) {
         var url = 'app/api/registratie/aanmelden';
         var data = {
           persoon_id: persoon_id,
           toernooi_id: toernooi_id,
+          subtoernooi_id: subtoernooi_id,
           team_naam: team_naam,
           partner_id: partner_id
         };

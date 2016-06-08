@@ -24,7 +24,7 @@ define(['app'], function (app) {
 		 */
 		$scope.getIndexById = function(id) {
 			for(var i = 0; i < DatatableService.data.length; i++) {
-				if (DatatableService.data[i].toernooi_id == id)
+				if (DatatableService.data[i].subtoernooi_id == id)
 					return i;
 			}
 		}
@@ -50,9 +50,9 @@ define(['app'], function (app) {
 			$mdDialog.show(confirm).then(function() {
 				var row = DatatableService.getSelection();
 				aanmeldenService
-				.addSpelerToToernooi(LoginSession.getPersoonId(), row.toernooi_id)
+				.addSpelerToToernooi(LoginSession.getPersoonId(), row.toernooi_id, row.subtoernooi_id)
 				.success(function(response) {
-					DatatableService.data.splice($scope.getIndexById(row.toernooi_id), 1);
+					DatatableService.data.splice($scope.getIndexById(row.subtoernooi_id), 1);
 				});
 			});
 		};
@@ -69,11 +69,11 @@ define(['app'], function (app) {
 				else {
 					aanmeldenService
 					.addSpelerToToernooi(LoginSession.getPersoonId(), row.toernooi_id,
-						$scope.subFormData.team_naam, $scope.subFormData.partner)
+						row.subtoernooi_id, $scope.subFormData.team_naam, $scope.subFormData.partner)
 					.success(function(response) {
 						// Reset form
 						resetSubForm();
-						DatatableService.data.splice($scope.getIndexById(row.toernooi_id), 1);
+						DatatableService.data.splice($scope.getIndexById(row.subtoernooi_id), 1);
 					});
 				}
 			});

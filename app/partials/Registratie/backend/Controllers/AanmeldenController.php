@@ -16,10 +16,11 @@ class AanmeldenController
 
     $persoon_id = $data['persoon_id'];
     $toernooi_id = $data['toernooi_id'];
+    $subtoernooi_id = $data['subtoernooi_id'];
     $team_naam = isset($data['team_naam']) ? $data['team_naam'] : null;
     $partner_id = isset($data['partner_id']) ? $data['partner_id'] : null;
 
-    $this->aanmeldenService->addSpelerToToernooi($persoon_id, $toernooi_id, $team_naam, $partner_id);
+    $this->aanmeldenService->addSpelerToToernooi($persoon_id, $toernooi_id, $subtoernooi_id, $team_naam, $partner_id);
   }
 }
 
